@@ -38,24 +38,41 @@ while IFS= read -r f; do
   cp "$f" "${TMP_SRC}/$f"
 done < /tmp/mt_pack_files.txt
 
-# ASAR 打包器：优先用已安装的 asar，否则 npx 临时拉取 @electron/asar；
-# 也支持显式指定：ASAR_BIN=/path/to/asar bash pack.sh
-if [ -n "${ASAR_BIN:-}" ]; then
-  :
-elif command -v asar >/dev/null 2>&1; then
-  ASAR_BIN=asar
-else
-  ASAR_BIN="npx --yes @electron/asar"
-fi
-echo "📦 使用 ASAR 打包器：$ASAR_BIN"
-$ASAR_BIN pack "$TMP_SRC" "$TMP_ASAR"
+# 构造 ASAR 并 brotli 压缩为 .zpx（node 内置能力，无需安装 @electron/asar / 联网）
+#
+# ASAR 布局（与 @electron/asar 完全一致）：
+#   [u32 4][u32 8+jsonLen][u32 4+jsonLen][u32 jsonLen][json][数据区]
+#   文件元信息里 offset 为相对数据区起点的偏移（字符串形式）
+node -e '
+const fs = require("fs"), path = require("path"), zlib = require("zlib");
+const SRC = process.argv[1], OUT = process.argv[2];
+const list = fs.readFileSync(process.argv[3], "utf8").trim().split("\n").filter(Boolean);
+const chunks = []; let off = 0; const tree = {};
+for (const f of list) {
+  const buf = fs.readFileSync(path.join(SRC, f));
+  tree[f] = { size: buf.length, offset: String(off) };
+  off += buf.length; chunks.push(buf);
+}
+const json = Buffer.from(JSON.stringify({ files: tree }), "utf8");
+const head = Buffer.alloc(16);
+head.writeUInt32LE(4, 0);
+head.writeUInt32LE(8 + json.length, 4);
+head.writeUInt32LE(4 + json.length, 8);
+head.writeUInt32LE(json.length, 12);
+const asar = Buffer.concat([head, json, ...chunks]);
+fs.writeFileSync(OUT, zlib.brotliCompressSync(asar));
+console.log("✔ 已生成 " + OUT + " (" + fs.statSync(OUT).size + " B，包内 " + list.length + " 个文件)");
+' "$PWD" "$OUT" /tmp/mt_pack_files.txt
 
-# brotli 压缩为 .zpx（node 内置 zlib，无需额外依赖）
-node -e "const fs=require('fs'),z=require('zlib');const a=fs.readFileSync('${TMP_ASAR}');fs.writeFileSync('${OUT}',z.brotliCompressSync(a));console.log('✔ 已生成 ${OUT} ('+fs.statSync('${OUT}').size+' B)')"
-
-# 校验：列出包内文件（应只见运行文件，无 .git）
+# 校验：解回 ASAR 并列出包内文件（应只见运行文件，无 .git / .DS_Store）
 echo "--- 包内文件 ---"
-$ASAR_BIN list "$TMP_ASAR"
+node -e '
+const fs = require("fs"), zlib = require("zlib");
+const b = zlib.brotliDecompressSync(fs.readFileSync(process.argv[1]));
+const jl = b.readUInt32LE(12);
+const h = JSON.parse(b.slice(16, 16 + jl).toString("utf8"));
+for (const [n, m] of Object.entries(h.files)) console.log("  /" + n + "  " + m.size + " B");
+' "$OUT"
 
 rm -rf "$TMP_SRC" /tmp/mt_pack_files.txt
 echo "✅ 打包完成：${OUT}"
