@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>科研小盒</title>
   <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="research.css" />
 </head>
 <body>
   <main class="app">
@@ -26,6 +27,18 @@
           <span class="tool__name">期刊 · 会议查询</span>
           <span class="tool__desc">影响因子 / 分区 / CCF 等级</span>
           <span class="tool__badge tool__badge--on">可用</span>
+        </button>
+        <button class="tool" data-open="submission">
+          <span class="tool__icon tool__icon--violet">✦</span>
+          <span class="tool__name">投稿助手</span>
+          <span class="tool__desc">摘要解读 / 期刊匹配 / 投稿建议</span>
+          <span class="tool__badge tool__badge--ai">AI</span>
+        </button>
+        <button class="tool" data-open="literature">
+          <span class="tool__icon tool__icon--teal">◉</span>
+          <span class="tool__name">文献图谱</span>
+          <span class="tool__desc">文献计量 / 作者合作 / 交互图谱</span>
+          <span class="tool__badge tool__badge--on">本地分析</span>
         </button>
         <button class="tool" data-open="database">
           <span class="tool__icon tool__icon--teal">🧬</span>
@@ -73,11 +86,65 @@
       <div class="db-grid" id="dbGrid"></div>
     </section>
 
+    <section class="view research" id="view-submission" hidden>
+      <div class="research-hero"><span class="eyebrow">SUBMISSION ASSISTANT</span><h2>让摘要找到合适的读者</h2><p>梳理研究亮点，结合本地期刊库比较投稿方向。</p><div class="privacy-badges"><span>本地期刊匹配 · 无需联网</span><span>自选模型 · 插件不设中转服务器</span></div><p class="help-text">AI 按所选接入方式调用模型（直连 API 或 ZTools AI）；使用在线模型时，摘要会发送至相应服务。外部链接仅在点击时打开。</p><span class="model-status" data-model-status></span></div>
+      <form id="submissionForm" class="panel form-stack">
+        <label>论文标题（可选）<input id="paperTitle" maxlength="600" placeholder="可留空，仅凭摘要也能分析" autocomplete="off"></label>
+        <label>论文摘要<textarea id="paperAbstract" required minlength="80" maxlength="18000" rows="8" placeholder="粘贴摘要，建议包含研究问题、方法、主要结果与结论"></textarea></label>
+        <div class="form-row"><label>稿件类型<select id="paperType"><option value="auto">由模型判断（默认）</option><option value="研究论文">研究论文</option><option value="综述">综述</option><option value="方法论文">方法论文</option><option value="病例报告">病例报告</option><option value="简报 / 短篇论文">简报 / 短篇论文</option></select></label><label>投稿偏好（可选）<input id="paperPreferences" maxlength="600" placeholder="如：领域期刊、开放获取、费用预算"></label></div>
+        <div class="submission-preferences"><fieldset class="if-range"><legend>预期 IF 分数段（可选）</legend><div><input id="paperIfMin" type="number" min="0" max="1000" step="0.1" placeholder="最低 IF" aria-label="最低 IF"><span>至</span><input id="paperIfMax" type="number" min="0" max="1000" step="0.1" placeholder="最高 IF" aria-label="最高 IF"></div><p class="help-text">可只填一端。按本地 JIF 快照筛选；留空不限制，缺失指标在设置范围时排除。</p></fieldset><label class="general-toggle"><input id="paperIncludeGeneral" type="checkbox" checked><span>包含综合期刊<small>与专科刊一起比较，不限制最终入选数量</small></span></label></div>
+        <p class="privacy-note">点击分析后，标题、摘要与偏好会发送至你选择的模型服务。使用本地模型可避免外部传输。</p>
+        <div class="action-row"><button class="primary" id="submissionRun" type="submit">✦ 分析与推荐</button><button class="secondary" id="submissionCancel" type="button" hidden>停止</button><button class="text-button" type="button" data-open-settings>配置模型</button></div>
+        <div id="submissionStatus" class="status" role="status" aria-live="polite"></div>
+      </form>
+      <div id="submissionResults" hidden></div>
+    </section>
+
+    <section class="view research" id="view-literature" hidden>
+      <div class="research-hero research-hero--teal"><span class="eyebrow">LITERATURE AT A GLANCE</span><h2>把参考文献变成一张地图</h2><p>沿着时间、期刊、影响因子与作者关系，探索你的文献集合。</p><span class="local-badge">● 默认本地处理</span></div>
+      <label class="dropzone" id="bibDrop"><input type="file" id="bibFile" accept=".bib,text/plain,application/x-bibtex" hidden><span class="upload-symbol">↑</span><strong>选择或拖入 .bib 文件</strong><span>支持 Zotero、EndNote 等导出的 BibTeX · 最多 8 MB / 3000 条</span></label>
+      <div id="bibStatus" class="status" role="status" aria-live="polite"></div>
+      <div id="bibWorkspace" hidden>
+        <div class="action-row literature-toolbar"><strong id="bibFilename"></strong><button class="secondary" id="bibCsv">导出 CSV</button><button class="secondary" id="bibReport">导出报告</button><button class="secondary" id="bibClear">清除</button></div>
+        <div id="bibStats" class="stat-grid"></div>
+        <div class="notice" id="bibQuality"></div>
+        <div id="bibDashboard"></div>
+        <details class="panel methods-note"><summary>文献计量方法与数据边界</summary><p class="help-text">年度生产、来源频率、作者生产、合著与共词网络参考 Bibliometrix / VOSviewer 的常用方法。本插件在本机独立实现，没有调用这些软件。仅分析当前文件，不把样本频率解释成整个学科的趋势；疑似重复条目保留并标注。网络展示有节点和连线数量上限。</p><p class="help-text">IF 取自本地 JCR 快照（当前库为 2025 JIF），不是论文发表当年的指标，也不用于评价单篇论文质量。缺引文数据时不生成共被引、文献耦合与 h-index。</p><div class="action-row"><a class="text-button" data-external href="https://www.bibliometrix.org/" target="_blank" rel="noopener noreferrer">Bibliometrix 方法 ↗</a><a class="text-button" data-external href="https://www.vosviewer.com/documentation" target="_blank" rel="noopener noreferrer">VOSviewer 文档 ↗</a></div></details>
+        <section class="panel ai-classify"><div><h3>辅助区分综述与研究论文</h3><p>AI 仅接收标题、已有摘要与类型字段。AI 判断均标为待复核；缺少证据时保持“待确认”。</p></div><div class="action-row"><button class="secondary" id="bibClassify">✦ AI 辅助分类</button><button class="secondary" id="bibClassifyCancel" hidden>停止</button></div><div id="bibAiStatus" class="status" role="status" aria-live="polite"></div></section>
+        <section class="panel"><div class="list-heading"><h3>文献清单</h3><span id="bibCount"></span></div><div class="bib-filters"><input id="bibSearch" placeholder="检索标题、作者、期刊或 citation key" aria-label="检索文献"><select id="bibTypeFilter" aria-label="论文类型筛选"><option value="all">全部类型</option><option value="review">综述</option><option value="research">研究论文</option><option value="unknown">待确认</option><option value="other">其他</option></select><button class="text-button" id="bibReset">重置筛选</button></div><div id="bibActiveFilters"></div><div id="bibList"></div><button class="secondary" id="bibMore" hidden>显示更多</button></section>
+      </div>
+    </section>
+
+    <section class="view research" id="view-settings" hidden>
+      <div class="research-hero"><span class="eyebrow">YOUR MODEL, YOUR CHOICE</span><h2>连接自己的 AI</h2><p>投稿助手与文献分类共用配置，按你的平台和模型使用。</p></div>
+      <form class="panel form-stack" id="settingsForm">
+        <label>接入方式<select id="aiMode"><option value="host">使用 ZTools 已配置的 AI（推荐）</option><option value="direct">直接连接自己的 API / 本地模型</option></select></label>
+        <div id="hostSettings" class="form-stack"><label>模型<select id="hostModel"><option value="">ZTools 默认模型</option></select></label><button type="button" class="secondary" id="openHostSettings">打开 ZTools AI 模型设置</button><p class="help-text">在 ZTools 主程序中添加平台、API key 和模型，再回到这里选择。凭据由 ZTools 管理。</p></div>
+        <div id="directSettings" class="form-stack" hidden>
+          <label>平台预设<select id="aiProvider"><option value="custom">自定义 / OpenAI 兼容平台</option><option value="deepseek">DeepSeek</option><option value="qwen">阿里云百炼 / 通义千问</option><option value="siliconflow">硅基流动</option><option value="moonshot">Moonshot / Kimi</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic / Claude</option><option value="gemini">Google / Gemini</option><option value="ollama">Ollama 本地模型</option></select></label>
+          <div class="form-row"><label>请求协议<select id="aiProtocol"><option value="openai">OpenAI 兼容</option><option value="anthropic">Anthropic Messages</option><option value="gemini">Gemini GenerateContent</option></select></label><label>模型 ID<input id="aiModel" placeholder="填写平台实际提供的模型 ID" autocomplete="off" maxlength="200"></label></div>
+          <label>API Base URL<input id="aiBaseUrl" placeholder="https://api.example.com/v1" autocomplete="off" maxlength="1000"></label>
+          <label>API key<input id="aiKey" type="password" placeholder="仅在本次插件会话保留，不写入本地存储" autocomplete="off" spellcheck="false"></label>
+          <div class="action-row"><button class="text-button" type="button" id="clearApiKey">清除已保存的会话 key</button><span class="help-text" id="keyState"></span></div>
+          <div class="notice" id="providerGuide"></div>
+        </div>
+        <div class="action-row"><button class="primary" type="submit">保存配置</button><button class="secondary" type="button" id="testApi">保存并测试连接</button><button class="secondary" type="button" id="testApiCancel" hidden>停止测试</button></div>
+        <div id="settingsStatus" class="status" role="status" aria-live="polite"></div>
+      </form>
+      <section class="panel"><h3>数据如何处理</h3><ul class="help-list"><li>BibTeX 解析、统计和主题网络在本机完成，文件不会自动上传。</li><li>使用在线模型时，分析内容会发给你选定的服务商；数据政策以该平台为准。</li><li>本插件直连 key 只存在会话内存中；重新加载插件后需重新填写。地址、模型等非敏感配置可保存。</li><li>本插件不保存摘要、BibTeX 或分析历史。关闭插件前请导出需要保留的结果。</li></ul></section>
+    </section>
+
     <footer class="app__footer" id="footer">
       提示：ZTools 搜索框输入 <code>期刊 Nature</code>、<code>ccf CVPR</code> 或 <code>数据库 BRCA1</code> 可直接触发。
     </footer>
   </main>
+  <button class="settings-fab" id="settingsBtn" aria-label="打开模型与 API 设置">⚙ <span>设置</span></button>
 
+  <script src="research-core.js"></script>
+  <script src="research-metrics.js"></script>
+  <script src="research-report.js"></script>
+  <script src="research-prompts.js"></script>
   <script src="index.js"></script>
+  <script src="research-ui.js"></script>
 </body>
 </html>

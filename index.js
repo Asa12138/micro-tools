@@ -1,5 +1,5 @@
 // index.js —— 科研小盒 前端逻辑（多功能 SPA）
-// 视图：home（启动器）/ journal（期刊·会议查询）/ database（数据库查询）
+// 视图：home / journal / submission / literature / database / settings
 // 数据检索由 preload 的 window.journalApi 提供（JCR 期刊 + CCF 目录已合并）；
 // ztools API 做剪贴板/通知/打开外链。
 
@@ -20,20 +20,25 @@ const els = {
   dbGrid: $('#dbGrid')
 }
 
-const VIEW_TITLE = { home: '科研小盒', journal: '期刊 · 会议查询', database: '数据库查询' }
+const VIEW_TITLE = { home: '科研小盒', journal: '期刊 · 会议查询', database: '数据库查询', submission: '投稿助手', literature: '文献图谱', settings: '模型与 API 设置' }
 let currentView = 'home'
 let journalInited = false
 let jFilter = 'all'   // all | journal | conf
 
 /* ================= 视图路由 ================= */
 function showView(view) {
+  const previousView = currentView
   currentView = VIEW_TITLE[view] ? view : 'home'
-  els.home.hidden = currentView !== 'home'
-  els.journal.hidden = currentView !== 'journal'
-  els.database.hidden = currentView !== 'database'
+  document.querySelectorAll('main > .view').forEach(section => { section.hidden = section.id !== 'view-' + currentView })
+  document.querySelector('.app').classList.toggle('app--wide', ['submission', 'literature', 'settings'].includes(currentView))
   els.backBtn.hidden = currentView === 'home'
   els.footer.hidden = currentView !== 'home'
   els.viewTitle.textContent = VIEW_TITLE[currentView]
+  if (previousView !== currentView) {
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }
+  if (window.ResearchUI) window.ResearchUI.onView(currentView)
 
   if (currentView === 'journal') initJournal()
   if (currentView === 'database') {
@@ -337,6 +342,8 @@ if (window.ztools && window.ztools.onPluginEnter) {
     } else if (code === 'database') {
       showView('database')
       if (payload) els.dSearch.value = payload
+    } else if (['submission', 'literature', 'settings'].includes(code)) {
+      showView(code)
     } else {
       showView('home')
     }

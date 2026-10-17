@@ -10,6 +10,7 @@
 
 const fs = require('fs')
 const path = require('path')
+window.researchApi = require('./research-service.js')(() => window.ztools)
 const zlib = require('zlib')
 
 const DATA_FILE = 'journals.json.gz'
