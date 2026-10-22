@@ -192,7 +192,7 @@ module.exports = function createResearchTools(api, journalTools, directory) {
       if (session.kind === 'submission' && !session.data.rank) throw new Error('投稿推荐尚未完成')
       if (input.format === 'csv' && session.kind !== 'literature') throw new Error('CSV 导出仅用于文献分析')
       if (!path.isAbsolute(input.output_path) || path.extname(input.output_path).toLowerCase() !== '.' + input.format) throw new Error('output_path 必须为对应格式的绝对文件路径')
-      const content = input.format === 'csv' ? C.csv(session.data.entries, session.data.matches) : makeReport(session, directory)
+      const content = input.format === 'csv' ? C.csv(session.data.entries, session.data.matches) : makeReport(session, directory, api)
       // Explicit destination; exclusive create prevents overwriting user files or symlinks.
       fs.writeFileSync(input.output_path, content, { encoding: 'utf8', flag: 'wx', mode: 0o600 })
       return { session_id: session.id, path: input.output_path, format: input.format, bytes: Buffer.byteLength(content), source: 'Agent 工作流结果，本地导出' }

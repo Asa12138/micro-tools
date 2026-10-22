@@ -10,7 +10,7 @@ micro-tools/
 ├── preload.js               # CommonJS：读两个数据集，合并后暴露 window.journalApi
 ├── journal-tools.js         # ZTools MCP 只读期刊搜索与详情接口
 ├── research-tools.js        # Agent 投稿、文献分析会话与 MCP 工具
-├── research-agent-report.js # Agent 离线报告，复用现有交互图表
+├── research-agent-report.js # Agent 离线报告，复用投稿页面与交互图表
 ├── index.html               # 前端界面（多功能 SPA）
 ├── index.css                # 样式
 ├── index.js                 # 前端逻辑
@@ -38,7 +38,9 @@ micro-tools/
 | **数据库查询** | 🔧 体验版 | NCBI / PubMed / UniProt / PDB / Ensembl 等一键检索 |
 | 单位换算 | 🚧 即将推出 | 科研常用单位 |
 
-### Agent / MCP（v1.5.0 本地开发版）
+### Agent / MCP（v1.5.1 本地开发版）
+
+投稿助手界面与 MCP HTML 导出共用 `ResearchReport.submissionHTML`，保留原有卡片样式、摘要高亮、章节导航、折叠、候选搜索/筛选/排序/分页与打印。安装 1.5.1 后，后续 MCP 导出自动使用完整模板。
 
 期刊查询通过 ZTools 已有的 MCP 服务提供两个只读工具，无需单独启动服务或配置模型：
 
@@ -74,7 +76,7 @@ Agent 分类标为待人工复核，不能覆盖明确元数据或人工类型�
 
 会话仅存插件内存，最多 4 个；超出时淘汰最久未访问的会话。闲置 60 分钟或插件重载后失效，需及时导出。“载入 Agent 结果”载入最近完成的投稿结果或最近更新的文献结果副本；界面中的后续人工修改不反向覆盖 MCP 会话。
 
-打包：`bash pack.sh` → `../micro-tools-v1.5.0.zpx`。检查：`node test/journal-tools.test.js`、`node test/research-tools.test.js`（需已有 jsdom），及现有 `test/research.test.js`。当前为本地开发版，尚未公开发布。
+打包：`bash pack.sh` → `../micro-tools-v1.5.1.zpx`。检查：`node test/journal-tools.test.js`、`node test/research-tools.test.js`（需已有 jsdom），及现有 `test/research.test.js`。当前为本地开发版，尚未公开发布。
 
 接口依据：[ZTools 工具声明](https://ztoolscenter.github.io/ZTools-doc/plugin-json.html)、[registerTool](https://ztoolscenter.github.io/ZTools-doc/plugin-api.html#工具注册-api)。
 
@@ -155,7 +157,7 @@ JIF 仅按 ISSN 或名称 / 库内缩写的唯一标准化精确匹配（忽略�
 
 **隐私范围：**BibTeX 本地分析无需联网。在线 AI 会接收用户提交的分析内容，服务商的数据政策仍适用；自己的 API key 不等于绝对无泄密。插件直连 key 仅保存在本次插件进程内存，重新加载后重新填写；ZTools 管理的凭据遵循宿主的保存策略。只有模式/地址/模型等非敏感设置经 `dbStorage` 保存，不保存摘要、BibTeX 或分析历史。Ollama 可作为本机模型方案。
 
-当前版本 **1.5.0（本地开发版）**。本次新增功能面向 ZTools 端；浏览器扩展与小程序仅同步版本号，共享期刊检索算法及数据保持不变。安装包与更新说明见 [GitHub Releases](https://github.com/Asa12138/micro-tools/releases)。插件中心版本以审核合并状态为准。
+当前版本 **1.5.1（本地开发版）**。本次新增功能面向 ZTools 端；浏览器扩展与小程序仅同步版本号，共享期刊检索算法及数据保持不变。安装包与更新说明见 [GitHub Releases](https://github.com/Asa12138/micro-tools/releases)。插件中心版本以审核合并状态为准。
 
 ## 数据合并机制
 
@@ -186,7 +188,7 @@ CCF 中跨领域重复收录的刊物（如 TOMM 同时挂「网络」和「图�
 ## 打包
 
 ```bash
-bash pack.sh ../micro-tools-v1.5.0.zpx
+bash pack.sh ../micro-tools-v1.5.1.zpx
 # 显式列出运行资源；不会包含 test/、用户 .bib、临时文件或密钥。
 ```
 
