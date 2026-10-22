@@ -1,5 +1,18 @@
 # 更新记录
 
+## 1.5.0 — 2026-10-22（本地开发版，未发布）
+
+- 新增 ZTools MCP 只读工具 `search_journals` / `get_journal`，复用现有期刊和会议数据与检索逻辑。
+- 查询结果包含 JIF 数据年、快照 ID、精确/相关匹配标记；完整详情提供各学科 JCR 分区、JCI、五年 JIF 和 CCF 信息。
+- 明确返回缺失值与数据加载错误，拒绝失效的快照记录 ID；不调用在线 AI。
+- 新增投稿 MCP 三步流程：prepare_submission → get_submission_candidates → finalize_submission。Agent 使用自身模型完成画像与比较，插件负责本地召回、原文证据与候选集校验，不需要配置插件 API。
+- 新增文献 MCP 工具：analyze_literature、get_literature_entries、classify_literature、get_literature_network；复用现有 BibTeX 解析、JIF 精确匹配及计量算法。
+- 新增 export_research_report，导出完整离线 HTML 或文献 CSV，要求明确绝对路径且不覆盖已有文件；文献 HTML 保留交互图表和筛选。
+- 投稿助手与文献图谱增加“载入 Agent 结果”，在现有界面继续查看与导出。Agent 会话仅存内存，最多 4 个，闲置 60 分钟或插件重载后失效。
+- 保留原有直连 API / ZTools AI 功能；独立点击原有 AI 按钮仍需要模型。三端同步版本号为 1.5.0，MCP 功能仅在桌面插件提供，数据与共享检索算法不变。
+
+验证：期刊 MCP 专项检查、研究 MCP 无 API 完整流程（模型调用 0 次）、界面结果载入、离线交互 HTML/CSV 与现有 99 项检查通过；工作区 BibTeX 解析 111 条、匹配 JIF 69 条。原始数据未修改。ZTools 宿主新增研究工具联调需先安装本版本。
+
 ## 1.4.0 — 2026-10-17
 
 - 新增投稿助手：基于标题与摘要建立研究画像，从本地期刊库召回候选，再由用户选定的模型比较投稿方向；支持 IF 范围、综合期刊比较与粗筛清单。

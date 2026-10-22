@@ -22,8 +22,9 @@ OUT="${1:-../micro-tools-v${VERSION}.zpx}"
 
 FILE_LIST="$(mktemp)"
 trap 'rm -f "$FILE_LIST"' EXIT
-printf '%s\n' plugin.json preload.js index.html index.js index.css research.css \
+printf '%s\n' plugin.json preload.js journal-tools.js index.html index.js index.css research.css \
   research-core.js research-metrics.js research-report.js research-prompts.js research-service.js research-ui.js \
+  research-tools.js research-agent-report.js \
   journals.json.gz ccf.json.gz logo.png logo.svg README.md CHANGELOG.md > "$FILE_LIST"
 while IFS= read -r f; do
   [ -f "$f" ] || { echo "❌ 缺少运行文件：$f" >&2; exit 1; }

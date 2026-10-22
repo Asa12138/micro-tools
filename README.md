@@ -8,6 +8,9 @@
 micro-tools/
 ├── plugin.json              # 插件入口 + feature 触发配置
 ├── preload.js               # CommonJS：读两个数据集，合并后暴露 window.journalApi
+├── journal-tools.js         # ZTools MCP 只读期刊搜索与详情接口
+├── research-tools.js        # Agent 投稿、文献分析会话与 MCP 工具
+├── research-agent-report.js # Agent 离线报告，复用现有交互图表
 ├── index.html               # 前端界面（多功能 SPA）
 ├── index.css                # 样式
 ├── index.js                 # 前端逻辑
@@ -34,6 +37,46 @@ micro-tools/
 | **文献图谱** | 新增 · 公开试用 | 年度趋势、期刊 / IF、作者生产与合作、共词网络和热图 |
 | **数据库查询** | 🔧 体验版 | NCBI / PubMed / UniProt / PDB / Ensembl 等一键检索 |
 | 单位换算 | 🚧 即将推出 | 科研常用单位 |
+
+### Agent / MCP（v1.5.0 本地开发版）
+
+期刊查询通过 ZTools 已有的 MCP 服务提供两个只读工具，无需单独启动服务或配置模型：
+
+- `micro_tools_search_journals`：输入 `query`（刊名、缩写、ISSN 或 CCF 中文领域），可选 `type`（默认 `journal`；也可 `conference` / `all`）及 `limit`（默认 10，最多 50）。
+- `micro_tools_get_journal`：传入搜索结果的 `id`，获取 JCI、五年 JIF、各学科分区等完整信息。
+
+示例：先调用 `micro_tools_search_journals({"query":"ISME Journal"})`，再将目标记录 ID 传入 `micro_tools_get_journal({"id":"搜索返回的 ID"})`。查会议可用 `{"query":"CVPR","type":"conference"}`。搜索返回 `total`、`truncated` 和 `match`（`exact` / `related`）；相关候选不能自动视为唯一匹配。
+
+结果携带本地数据快照标识和 JIF 数据年，分区为 **JCR 分区**。缺失值为 `null`，原始指标字符串（如 `<0.1`）保持不变。更新数据后旧 ID 会拒绝使用。CCF 加载失败会显式提示降级；JCR 加载失败会报错。
+
+安装包含此功能的插件包后，在 ZTools 的 MCP 设置中启用服务及科研小盒工具；Agent 复用同一个 MCP 地址和密钥。ZTools 会在首次调用时后台加载插件。需要提供 `ztools.registerTool` 的宿主版本；旧版宿主仍能使用原有界面。期刊工具仅查询内置数据；下方研究工具处理 Agent 明确提供的摘要或 BibTeX，均不调用插件模型 API、不读取模型密钥。
+
+#### 无需配置插件 API 的投稿分析
+
+1. Agent 调用 `micro_tools_prepare_submission`，传入摘要、可选标题/偏好/稿型和筛选条件，取得 `session_id`、研究画像任务与 Schema。
+2. **Agent 使用自身模型**生成画像，传给 `micro_tools_get_submission_candidates`。插件校验高亮原文、复用本地候选召回，返回候选集与 `candidate_set_id`。
+3. Agent 自行比较候选，调用 `micro_tools_finalize_submission` 提交建议。插件检查候选 ID、重复项、综合刊覆盖及选择一致性，并补充本地指标；没有适配者可返回空推荐。
+4. 调用 `micro_tools_export_research_report` 导出 HTML，或在插件投稿助手中点击“载入 Agent 结果”，继续查看与导出。
+
+这是 Agent 主导的多步工具调用，不依赖 MCP Sampling 或 ZTools 的模型配置。只打开插件并点击原有“分析与推荐”仍需配置模型；插件不能自行调用外部聊天中的 Agent。Agent 自身的服务仍按它的账户/模型设置处理输入。
+
+#### 文献图谱与 Agent 类型判断
+
+| 工具（统一前缀 `micro_tools_`） | 用法 |
+| --- | --- |
+| `analyze_literature` | `bibtex` 文本或本机 `.bib` 的 `file_path` 二选一，返回会话与完整性、年度、期刊、作者、JIF 统计；文件最多 8 MB / 3000 条 |
+| `get_literature_entries` | 使用 `session_id`、`offset`、`limit` 分页获取已有标题、摘要、类型依据和期刊匹配；支持 `scope` 类型筛选 |
+| `classify_literature` | Agent 判断后提交 `items`；证据必须来自对应条目原文，不确定项保留 `unknown`，整批校验后才更新 |
+| `get_literature_network` | 获取 `author` 合作或 `term` 共现网络，支持 full / fractional 计数、节点数、共同文献阈值和类型筛选 |
+| `export_research_report` | 提供 `session_id`、`format`（html / csv）和 `output_path` 绝对路径，创建离线报告；不覆盖已有文件 |
+
+Agent 分类标为待人工复核，不能覆盖明确元数据或人工类型。MCP 正文上限 200,000 字符，较大 BibTeX 用绝对文件路径，避免宿主 1 MB 请求体限制。分页摘要超过 4000 字符会标明截断。文献 HTML 不包含原始 BibTeX、完整文献摘要或附件路径；投稿报告包含提交的摘要。
+
+会话仅存插件内存，最多 4 个；超出时淘汰最久未访问的会话。闲置 60 分钟或插件重载后失效，需及时导出。“载入 Agent 结果”载入最近完成的投稿结果或最近更新的文献结果副本；界面中的后续人工修改不反向覆盖 MCP 会话。
+
+打包：`bash pack.sh` → `../micro-tools-v1.5.0.zpx`。检查：`node test/journal-tools.test.js`、`node test/research-tools.test.js`（需已有 jsdom），及现有 `test/research.test.js`。当前为本地开发版，尚未公开发布。
+
+接口依据：[ZTools 工具声明](https://ztoolscenter.github.io/ZTools-doc/plugin-json.html)、[registerTool](https://ztoolscenter.github.io/ZTools-doc/plugin-api.html#工具注册-api)。
 
 ### 期刊 · 会议查询
 
@@ -112,7 +155,7 @@ JIF 仅按 ISSN 或名称 / 库内缩写的唯一标准化精确匹配（忽略�
 
 **隐私范围：**BibTeX 本地分析无需联网。在线 AI 会接收用户提交的分析内容，服务商的数据政策仍适用；自己的 API key 不等于绝对无泄密。插件直连 key 仅保存在本次插件进程内存，重新加载后重新填写；ZTools 管理的凭据遵循宿主的保存策略。只有模式/地址/模型等非敏感设置经 `dbStorage` 保存，不保存摘要、BibTeX 或分析历史。Ollama 可作为本机模型方案。
 
-当前版本 **1.4.0**。本次新增功能面向 ZTools 端；浏览器扩展与小程序仅同步版本号，共享期刊检索算法及数据保持不变。安装包与更新说明见 [GitHub Releases](https://github.com/Asa12138/micro-tools/releases)。插件中心版本以审核合并状态为准。
+当前版本 **1.5.0（本地开发版）**。本次新增功能面向 ZTools 端；浏览器扩展与小程序仅同步版本号，共享期刊检索算法及数据保持不变。安装包与更新说明见 [GitHub Releases](https://github.com/Asa12138/micro-tools/releases)。插件中心版本以审核合并状态为准。
 
 ## 数据合并机制
 
@@ -143,7 +186,7 @@ CCF 中跨领域重复收录的刊物（如 TOMM 同时挂「网络」和「图�
 ## 打包
 
 ```bash
-bash pack.sh ../micro-tools-v1.4.0.zpx
+bash pack.sh ../micro-tools-v1.5.0.zpx
 # 显式列出运行资源；不会包含 test/、用户 .bib、临时文件或密钥。
 ```
 

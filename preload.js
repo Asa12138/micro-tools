@@ -307,3 +307,12 @@ window.journalApi = {
     return DATA.slice().sort(function (a, b) { return b.jifNum - a.jifNum }).slice(0, n)
   }
 }
+
+// Agent workflows share this plugin process with the UI; they never call researchApi.call.
+const journalTools = require('./journal-tools.js')(window.journalApi, __dirname)
+window.researchAgent = require('./research-tools.js')(window.journalApi, journalTools, __dirname)
+// Old ZTools versions and browser previews can still use the UI without MCP.
+if (window.ztools && typeof window.ztools.registerTool === 'function') {
+  const tools = { ...journalTools, ...window.researchAgent.tools }
+  for (const [name, handler] of Object.entries(tools)) window.ztools.registerTool(name, handler)
+}

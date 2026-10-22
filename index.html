@@ -94,7 +94,8 @@
         <div class="form-row"><label>稿件类型<select id="paperType"><option value="auto">由模型判断（默认）</option><option value="研究论文">研究论文</option><option value="综述">综述</option><option value="方法论文">方法论文</option><option value="病例报告">病例报告</option><option value="简报 / 短篇论文">简报 / 短篇论文</option></select></label><label>投稿偏好（可选）<input id="paperPreferences" maxlength="600" placeholder="如：领域期刊、开放获取、费用预算"></label></div>
         <div class="submission-preferences"><fieldset class="if-range"><legend>预期 IF 分数段（可选）</legend><div><input id="paperIfMin" type="number" min="0" max="1000" step="0.1" placeholder="最低 IF" aria-label="最低 IF"><span>至</span><input id="paperIfMax" type="number" min="0" max="1000" step="0.1" placeholder="最高 IF" aria-label="最高 IF"></div><p class="help-text">可只填一端。按本地 JIF 快照筛选；留空不限制，缺失指标在设置范围时排除。</p></fieldset><label class="general-toggle"><input id="paperIncludeGeneral" type="checkbox" checked><span>包含综合期刊<small>与专科刊一起比较，不限制最终入选数量</small></span></label></div>
         <p class="privacy-note">点击分析后，标题、摘要与偏好会发送至你选择的模型服务。使用本地模型可避免外部传输。</p>
-        <div class="action-row"><button class="primary" id="submissionRun" type="submit">✦ 分析与推荐</button><button class="secondary" id="submissionCancel" type="button" hidden>停止</button><button class="text-button" type="button" data-open-settings>配置模型</button></div>
+        <div class="action-row"><button class="primary" id="submissionRun" type="submit">✦ 分析与推荐</button><button class="secondary" id="submissionCancel" type="button" hidden>停止</button><button class="secondary" id="submissionAgent" type="button">载入 Agent 结果</button><button class="text-button" type="button" data-open-settings>配置模型</button></div>
+        <p class="help-text">已连接 MCP 的 Agent 可用自身模型完成投稿分析，无需在插件配置 API；完成后点击“载入 Agent 结果”查看和导出。本按钮会载入最近完成的一份结果。</p>
         <div id="submissionStatus" class="status" role="status" aria-live="polite"></div>
       </form>
       <div id="submissionResults" hidden></div>
@@ -103,6 +104,7 @@
     <section class="view research" id="view-literature" hidden>
       <div class="research-hero research-hero--teal"><span class="eyebrow">LITERATURE AT A GLANCE</span><h2>把参考文献变成一张地图</h2><p>沿着时间、期刊、影响因子与作者关系，探索你的文献集合。</p><span class="local-badge">● 默认本地处理</span></div>
       <label class="dropzone" id="bibDrop"><input type="file" id="bibFile" accept=".bib,text/plain,application/x-bibtex" hidden><span class="upload-symbol">↑</span><strong>选择或拖入 .bib 文件</strong><span>支持 Zotero、EndNote 等导出的 BibTeX · 最多 8 MB / 3000 条</span></label>
+      <div class="action-row"><button class="secondary" id="bibAgent" type="button">载入 Agent 结果</button><span class="help-text">载入最近一份 MCP 文献分析，继续查看图谱与导出。</span></div>
       <div id="bibStatus" class="status" role="status" aria-live="polite"></div>
       <div id="bibWorkspace" hidden>
         <div class="action-row literature-toolbar"><strong id="bibFilename"></strong><button class="secondary" id="bibCsv">导出 CSV</button><button class="secondary" id="bibReport">导出报告</button><button class="secondary" id="bibClear">清除</button></div>

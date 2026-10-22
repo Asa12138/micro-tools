@@ -197,6 +197,20 @@
     finally { if (claimed) { busy = ''; q('#submissionRun').disabled = false; q('#submissionCancel').hidden = true } }
   }
   q('#submissionCancel').onclick = stop
+  q('#submissionAgent').onclick = () => {
+    try {
+      if (busy) throw new Error('请先完成或停止当前分析，再载入 Agent 结果。')
+      const result = window.researchAgent && window.researchAgent.latest('submission')
+      if (!result) throw new Error('暂无已完成的 Agent 投稿分析。请先通过 MCP 完成分析；插件重载会清空会话。')
+      submission = result.data
+      q('#paperTitle').value = submission.title; q('#paperAbstract').value = submission.abstract
+      q('#paperPreferences').value = submission.preferences
+      if (Array.from(q('#paperType').options).some(option => option.value === submission.type)) q('#paperType').value = submission.type
+      q('#paperIfMin').value = submission.screening.if_range.min ?? ''; q('#paperIfMax').value = submission.screening.if_range.max ?? ''
+      q('#paperIncludeGeneral').checked = submission.screening.include_general
+      renderSubmission(); status('submissionStatus', '已载入 Agent 投稿分析 · 未调用插件模型 API，可继续查看与导出。', 'success')
+    } catch (err) { status('submissionStatus', err.message, 'error') }
+  }
 
   // ---------- Local bibliography ----------
   async function importBib(file) {
@@ -215,6 +229,17 @@
     finally { q('#bibFile').value = '' }
   }
   q('#bibFile').onchange = e => importBib(e.target.files[0])
+  q('#bibAgent').onclick = () => {
+    try {
+      if (busy) throw new Error('请先完成或停止当前分析，再载入 Agent 结果。')
+      const result = window.researchAgent && window.researchAgent.latest('literature')
+      if (!result) throw new Error('暂无 Agent 文献分析。请先通过 MCP 导入 BibTeX；插件重载会清空会话。')
+      bib = result.data; filename = result.filename; filters = emptyFilters(); visible = 30; dashboard = null
+      q('#bibSearch').value = ''; q('#bibTypeFilter').value = 'all'
+      q('#bibFilename').textContent = filename; q('#bibWorkspace').hidden = false
+      renderBib(); status('bibAiStatus', ''); status('bibStatus', '已载入 Agent 文献分析 · ' + bib.entries.length + ' 条，可继续查看图谱与导出。', 'success')
+    } catch (err) { status('bibStatus', err.message, 'error') }
+  }
   const drop = q('#bibDrop')
   ;['dragenter', 'dragover'].forEach(type => drop.addEventListener(type, e => { e.preventDefault(); drop.classList.add('is-dragging') }))
   ;['dragleave', 'drop'].forEach(type => drop.addEventListener(type, e => { e.preventDefault(); drop.classList.remove('is-dragging'); if (type === 'drop') importBib(e.dataTransfer.files[0]) }))
