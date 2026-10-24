@@ -323,7 +323,7 @@ const preparedEnglishAudio = require('./features/english/english-prepared-audio'
 window.englishApi = require('./features/english/english-service.js')({
   getItem(key) { if (!window.ztools?.dbStorage) throw new Error('请在 ZTools 中使用持久题库'); return window.ztools.dbStorage.getItem(key) },
   setItem(key,value) { if (!window.ztools?.dbStorage) throw new Error('请在 ZTools 中保存题库'); window.ztools.dbStorage.setItem(key,value) }
-}, { credentials: localCredentials, audio: preparedEnglishAudio })
+}, { credentials: localCredentials, audio: preparedEnglishAudio, activityDirectory(){const dir=window.ztools?.getPath?.('userData');return dir?path.join(dir,'micro-tools-local'):null} })
 window.englishApi.speech = require('./features/english/english-speech.js')
 // Old ZTools versions and browser previews can still use the UI without MCP.
 if (window.ztools && typeof window.ztools.registerTool === 'function') {

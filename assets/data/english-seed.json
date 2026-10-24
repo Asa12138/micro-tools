@@ -28,9 +28,24 @@
             "zh": "探讨"
           },
           {
-            "role": "宾语从句",
-            "en": "how environmental change shapes soil microbial communities",
-            "zh": "环境变化如何塑造土壤微生物群落"
+            "role": "从句引导词",
+            "en": "how",
+            "zh": "如何"
+          },
+          {
+            "role": "从句主语",
+            "en": "environmental change",
+            "zh": "环境变化"
+          },
+          {
+            "role": "从句谓语",
+            "en": "shapes",
+            "zh": "塑造"
+          },
+          {
+            "role": "从句宾语",
+            "en": "soil microbial communities.",
+            "zh": "土壤微生物群落"
           }
         ],
         "vocabulary": [
@@ -106,9 +121,14 @@
             "zh": "微生物群落"
           },
           {
-            "role": "范围",
-            "en": "across sites with different soil properties",
-            "zh": "在不同土壤性质的地点之间"
+            "role": "范围状语",
+            "en": "across sites",
+            "zh": "跨地点"
+          },
+          {
+            "role": "后置定语",
+            "en": "with different soil properties.",
+            "zh": "具有不同土壤性质的"
           }
         ],
         "vocabulary": [
@@ -169,9 +189,14 @@
         "question": "How would you explain this idea using your own research?",
         "chunks": [
           {
-            "role": "主语",
-            "en": "An association between two taxa",
-            "zh": "两个分类单元之间的关联"
+            "role": "主语核心",
+            "en": "An association",
+            "zh": "一种关联"
+          },
+          {
+            "role": "主语后置定语",
+            "en": "between two taxa",
+            "zh": "两个分类单元之间的"
           },
           {
             "role": "谓语",
@@ -180,7 +205,7 @@
           },
           {
             "role": "宾语",
-            "en": "a direct interaction",
+            "en": "a direct interaction.",
             "zh": "直接互作"
           }
         ],
@@ -261,9 +286,19 @@
             "zh": "一种可能联系"
           },
           {
-            "role": "定语从句",
-            "en": "that requires further investigation",
-            "zh": "需要进一步研究的"
+            "role": "定语从句主语",
+            "en": "that",
+            "zh": "该联系"
+          },
+          {
+            "role": "定语从句谓语",
+            "en": "requires",
+            "zh": "需要"
+          },
+          {
+            "role": "定语从句宾语",
+            "en": "further investigation.",
+            "zh": "进一步研究"
           }
         ],
         "vocabulary": [
@@ -334,9 +369,24 @@
             "zh": "是"
           },
           {
-            "role": "表语从句",
-            "en": "that the available samples cover a narrow range of conditions",
-            "zh": "现有样本仅覆盖较窄的条件范围"
+            "role": "表语从句引导词",
+            "en": "that",
+            "zh": "引出局限的内容"
+          },
+          {
+            "role": "从句主语",
+            "en": "the available samples",
+            "zh": "现有样本"
+          },
+          {
+            "role": "从句谓语",
+            "en": "cover",
+            "zh": "覆盖"
+          },
+          {
+            "role": "从句宾语",
+            "en": "a narrow range of conditions.",
+            "zh": "较窄的条件范围"
           }
         ],
         "vocabulary": [
@@ -419,9 +469,19 @@
             "zh": "是"
           },
           {
-            "role": "表语",
-            "en": "to connect the computational findings with a testable biological question",
-            "zh": "将计算发现与可检验的生物学问题联系起来"
+            "role": "表语·不定式",
+            "en": "to connect",
+            "zh": "将……联系起来"
+          },
+          {
+            "role": "不定式宾语",
+            "en": "the computational findings",
+            "zh": "计算发现"
+          },
+          {
+            "role": "介词补语",
+            "en": "with a testable biological question.",
+            "zh": "与可检验的生物学问题"
           }
         ],
         "vocabulary": [
@@ -514,7 +574,7 @@
         "chunks": [
           {
             "role": "时间状语",
-            "en": "Before interpreting the results",
+            "en": "Before interpreting the results,",
             "zh": "在解释结果之前"
           },
           {
@@ -529,7 +589,7 @@
           },
           {
             "role": "宾语",
-            "en": "the sample metadata",
+            "en": "the sample metadata.",
             "zh": "样本元数据"
           }
         ],
@@ -592,18 +652,18 @@
             "zh": "我们"
           },
           {
-            "role": "谓语",
+            "role": "谓语与介词",
             "en": "adjusted for",
             "zh": "调整了"
           },
           {
-            "role": "宾语",
+            "role": "介词宾语",
             "en": "measured covariates",
             "zh": "测得的协变量"
           },
           {
-            "role": "目的",
-            "en": "to reduce potential confounding",
+            "role": "目的状语",
+            "en": "to reduce potential confounding.",
             "zh": "以减少潜在混杂"
           }
         ],
@@ -671,9 +731,14 @@
             "zh": "应反映"
           },
           {
-            "role": "宾语",
-            "en": "the genes eligible for selection",
-            "zh": "有资格被选入分析的基因"
+            "role": "宾语核心",
+            "en": "the genes",
+            "zh": "基因"
+          },
+          {
+            "role": "后置定语",
+            "en": "eligible for selection.",
+            "zh": "有资格被选入的"
           }
         ],
         "vocabulary": [
@@ -744,9 +809,19 @@
             "zh": "是"
           },
           {
-            "role": "表语",
-            "en": "to make the analysis workflow easier to reproduce",
-            "zh": "让分析流程更容易复现"
+            "role": "表语·不定式",
+            "en": "to make",
+            "zh": "使"
+          },
+          {
+            "role": "不定式宾语",
+            "en": "the analysis workflow",
+            "zh": "分析流程"
+          },
+          {
+            "role": "宾语补足语",
+            "en": "easier to reproduce.",
+            "zh": "更容易复现"
           }
         ],
         "vocabulary": [
@@ -821,9 +896,24 @@
             "zh": "会检验"
           },
           {
-            "role": "宾语从句",
-            "en": "whether the finding holds in an independent dataset",
-            "zh": "这一发现能否在独立数据集中成立"
+            "role": "宾语从句引导词",
+            "en": "whether",
+            "zh": "是否"
+          },
+          {
+            "role": "从句主语",
+            "en": "the finding",
+            "zh": "这一发现"
+          },
+          {
+            "role": "从句谓语",
+            "en": "holds",
+            "zh": "仍然成立"
+          },
+          {
+            "role": "从句范围状语",
+            "en": "in an independent dataset.",
+            "zh": "在独立数据集中"
           }
         ],
         "vocabulary": [
@@ -888,14 +978,44 @@
         "question": "How would you explain this idea using your own research?",
         "chunks": [
           {
-            "role": "请求",
-            "en": "Could you clarify",
-            "zh": "您能澄清吗"
+            "role": "助动词",
+            "en": "Could",
+            "zh": "能否"
           },
           {
-            "role": "宾语从句",
-            "en": "which part of the analysis you would like me to explain",
-            "zh": "希望我解释分析中的哪一部分"
+            "role": "主语",
+            "en": "you",
+            "zh": "您"
+          },
+          {
+            "role": "谓语",
+            "en": "clarify",
+            "zh": "澄清"
+          },
+          {
+            "role": "从句前置宾语",
+            "en": "which part of the analysis",
+            "zh": "分析的哪一部分"
+          },
+          {
+            "role": "从句主语",
+            "en": "you",
+            "zh": "您"
+          },
+          {
+            "role": "从句谓语",
+            "en": "would like",
+            "zh": "希望"
+          },
+          {
+            "role": "从句宾语",
+            "en": "me",
+            "zh": "我"
+          },
+          {
+            "role": "宾语补足语",
+            "en": "to explain?",
+            "zh": "来解释"
           }
         ],
         "vocabulary": [
@@ -982,10 +1102,31 @@
       {
         "en": "What question does this study address?",
         "zh": "这项研究回答了什么问题？",
-        "note": "address a question：探讨一个问题。",
+        "note": "这是特殊疑问句。What question 是 address 的宾语，前置后用 does + 主语 + 动词原形；address a question 表示探讨一个问题。",
         "quote": "",
         "question": "What makes this question important?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "前置宾语",
+            "en": "What question",
+            "zh": "什么问题"
+          },
+          {
+            "role": "助动词",
+            "en": "does",
+            "zh": "构成一般现在时疑问句"
+          },
+          {
+            "role": "主语",
+            "en": "this study",
+            "zh": "这项研究"
+          },
+          {
+            "role": "谓语",
+            "en": "address?",
+            "zh": "探讨"
+          }
+        ],
         "vocabulary": [
           {
             "term": "address",
@@ -1023,10 +1164,31 @@
       {
         "en": "The authors used an independent dataset to evaluate the model.",
         "zh": "作者使用独立数据集评估模型。",
-        "note": "used … to …：说明方法或材料的用途。",
+        "note": "主干为 The authors used an independent dataset；to evaluate the model 是目的状语，说明使用数据集的用途。",
         "quote": "",
         "question": "Why is an independent dataset useful?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "The authors",
+            "zh": "作者"
+          },
+          {
+            "role": "谓语",
+            "en": "used",
+            "zh": "使用了"
+          },
+          {
+            "role": "宾语",
+            "en": "an independent dataset",
+            "zh": "一个独立数据集"
+          },
+          {
+            "role": "目的状语",
+            "en": "to evaluate the model.",
+            "zh": "来评估模型"
+          }
+        ],
         "vocabulary": [
           {
             "term": "evaluate",
@@ -1080,10 +1242,31 @@
       {
         "en": "The reported effect was smaller after adjustment.",
         "zh": "校正后报告的效应较小。",
-        "note": "after adjustment：调整后的比较。此处为表达示例，具体结果需核对原文。",
+        "note": "主干是主语 + 系动词 + 比较级表语。after adjustment 说明调整后的状态；比较对象需由上下文交代。这里是表达示例，具体效应大小应以论文结果为准。",
         "quote": "",
         "question": "Which variables were included in the adjustment?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "The reported effect",
+            "zh": "报告的效应"
+          },
+          {
+            "role": "系动词",
+            "en": "was",
+            "zh": "是"
+          },
+          {
+            "role": "表语",
+            "en": "smaller",
+            "zh": "更小的"
+          },
+          {
+            "role": "时间状语",
+            "en": "after adjustment.",
+            "zh": "在调整后"
+          }
+        ],
         "vocabulary": [
           {
             "term": "adjustment",
@@ -1125,10 +1308,31 @@
       {
         "en": "The abstract does not provide enough detail to assess this claim.",
         "zh": "摘要没有提供足够细节来评估这一论断。",
-        "note": "enough … to …：信息是否足够支持判断。",
+        "note": "does not provide 构成否定谓语。enough detail to assess this claim 表示足以评估这一主张的细节；不定式说明所需细节的用途。",
         "quote": "",
         "question": "Where would you look for more detail?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "The abstract",
+            "zh": "摘要"
+          },
+          {
+            "role": "谓语",
+            "en": "does not provide",
+            "zh": "未提供"
+          },
+          {
+            "role": "宾语",
+            "en": "enough detail",
+            "zh": "足够的细节"
+          },
+          {
+            "role": "不定式后置修饰",
+            "en": "to assess this claim.",
+            "zh": "以评估这一主张"
+          }
+        ],
         "vocabulary": [
           {
             "term": "assess",
@@ -1186,10 +1390,31 @@
       {
         "en": "I would check the methods before interpreting the figure.",
         "zh": "在解读这张图之前，我会先查阅方法。",
-        "note": "before doing …：说明先后顺序。",
+        "note": "would check 表达拟议行动；before interpreting the figure 是时间状语，before 后接动名词短语。",
         "quote": "",
         "question": "What information do you need to interpret the figure?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "I",
+            "zh": "我"
+          },
+          {
+            "role": "谓语",
+            "en": "would check",
+            "zh": "会查看"
+          },
+          {
+            "role": "宾语",
+            "en": "the methods",
+            "zh": "方法部分"
+          },
+          {
+            "role": "时间状语",
+            "en": "before interpreting the figure.",
+            "zh": "在解释图形之前"
+          }
+        ],
         "vocabulary": [
           {
             "term": "interpret",
@@ -1239,10 +1464,31 @@
       {
         "en": "The main conclusion should be considered in the context of the study design.",
         "zh": "主要结论应结合研究设计来理解。",
-        "note": "in the context of …：置于具体背景下理解。",
+        "note": "should be considered 是情态动词 + 被动结构。in the context of the study design 提供理解结论时所依据的背景。",
         "quote": "",
         "question": "How does the design affect the interpretation?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "The main conclusion",
+            "zh": "主要结论"
+          },
+          {
+            "role": "被动谓语",
+            "en": "should be considered",
+            "zh": "应被理解或考量"
+          },
+          {
+            "role": "背景状语",
+            "en": "in the context of",
+            "zh": "结合……的背景"
+          },
+          {
+            "role": "介词宾语",
+            "en": "the study design.",
+            "zh": "研究设计"
+          }
+        ],
         "vocabulary": [
           {
             "term": "context",
@@ -1323,10 +1569,31 @@
       {
         "en": "My research focuses on computational approaches to biological questions.",
         "zh": "我的研究聚焦于用计算方法回答生物学问题。",
-        "note": "focus on …：简洁说明研究方向。",
+        "note": "主干为 My research focuses on computational approaches；to biological questions 修饰 approaches。focus on 表示聚焦于，approaches to 表示针对某问题的方法。",
         "quote": "",
         "question": "Can you give one concrete example?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "My research",
+            "zh": "我的研究"
+          },
+          {
+            "role": "谓语与介词",
+            "en": "focuses on",
+            "zh": "侧重于"
+          },
+          {
+            "role": "介词宾语",
+            "en": "computational approaches",
+            "zh": "计算方法"
+          },
+          {
+            "role": "后置定语",
+            "en": "to biological questions.",
+            "zh": "用于解决生物学问题的"
+          }
+        ],
         "vocabulary": [
           {
             "term": "approach",
@@ -1376,10 +1643,51 @@
       {
         "en": "I am particularly interested in how your group integrates different types of data.",
         "zh": "我尤其感兴趣的是你们团队如何整合不同类型的数据。",
-        "note": "be interested in how …：具体说明合作兴趣。",
+        "note": "主干为 I am interested in…，particularly 修饰 interested。how 引导介词 in 的宾语从句；从句使用 your group integrates… 的陈述语序。",
         "quote": "",
         "question": "How would your skills contribute to this work?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "I",
+            "zh": "我"
+          },
+          {
+            "role": "系动词",
+            "en": "am",
+            "zh": "是"
+          },
+          {
+            "role": "程度状语",
+            "en": "particularly",
+            "zh": "尤其"
+          },
+          {
+            "role": "表语",
+            "en": "interested",
+            "zh": "感兴趣的"
+          },
+          {
+            "role": "介词与从句引导词",
+            "en": "in how",
+            "zh": "对……如何"
+          },
+          {
+            "role": "从句主语",
+            "en": "your group",
+            "zh": "您的团队"
+          },
+          {
+            "role": "从句谓语",
+            "en": "integrates",
+            "zh": "整合"
+          },
+          {
+            "role": "从句宾语",
+            "en": "different types of data.",
+            "zh": "不同类型的数据"
+          }
+        ],
         "vocabulary": [
           {
             "term": "integrate",
@@ -1445,10 +1753,46 @@
       {
         "en": "I can explain the overall idea first and then discuss the technical details.",
         "zh": "我可以先解释总体思路，再讨论技术细节。",
-        "note": "first … and then …：引导听众跟随讲述。",
+        "note": "can explain 与 discuss 是并列谓语，共用主语 I 和情态动词 can。first 与 then 标示讲述顺序，两个动词后分别接自己的宾语。",
         "quote": "",
         "question": "Explain the idea to someone outside your field.",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "主语",
+            "en": "I",
+            "zh": "我"
+          },
+          {
+            "role": "情态谓语",
+            "en": "can explain",
+            "zh": "可以解释"
+          },
+          {
+            "role": "宾语",
+            "en": "the overall idea",
+            "zh": "整体思路"
+          },
+          {
+            "role": "顺序状语",
+            "en": "first",
+            "zh": "先"
+          },
+          {
+            "role": "并列连接与顺序",
+            "en": "and then",
+            "zh": "然后"
+          },
+          {
+            "role": "并列谓语",
+            "en": "discuss",
+            "zh": "讨论"
+          },
+          {
+            "role": "宾语",
+            "en": "the technical details.",
+            "zh": "技术细节"
+          }
+        ],
         "vocabulary": [
           {
             "term": "overall",
@@ -1514,10 +1858,41 @@
       {
         "en": "Could you give me a moment to organize my thoughts?",
         "zh": "可以给我一点时间整理思路吗？",
-        "note": "give me a moment to …：讨论中自然的缓冲表达。",
+        "note": "Could you… 用于礼貌请求。give me a moment 是 give + 间接宾语 + 直接宾语；to organize my thoughts 说明这段时间用于整理思路。",
         "quote": "",
         "question": "Summarize your answer in two sentences.",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "助动词",
+            "en": "Could",
+            "zh": "能否"
+          },
+          {
+            "role": "主语",
+            "en": "you",
+            "zh": "您"
+          },
+          {
+            "role": "谓语",
+            "en": "give",
+            "zh": "给"
+          },
+          {
+            "role": "间接宾语",
+            "en": "me",
+            "zh": "我"
+          },
+          {
+            "role": "直接宾语",
+            "en": "a moment",
+            "zh": "一点时间"
+          },
+          {
+            "role": "不定式后置修饰",
+            "en": "to organize my thoughts?",
+            "zh": "来整理思路"
+          }
+        ],
         "vocabulary": [
           {
             "term": "organize",
@@ -1571,10 +1946,36 @@
       {
         "en": "What would success look like during the first six months?",
         "zh": "前六个月做到什么程度算是成功？",
-        "note": "What would … look like?：询问具体期待。",
+        "note": "What 是介词 like 的宾语，疑问句中前置；主干为 success would look like what。during 引出时间范围，整句用于询问具体的成功标准。",
         "quote": "",
         "question": "What would be a realistic first milestone?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "前置介词宾语",
+            "en": "What",
+            "zh": "什么样"
+          },
+          {
+            "role": "助动词",
+            "en": "would",
+            "zh": "表示假设或委婉询问"
+          },
+          {
+            "role": "主语",
+            "en": "success",
+            "zh": "成功"
+          },
+          {
+            "role": "谓语与介词",
+            "en": "look like",
+            "zh": "呈现为"
+          },
+          {
+            "role": "时间状语",
+            "en": "during the first six months?",
+            "zh": "在最初六个月内"
+          }
+        ],
         "vocabulary": [
           {
             "term": "success",
@@ -1628,10 +2029,51 @@
       {
         "en": "Thank you for the discussion; it helped me understand the project more clearly.",
         "zh": "谢谢这次讨论，它帮助我更清楚地理解这个项目。",
-        "note": "help someone do …：说明讨论带来的收获。",
+        "note": "分号连接两部分。Thank you 是常用感谢表达；it 指前面的 discussion。helped me understand 使用 help + 宾语 + 不带 to 的不定式，more clearly 修饰 understand。",
         "quote": "",
         "question": "What did you learn from the conversation?",
-        "chunks": [],
+        "chunks": [
+          {
+            "role": "谓语",
+            "en": "Thank",
+            "zh": "感谢"
+          },
+          {
+            "role": "宾语",
+            "en": "you",
+            "zh": "您"
+          },
+          {
+            "role": "原因状语",
+            "en": "for the discussion;",
+            "zh": "就这次讨论"
+          },
+          {
+            "role": "第二分句主语",
+            "en": "it",
+            "zh": "这次讨论"
+          },
+          {
+            "role": "第二分句谓语",
+            "en": "helped",
+            "zh": "帮助了"
+          },
+          {
+            "role": "宾语",
+            "en": "me",
+            "zh": "我"
+          },
+          {
+            "role": "宾语补足语",
+            "en": "understand the project",
+            "zh": "理解项目"
+          },
+          {
+            "role": "方式状语",
+            "en": "more clearly.",
+            "zh": "更清楚地"
+          }
+        ],
         "vocabulary": [
           {
             "term": "discussion",

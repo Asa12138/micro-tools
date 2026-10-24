@@ -10,6 +10,7 @@
  const norm=s=>String(s||'').normalize('NFKC').replace(/’/g,"'").toLowerCase().replace(/[^a-z0-9'-]/g,'');
  function text(v,name,max=2000,required=false){if(v==null&&!required)return '';if(typeof v!=='string'||v.length>max||(required&&!v.trim()))throw Error(name+'格式不正确或长度超限');return v.trim()}
  function array(v,name,max){if(v==null)return [];if(!Array.isArray(v)||v.length>max)throw Error(name+'数量超限或格式错误');return v}
+ function illustration(value){if(!value)return {};const url=text(value.url,'配图地址',2000,true);let u;try{u=new URL(url)}catch{throw Error('配图地址无效')}if(u.protocol!=='https:'||u.username||u.password)throw Error('配图需为无凭据的 HTTPS 地址');return {image:{url,alt:text(value.alt,'配图描述',300)}}}
  function clean(raw){
   if(!raw||typeof raw!=='object'||Array.isArray(raw))throw Error('课程必须是 JSON 对象');
   const sentences=array(raw.sentences,'句子',120);if(!sentences.length)throw Error('至少需要一句英文');
@@ -18,7 +19,7 @@
   return {title:text(raw.title,'标题',160,true),domain:category(raw.domain,'领域',domains,'other'),description:text(raw.description,'课程说明',1200),level:category(raw.level,'难度',{},'B2'),
    source:{title:text(source.title,'来源标题',300),url,kind:category(source.kind,'素材类型',sourceKinds,'user')},
    sentences:sentences.map((s,i)=>{if(typeof s==='string')s={en:s};if(!s||typeof s!=='object')throw Error('第 '+(i+1)+' 句格式无效');const en=text(s.en,'英文句子',1000,true);if(!words(en).length)throw Error('第 '+(i+1)+' 句没有英文单词');return {
-    en,...(s.source_id?{source_id:text(s.source_id,'原文片段编号',50)}:{}),zh:text(s.zh,'中文释义',1000),note:text(s.note,'表达说明',2000),quote:text(s.quote,'原文依据',2000),question:text(s.question,'口语追问',500),
+    en,...illustration(s.image),...(s.source_id?{source_id:text(s.source_id,'原文片段编号',50)}:{}),zh:text(s.zh,'中文释义',1000),note:text(s.note,'表达说明',2000),quote:text(s.quote,'原文依据',2000),question:text(s.question,'口语追问',500),
     chunks:array(s.chunks,'句法块',20).map(c=>({role:text(c.role,'角色',50),en:text(c.en,'词块',1000),zh:text(c.zh,'词块释义',500)})),
     vocabulary:array(s.vocabulary,'词汇',30).map(v=>({term:text(v.term,'词汇',100,true),ipa:text(v.ipa||v.phonetic,'音标',150),meaning:text(v.meaning,'词义',500)})),
     phonetics:array(s.phonetics,'逐词音标',150).map(v=>({word:text(v.word,'单词',100,true),ipa:text(v.ipa,'音标',150)}))
@@ -34,7 +35,7 @@
  const str={type:'string'};
  const obj=properties=>({type:'object',properties});
  const arr=items=>({type:'array',items});
- const sentenceSchema=obj({source_id:{type:'string',maxLength:50},en:str,zh:str,note:str,quote:str,question:str,vocabulary:arr(obj({term:str,ipa:str,meaning:str})),chunks:arr(obj({role:str,en:str,zh:str})),phonetics:arr(obj({word:str,ipa:str}))});
+ const sentenceSchema=obj({image:obj({url:str,alt:str}),source_id:{type:'string',maxLength:50},en:str,zh:str,note:str,quote:str,question:str,vocabulary:arr(obj({term:str,ipa:str,meaning:str})),chunks:arr(obj({role:str,en:str,zh:str})),phonetics:arr(obj({word:str,ipa:str}))});
  sentenceSchema.required=['en','zh','note','question','vocabulary','chunks'];
  sentenceSchema.anyOf=[{required:['source_id']},{required:['quote']}];
  const schema=obj({title:str,domain:{type:'string',maxLength:80},description:str,level:{type:'string',maxLength:80},source:obj({title:str,url:str,kind:{type:'string',maxLength:80}}),sentences:{...arr(sentenceSchema),minItems:1,maxItems:120}});
@@ -109,6 +110,7 @@
   for(const [key,r]of Object.entries(raw.results||{})){
    if(!/^\d{1,3}$/.test(key)||!r||typeof r!=='object')continue;
    const item={favorite:!!r.favorite,notes:typeof r.notes==='string'?r.notes.slice(0,10000):'',modes:{}};
+   if(r.favorite&&/^folder-[a-z0-9-]{1,60}$/.test(r.favoriteFolder||''))item.favoriteFolder=r.favoriteFolder;
    for(const mode of ['dictation','puzzle','study','speaking']){const m=r.modes?.[mode];if(!m||typeof m!=='object')continue;const val={complete:!!m.complete,corrected:!!m.corrected,helped:!!m.helped,attempts:Math.max(0,Number(m.attempts)||0),errors:Math.max(0,Number(m.errors)||0)};if(typeof m.completedAt==='string')val.completedAt=m.completedAt.slice(0,50);if(m.draft&&typeof m.draft==='object')val.draft={typed:Array.isArray(m.draft.typed)?m.draft.typed.slice(0,500).map(v=>String(v).slice(0,1000)):[],chosen:Array.isArray(m.draft.chosen)?m.draft.chosen.filter(Number.isInteger).slice(0,500):[],helped:!!m.draft.helped};item.modes[mode]=val}
    out.results[key]=item;
   }return out;
@@ -118,6 +120,7 @@
   for(const key of new Set([...Object.keys(a.results),...Object.keys(b.results)])){
    const x=a.results[key]||{},y=b.results[key]||{},r={favorite:!!(x.favorite||y.favorite),notes:x.notes||y.notes||'',modes:{...y.modes}};
    for(const [mode,value]of Object.entries(x.modes||{})){const meaningful=value.complete||value.attempts||value.helped||value.draft?.typed?.some(Boolean)||value.draft?.chosen?.length;if(meaningful||!r.modes[mode])r.modes[mode]=value}
+   const favorite=x.favorite?x:y;if(r.favorite&&favorite.favoriteFolder)r.favoriteFolder=favorite.favoriteFolder;
    out.results[key]=r;
   }return out;
  }

@@ -55,6 +55,10 @@ function catalog(raw,base,origin){
   return {audio,id:origin+':'+id,title:string(item.title,'素材名称',160,true),domain:C.category(item.domain,'领域',C.domains,'other'),level:C.category(item.level,'难度',{},'B2'),count:item.count,description:string(item.description,'素材说明',1200),url:origin==='remote'?publicURL(url,base):url,sha256:sha256.toLowerCase(),origin};
  });
 }
+function wordbookEntries(raw,base){
+ const items=raw.wordbooks||[];if(!Array.isArray(items)||items.length>200)throw Error('单词素材目录最多 200 项');const ids=new Set();
+ return items.map(item=>{const id=string(item.id,'单词素材 ID',100,true);if(!/^[A-Za-z0-9_-]+$/.test(id)||ids.has(id))throw Error('单词素材 ID 无效或重复');ids.add(id);const sha256=string(item.sha256,'单词素材校验值',64,true),contentHash=string(item.contentHash,'词条校验值',64,true);if(!/^[a-f0-9]{64}$/.test(sha256)||!/^[a-f0-9]{64}$/.test(contentHash))throw Error('单词素材校验值无效');if(!Number.isInteger(item.count)||item.count<1||item.count>20000)throw Error('单词素材词数需为 1–20000');return {id:'remote:'+id,title:string(item.title,'单词素材名称',100,true),description:string(item.description,'单词素材说明',1200),count:item.count,url:publicURL(string(item.url,'单词素材链接',2000,true),base),sha256,contentHash}});
+}
 module.exports=function createCatalog({storage,request=requestBytes}={}){
  if(!storage?.getItem||!storage?.setItem)throw Error('素材目录需要本地存储');
  const samples=catalog(parseBytes(fs.readFileSync(path.join(SAMPLE_DIR,'catalog.json'))),null,'sample');
@@ -63,10 +67,10 @@ module.exports=function createCatalog({storage,request=requestBytes}={}){
   if(value!==undefined){const url=publicURL(string(value.url,'素材目录地址',2000)||DEFAULT_URL);if(url!==settings().url)storage.setItem(CACHE,null);storage.setItem(SETTINGS,{url})}
   const saved=storage.getItem(SETTINGS)||{};return {url:publicURL(saved.url||DEFAULT_URL)};
  }
- function cached(){const saved=storage.getItem(CACHE);if(!saved||saved.url!==settings().url)return null;try{return {courses:catalog(saved.raw,saved.url,'remote'),updatedAt:saved.updatedAt}}catch{return null}}
+ function cached(){const saved=storage.getItem(CACHE);if(!saved||saved.url!==settings().url)return null;try{return {courses:catalog(saved.raw,saved.url,'remote'),wordbooks:wordbookEntries(saved.raw.wordbooks===undefined&&saved.url===DEFAULT_URL?bundledCatalog:saved.raw,saved.url),updatedAt:saved.updatedAt}}catch{return null}}
  async function list({refresh=false}={}){
-  const {url}=settings();if(refresh&&url){const raw=parseBytes(await request(url));catalog(raw,url,'remote');if(settings().url===url)storage.setItem(CACHE,{url,raw,updatedAt:new Date().toISOString()})}
-  const saved=cached(),isDefault=settings().url===DEFAULT_URL;const courses=(saved?saved.courses:isDefault?bundled:samples).map(c=>{const b=isDefault&&bundled.find(b=>b.id===c.id&&b.sha256===c.sha256);return b?.audio&&!c.audio?{...c,audio:b.audio}:c});return {courses:clone(courses),url:settings().url,updatedAt:saved?.updatedAt||null,offline:!url,cached:!!saved&&!refresh,fallback:!saved&&!isDefault,bundled:!saved&&isDefault};
+  const {url}=settings();if(refresh&&url){const raw=parseBytes(await request(url));catalog(raw,url,'remote');wordbookEntries(raw,url);if(settings().url===url)storage.setItem(CACHE,{url,raw,updatedAt:new Date().toISOString()})}
+  const saved=cached(),isDefault=settings().url===DEFAULT_URL;const courses=(saved?saved.courses:isDefault?bundled:samples).map(c=>{const b=isDefault&&bundled.find(b=>b.id===c.id&&b.sha256===c.sha256);return b?.audio&&!c.audio?{...c,audio:b.audio}:c});return {courses:clone(courses),wordbooks:clone(saved?saved.wordbooks:isDefault?wordbookEntries(bundledCatalog,DEFAULT_URL):[]),url:settings().url,updatedAt:saved?.updatedAt||null,offline:!url,cached:!!saved&&!refresh,fallback:!saved&&!isDefault,bundled:!saved&&isDefault};
  }
  async function download({id}={}){
   const entries=await list(),item=entries.courses.find(x=>x.id===id);if(!item)throw Error('找不到素材，请先刷新目录');
@@ -78,7 +82,10 @@ module.exports=function createCatalog({storage,request=requestBytes}={}){
   let audio=null;if(item.audio){const audioBytes=Buffer.from(await request(item.audio.url,{maxBytes:8*1024*1024,timeoutMs:60000}));if(audioBytes.length!==item.audio.bytes||crypto.createHash('sha256').update(audioBytes).digest('hex')!==item.audio.sha256)throw Error('配套音频校验失败，请刷新素材目录');audio=JSON.parse(audioBytes.toString('utf8'));require('./english-prepared-audio').validate(audio,lesson.sentences)}
   return {lesson,audio,catalog:{id:item.id,origin:item.origin,url:item.origin==='remote'?item.url:'',sourceUrl:item.origin==='remote'?entries.url:'',sha256:item.sha256,lessonId}};
  }
- return {settings,list,download,importURL:async url=>C.clean(parseBytes(await request(publicURL(url))))};
+ async function downloadWordbook({id}={}){
+  const entries=await list(),item=entries.wordbooks.find(x=>x.id===id);if(!item)throw Error('找不到单词素材，请先刷新目录');const bytes=Buffer.from(await request(item.url,{maxBytes:MAX_BYTES,timeoutMs:60000}));if(bytes.length>MAX_BYTES)throw Error('素材文件超过 2 MB');if(crypto.createHash('sha256').update(bytes).digest('hex')!==item.sha256)throw Error('单词素材校验失败，请刷新目录后重试');const raw=parseBytes(bytes);if(raw.format!=='research-english-wordbook-v1'||!Array.isArray(raw.words)||raw.words.length>20000)throw Error('单词素材格式无效');const {cleanRows,signature}=require('./english-wordbooks'),{words,duplicates}=cleanRows(raw.words.map(w=>[w.term,w.meaning,w.usphone||'',w.ukphone||'']));if(duplicates||words.length!==item.count||signature(words)!==item.contentHash)throw Error('单词素材词条与目录不一致');return {item,words};
+ }
+ return {settings,list,download,downloadWordbook,importURL:async url=>C.clean(parseBytes(await request(publicURL(url))))};
 };
 module.exports.publicURL=publicURL;
 module.exports.isPublicAddress=isPublicAddress;

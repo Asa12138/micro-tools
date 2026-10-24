@@ -30,7 +30,7 @@ function setup(records) {
 }
 const bootstrap = '<script>;(' + setup.toString() + ')(' + JSON.stringify(records).replace(/</g, '\\u003c') + ');</script>'
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8').replace('<main class="app">', '<main class="app"><p class="notice">本地界面测试 · AI 输出为模拟文案 · 期刊指标为本地真实快照</p>').replace('<script src="features/research/research-core.js">', bootstrap + '<script src="features/research/research-core.js">')
-const allow = new Set(['index.css','features/research/research.css','features/research/research-core.js','features/research/research-metrics.js','features/research/research-report.js','features/research/research-prompts.js','index.js','features/research/research-ui.js','assets/images/logo.png'])
+const allow = new Set(['shared/ai-connection.js','index.css','features/research/research.css','features/research/research-core.js','features/research/research-metrics.js','features/research/research-report.js','features/research/research-prompts.js','index.js','features/research/research-ui.js','assets/images/logo.png'])
 http.createServer((req, res) => {
   const name = new URL(req.url, 'http://127.0.0.1').pathname.slice(1)
   if (!name || name === 'index.html') { res.setHeader('Content-Type', 'text/html;charset=utf-8'); res.end(html); return }

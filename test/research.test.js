@@ -133,7 +133,7 @@ async function main() {
   const anchorClick = w.HTMLAnchorElement.prototype.click
   w.HTMLAnchorElement.prototype.click = function () { if (!this.download) anchorClick.call(this) }
   w.journalApi = journalApi
-  w.researchApi = { reportAssets: () => assets, getSettings: () => ({ mode: 'host', protocol: 'openai', provider: 'custom', baseUrl: '', model: '', hostModel: '', hasKey: false, hostAvailable: true }), models: async () => [], saveSettings: () => ({ hasKey: false, persisted: true }), cancel() { if (cancelReject) cancelReject(new Error('已停止分析。')) }, async call(messages) {
+  w.researchApi = { checkAvailability: async () => ({ok:true,state:'ready',message:'Fixture connected'}), reportAssets: () => assets, getSettings: () => ({ mode: 'host', protocol: 'openai', provider: 'custom', baseUrl: '', model: '', hostModel: '', hasKey: false, hostAvailable: true }), models: async () => [], saveSettings: () => ({ hasKey: false, persisted: true }), cancel() { if (cancelReject) cancelReject(new Error('已停止分析。')) }, async call(messages) {
     if (failureMode === 'cancel') return new Promise((_, reject) => { cancelReject = reject })
     if (failureMode === 'json') return 'not JSON'
     requests.push(messages); calls++; const input = JSON.parse(messages[1].content)
@@ -141,7 +141,7 @@ async function main() {
     if (messages[0].content.includes('已核对期刊候选')) return JSON.stringify({ strategy: '匹配', recommendations: [{ id: input.candidates[0].id, tier: '优先比较', fit: '较高', reasons: ['主题'], concerns: [], to_verify: ['官网要求'] }, { id: 999999, tier: '优先比较' }, { id: input.candidates[0].id }], general_assessment: [{ id: input.candidates.find(c => c.is_general)?.id, decision: '入选', reason: '跨领域意义待核实' }, { id: 999999, reason: '不存在' }], checklist: [{ title: '检查稿型', detail: '官网核实' }], limitations: '仅摘要' })
     return JSON.stringify({ items: input.items.map(e => ({ id: e.id, kind: 'research', evidence: e.title.slice(0, 20), reason: '测试推断' })).concat([{ id: 999999, kind: 'review', evidence: 'fake' }]) })
   } }
-  for (const file of ['features/research/research-core.js', 'features/research/research-metrics.js', 'features/research/research-report.js', 'features/research/research-prompts.js', 'index.js', 'features/research/research-ui.js']) w.eval(fs.readFileSync(path.join(root, file), 'utf8'))
+  for (const file of ['features/research/research-core.js', 'features/research/research-metrics.js', 'features/research/research-report.js', 'features/research/research-prompts.js', 'index.js', 'shared/ai-connection.js', 'features/research/research-ui.js']) w.eval(fs.readFileSync(path.join(root, file), 'utf8'))
   check([...doc.querySelectorAll('#view-home [data-open]')].map(e => e.dataset.open).join() === 'journal,submission,literature,english,database', 'homepage card order')
   doc.querySelector('[data-open="submission"]').click()
   check(!get('view-submission').hidden && get('view-home').hidden, 'submission routing')
@@ -174,7 +174,7 @@ async function main() {
   get('exportSubmission').click(); check(exported.length === 1, 'submission report download')
   failureMode = 'json'; event('submissionForm', 'submit'); await until(() => get('submissionStatus').textContent.includes('完整 JSON'))
   check(!get('submissionRun').disabled, 'invalid JSON returns to usable form')
-  failureMode = 'cancel'; event('submissionForm', 'submit'); get('submissionCancel').click(); await until(() => get('submissionStatus').textContent.includes('停止'))
+  failureMode = 'cancel'; event('submissionForm', 'submit'); await until(() => !get('submissionCancel').hidden); get('submissionCancel').click(); await until(() => get('submissionStatus').textContent.includes('停止'))
   check(!get('submissionRun').disabled && get('submissionCancel').hidden, 'cancellation releases UI')
   failureMode = false
   get('backBtn').click(); doc.querySelector('[data-open="literature"]').click()

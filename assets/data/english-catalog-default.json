@@ -73,5 +73,16 @@
         "count": 60
       }
     }
+  ],
+  "wordbooks": [
+    {
+      "id": "monash-biomedical-cn",
+      "title": "Monash 生物医学词表 · 中英",
+      "description": "生物医学中英词汇，含原表英美音标。已合并 17 个重复词条。",
+      "count": 3290,
+      "url": "v1/wordbooks/monash-biomedical-cn.json",
+      "sha256": "d57f598b43eeeebba2186a68ddb864f054845fdc721dd02951eada0e92b07d60",
+      "contentHash": "ece9c71b05cfff5117a1ddc2db08146a36db8e0baf9446a71d38cdfd811b105e"
+    }
   ]
 }
