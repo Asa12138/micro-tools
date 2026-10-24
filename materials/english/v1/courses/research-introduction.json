@@ -1,0 +1,803 @@
+{
+  "title": "研究介绍：从核心问题到下一步计划",
+  "domain": "communication",
+  "description": "20 句原创练习表达，从研究兴趣、问题设计和分析计划，练到结果解读、局限与合作目标。请按真实经历使用，计划句仅在符合自己的安排时使用。",
+  "level": "B1/B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "My research interests lie at the intersection of ecology and bioinformatics.",
+      "zh": "我的研究兴趣位于生态学与生物信息学的交叉领域。",
+      "note": "lie at the intersection of 用于介绍两个领域交叉处的研究定位；interests 作复数主语。",
+      "quote": "",
+      "question": "Which ecological question would benefit most from your computational skills?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My research interests",
+          "zh": "我的研究兴趣"
+        },
+        {
+          "role": "谓语",
+          "en": "lie",
+          "zh": "在于"
+        },
+        {
+          "role": "介词短语",
+          "en": "at the intersection",
+          "zh": "交叉领域"
+        },
+        {
+          "role": "介词短语",
+          "en": "of ecology and bioinformatics",
+          "zh": "生态学与生物信息学的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "intersection",
+          "ipa": "ˌɪntərˈsekʃən",
+          "meaning": "交叉点；交叉领域"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I am interested in how microbial communities respond to environmental change.",
+      "zh": "我关注微生物群落如何响应环境变化。",
+      "note": "be interested in 后可接 how 引导的从句；respond to 表示对某种变化作出响应。",
+      "quote": "",
+      "question": "Which environmental change is central to your current research?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "am interested in",
+          "zh": "关注"
+        },
+        {
+          "role": "宾语",
+          "en": "how microbial communities respond",
+          "zh": "微生物群落如何响应"
+        },
+        {
+          "role": "介词短语",
+          "en": "to environmental change",
+          "zh": "环境变化"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "respond",
+          "ipa": "rɪˈspɑːnd",
+          "meaning": "响应；作出反应"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My broader goal is to connect community patterns with ecological processes.",
+      "zh": "我更长远的目标是把群落格局与生态过程联系起来。",
+      "note": "goal is to 后用动词原形陈述目标；connect A with B 清楚标出希望建立联系的两方面。",
+      "quote": "",
+      "question": "Which ecological process could explain a pattern in your data?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My broader goal",
+          "zh": "我更长远的目标"
+        },
+        {
+          "role": "系动词",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "表语",
+          "en": "to connect community patterns",
+          "zh": "把群落格局联系起来"
+        },
+        {
+          "role": "介词短语",
+          "en": "with ecological processes",
+          "zh": "与生态过程"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "pattern",
+          "ipa": "ˈpætərn",
+          "meaning": "格局；模式"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The starting point is a biological question rather than a particular software package.",
+      "zh": "研究的出发点是生物学问题，而非某个特定的软件包。",
+      "note": "rather than 在这里对比两个名词短语，适合解释研究设计的优先顺序。",
+      "quote": "",
+      "question": "How would you state your biological question without naming any software?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The starting point",
+          "zh": "出发点"
+        },
+        {
+          "role": "系动词",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "表语",
+          "en": "a biological question",
+          "zh": "一个生物学问题"
+        },
+        {
+          "role": "对比补充",
+          "en": "rather than a particular software package",
+          "zh": "而非某个特定软件包"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "particular",
+          "ipa": "pərˈtɪkjələr",
+          "meaning": "特定的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would first define the comparison before choosing an analysis method.",
+      "zh": "我会先明确要进行什么比较，再选择分析方法。",
+      "note": "would 描述拟采用的做法；before 后接动名词 choosing，说明分析决策的顺序。",
+      "quote": "",
+      "question": "Which comparison would best address your main hypothesis?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would first define",
+          "zh": "会先明确"
+        },
+        {
+          "role": "宾语",
+          "en": "the comparison",
+          "zh": "比较对象"
+        },
+        {
+          "role": "时间状语",
+          "en": "before choosing an analysis method",
+          "zh": "然后再选择分析方法"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "comparison",
+          "ipa": "kəmˈpærɪsən",
+          "meaning": "比较"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The project could focus on differences between sites with contrasting soil properties.",
+      "zh": "这个项目可以聚焦于土壤性质不同的地点之间的差异。",
+      "note": "could focus on 表达可讨论的选题；with contrasting soil properties 修饰 sites。",
+      "quote": "",
+      "question": "Which soil property would guide your choice of comparison sites?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The project",
+          "zh": "这个项目"
+        },
+        {
+          "role": "谓语",
+          "en": "could focus on",
+          "zh": "可以聚焦于"
+        },
+        {
+          "role": "宾语",
+          "en": "differences between sites",
+          "zh": "地点间的差异"
+        },
+        {
+          "role": "介词短语",
+          "en": "with contrasting soil properties",
+          "zh": "具有不同土壤性质的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "contrasting",
+          "ipa": "kənˈtræstɪŋ",
+          "meaning": "对比鲜明的；不同的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A clear sampling strategy would help align the data with the research question.",
+      "zh": "清晰的采样策略将有助于使数据与研究问题相匹配。",
+      "note": "help 后可直接接动词原形；align A with B 表示使 A 与 B 对应或一致。",
+      "quote": "",
+      "question": "What sampling decision would most affect your ability to answer the question?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A clear sampling strategy",
+          "zh": "清晰的采样策略"
+        },
+        {
+          "role": "谓语",
+          "en": "would help",
+          "zh": "将有助于"
+        },
+        {
+          "role": "不定式补语",
+          "en": "align the data",
+          "zh": "使数据相匹配"
+        },
+        {
+          "role": "介词短语",
+          "en": "with the research question",
+          "zh": "与研究问题"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "strategy",
+          "ipa": "ˈstrætədʒi",
+          "meaning": "策略"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would document sample metadata before interpreting differences in microbial composition.",
+      "zh": "我会先记录样本元数据，再解读微生物组成上的差异。",
+      "note": "before interpreting 将记录元数据置于解释结果之前；composition 指群落由哪些成员构成。",
+      "quote": "",
+      "question": "Which metadata fields would be essential for your study?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would document",
+          "zh": "会记录"
+        },
+        {
+          "role": "宾语",
+          "en": "sample metadata",
+          "zh": "样本元数据"
+        },
+        {
+          "role": "时间状语",
+          "en": "before interpreting differences",
+          "zh": "在解读差异之前"
+        },
+        {
+          "role": "介词短语",
+          "en": "in microbial composition",
+          "zh": "微生物组成上的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "composition",
+          "ipa": "ˌkɑːmpəˈzɪʃən",
+          "meaning": "组成"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My analysis plan would include quality checks at each major processing step.",
+      "zh": "我的分析计划将在每个主要处理步骤中安排质量检查。",
+      "note": "would include 说明计划中的组成部分；at each 强调逐个步骤而非只在流程结尾检查。",
+      "quote": "",
+      "question": "Where would you place the most important quality check in your workflow?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My analysis plan",
+          "zh": "我的分析计划"
+        },
+        {
+          "role": "谓语",
+          "en": "would include",
+          "zh": "将包括"
+        },
+        {
+          "role": "宾语",
+          "en": "quality checks",
+          "zh": "质量检查"
+        },
+        {
+          "role": "介词短语",
+          "en": "at each major processing step",
+          "zh": "在每个主要处理步骤中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "quality",
+          "ipa": "ˈkwɑːləti",
+          "meaning": "质量"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would keep the analysis code separate from the original data files.",
+      "zh": "我会将分析代码与原始数据文件分开保存。",
+      "note": "keep A separate from B 用于说明文件组织方式；separate 在这里作形容词，读音以 /ət/ 结尾。",
+      "quote": "",
+      "question": "How would another researcher locate the code and data for your project?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would keep",
+          "zh": "会保留"
+        },
+        {
+          "role": "宾语",
+          "en": "the analysis code",
+          "zh": "分析代码"
+        },
+        {
+          "role": "宾语补足语",
+          "en": "separate from",
+          "zh": "与……分开"
+        },
+        {
+          "role": "介词宾语",
+          "en": "the original data files",
+          "zh": "原始数据文件"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "separate",
+          "ipa": "ˈsepərət",
+          "meaning": "分开的；独立的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The main figure should make the central comparison easy to understand at a glance.",
+      "zh": "主要结果图应让人一眼就能理解核心比较。",
+      "note": "make + 宾语 + 形容词描述呈现效果；at a glance 表示快速看一眼就能获得信息。",
+      "quote": "",
+      "question": "What single comparison should a reader notice first in your main figure?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The main figure",
+          "zh": "主要结果图"
+        },
+        {
+          "role": "谓语",
+          "en": "should make",
+          "zh": "应使"
+        },
+        {
+          "role": "宾语",
+          "en": "the central comparison",
+          "zh": "核心比较"
+        },
+        {
+          "role": "宾语补足语",
+          "en": "easy to understand",
+          "zh": "容易理解"
+        },
+        {
+          "role": "介词短语",
+          "en": "at a glance",
+          "zh": "一眼看去"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "central",
+          "ipa": "ˈsentrəl",
+          "meaning": "核心的；主要的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would explain the main finding before discussing the technical details.",
+      "zh": "我会先解释主要发现，再讨论技术细节。",
+      "note": "before discussing 帮助安排报告顺序；finding 指研究发现，使用时应替换为已有证据支持的具体结果。",
+      "quote": "",
+      "question": "How would you summarize one of your actual findings in a single sentence?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would explain",
+          "zh": "会解释"
+        },
+        {
+          "role": "宾语",
+          "en": "the main finding",
+          "zh": "主要发现"
+        },
+        {
+          "role": "时间状语",
+          "en": "before discussing",
+          "zh": "然后再讨论"
+        },
+        {
+          "role": "宾语",
+          "en": "the technical details",
+          "zh": "技术细节"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "finding",
+          "ipa": "ˈfaɪndɪŋ",
+          "meaning": "研究发现"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A useful explanation should link the observed pattern to the original question.",
+      "zh": "有用的解释应将观察到的格局与最初的研究问题联系起来。",
+      "note": "link A to B 把结果与问题对应起来；observed 强调这是数据中观察到的现象。",
+      "quote": "",
+      "question": "How does one pattern in your data address your original question?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A useful explanation",
+          "zh": "有用的解释"
+        },
+        {
+          "role": "谓语",
+          "en": "should link",
+          "zh": "应联系起来"
+        },
+        {
+          "role": "宾语",
+          "en": "the observed pattern",
+          "zh": "观察到的格局"
+        },
+        {
+          "role": "介词短语",
+          "en": "to the original question",
+          "zh": "与最初的问题"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "observed",
+          "ipa": "əbˈzɜːrvd",
+          "meaning": "观察到的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would distinguish statistical uncertainty from limitations in the study design.",
+      "zh": "我会区分统计不确定性与研究设计本身的局限。",
+      "note": "distinguish A from B 用来区分两类问题；uncertainty 不可数，不加不定冠词。",
+      "quote": "",
+      "question": "Which uncertainty could more data reduce, and which requires a different study design?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would distinguish",
+          "zh": "会区分"
+        },
+        {
+          "role": "宾语",
+          "en": "statistical uncertainty",
+          "zh": "统计不确定性"
+        },
+        {
+          "role": "介词短语",
+          "en": "from limitations",
+          "zh": "与局限"
+        },
+        {
+          "role": "介词短语",
+          "en": "in the study design",
+          "zh": "研究设计中的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "uncertainty",
+          "ipa": "ʌnˈsɜːrtənti",
+          "meaning": "不确定性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "An association would motivate further investigation without establishing a causal mechanism.",
+      "zh": "关联可以推动进一步研究，但并不能确立因果机制。",
+      "note": "without 后接 establishing，限定关联能够支持的结论；would 在这里表示假设情形。",
+      "quote": "",
+      "question": "What additional evidence would help you investigate a proposed mechanism?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "An association",
+          "zh": "关联"
+        },
+        {
+          "role": "谓语",
+          "en": "would motivate",
+          "zh": "可推动"
+        },
+        {
+          "role": "宾语",
+          "en": "further investigation",
+          "zh": "进一步研究"
+        },
+        {
+          "role": "状语",
+          "en": "without establishing",
+          "zh": "但并未确立"
+        },
+        {
+          "role": "宾语",
+          "en": "a causal mechanism",
+          "zh": "因果机制"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "association",
+          "ipa": "əˌsoʊsiˈeɪʃən",
+          "meaning": "关联"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The next step would depend on which alternative explanations remain plausible.",
+      "zh": "下一步将取决于哪些其他解释仍然合理。",
+      "note": "depend on 后接 which 引导的从句；remain plausible 表示某种解释尚不能被现有证据排除。",
+      "quote": "",
+      "question": "Which alternative explanation would you examine before extending the project?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The next step",
+          "zh": "下一步"
+        },
+        {
+          "role": "谓语",
+          "en": "would depend on",
+          "zh": "将取决于"
+        },
+        {
+          "role": "从句主语",
+          "en": "which alternative explanations",
+          "zh": "哪些其他解释"
+        },
+        {
+          "role": "从句谓语",
+          "en": "remain plausible",
+          "zh": "仍然合理"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "plausible",
+          "ipa": "ˈplɔːzəbəl",
+          "meaning": "合理的；说得通的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I hope to develop stronger skills in connecting computational results with biological reasoning.",
+      "zh": "我希望提升将计算结果与生物学推理联系起来的能力。",
+      "note": "hope to 表达发展目标；skills in 后接动名词，说明希望加强的具体能力。",
+      "quote": "",
+      "question": "Which biological interpretation has challenged you most in your research?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "hope to develop",
+          "zh": "希望培养"
+        },
+        {
+          "role": "宾语",
+          "en": "stronger skills",
+          "zh": "更扎实的技能"
+        },
+        {
+          "role": "介词短语",
+          "en": "in connecting computational results",
+          "zh": "在联系计算结果方面"
+        },
+        {
+          "role": "介词短语",
+          "en": "with biological reasoning",
+          "zh": "与生物学推理"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "reasoning",
+          "ipa": "ˈriːzənɪŋ",
+          "meaning": "推理"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Working with ecologists could help me refine the biological interpretation of these patterns.",
+      "zh": "与生态学家合作可以帮助我完善对这些格局的生物学解释。",
+      "note": "动名词短语 Working with ecologists 作主语；refine 表示在已有理解上进一步完善。",
+      "quote": "",
+      "question": "What question would you bring to a collaborator with ecological expertise?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Working with ecologists",
+          "zh": "与生态学家合作"
+        },
+        {
+          "role": "谓语",
+          "en": "could help",
+          "zh": "可以帮助"
+        },
+        {
+          "role": "宾语",
+          "en": "me",
+          "zh": "我"
+        },
+        {
+          "role": "宾语补足语",
+          "en": "refine the biological interpretation",
+          "zh": "完善生物学解释"
+        },
+        {
+          "role": "介词短语",
+          "en": "of these patterns",
+          "zh": "对这些格局的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "refine",
+          "ipa": "rɪˈfaɪn",
+          "meaning": "完善；细化"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "For a general audience I would explain the question before introducing specialized terms.",
+      "zh": "面向非专业听众时，我会先说明研究问题，再介绍专业术语。",
+      "note": "句首 For a general audience 指定听众；specialized terms 表示某一领域的专业术语。",
+      "quote": "",
+      "question": "How would you describe your project to a friend outside biology?",
+      "chunks": [
+        {
+          "role": "对象状语",
+          "en": "For a general audience",
+          "zh": "面向非专业听众"
+        },
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would explain",
+          "zh": "会解释"
+        },
+        {
+          "role": "宾语",
+          "en": "the question",
+          "zh": "研究问题"
+        },
+        {
+          "role": "时间状语",
+          "en": "before introducing specialized terms",
+          "zh": "再引入专业术语"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "audience",
+          "ipa": "ˈɔːdiəns",
+          "meaning": "听众；观众"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would end my introduction with one question that invites further discussion.",
+      "zh": "我会在介绍的结尾提出一个问题，邀请对方进一步讨论。",
+      "note": "end A with B 表示用 B 收尾；that invites further discussion 修饰 question。",
+      "quote": "",
+      "question": "Which question could connect your research interests with those of a potential host lab?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would end",
+          "zh": "会结束"
+        },
+        {
+          "role": "宾语",
+          "en": "my introduction",
+          "zh": "自我介绍"
+        },
+        {
+          "role": "介词短语",
+          "en": "with one question",
+          "zh": "以一个问题"
+        },
+        {
+          "role": "定语从句",
+          "en": "that invites further discussion",
+          "zh": "能够引出进一步讨论的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "discussion",
+          "ipa": "dɪˈskʌʃən",
+          "meaning": "讨论"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

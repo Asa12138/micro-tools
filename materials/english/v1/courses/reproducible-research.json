@@ -1,0 +1,748 @@
+{
+  "title": "可复现研究 · 代码、记录与协作",
+  "domain": "methods",
+  "description": "原创练习，按实际项目使用。20 句练习解释版本、运行环境、工作流记录、数据完整性、文档和隐私保护。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "A reproducible project records how each output was created.",
+      "zh": "可复现的项目会记录每项输出是如何生成的。",
+      "note": "how 引导宾语从句；was created 使用被动语态，将重点放在输出的生成过程上。",
+      "quote": "",
+      "question": "What information would let another researcher recreate your main figure?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A reproducible project",
+          "zh": "可复现的项目"
+        },
+        {
+          "role": "谓语",
+          "en": "records",
+          "zh": "记录"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how each output was created",
+          "zh": "每项输出如何生成"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "output",
+          "ipa": "ˈaʊtpʊt",
+          "meaning": "输出"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Version control helps collaborators track changes to the analysis code.",
+      "zh": "版本控制帮助协作者追踪分析代码的变化。",
+      "note": "help someone do 表示帮助完成某事；changes to 指针对某对象的修改。",
+      "quote": "",
+      "question": "Which changes would you describe in a useful commit message?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Version control",
+          "zh": "版本控制"
+        },
+        {
+          "role": "谓语",
+          "en": "helps",
+          "zh": "帮助"
+        },
+        {
+          "role": "宾语",
+          "en": "collaborators",
+          "zh": "协作者"
+        },
+        {
+          "role": "宾补",
+          "en": "track changes",
+          "zh": "追踪变化"
+        },
+        {
+          "role": "介词短语",
+          "en": "to the analysis code",
+          "zh": "分析代码的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "track",
+          "ipa": "træk",
+          "meaning": "追踪"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Each release should identify the code version used for analysis.",
+      "zh": "每次发布都应注明分析所使用的代码版本。",
+      "note": "used for analysis 是过去分词短语，修饰 code version；identify 表示明确指出。",
+      "quote": "",
+      "question": "How would a reader find the exact code version behind your results?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Each release",
+          "zh": "每次发布"
+        },
+        {
+          "role": "谓语",
+          "en": "should identify",
+          "zh": "应注明"
+        },
+        {
+          "role": "宾语",
+          "en": "the code version",
+          "zh": "代码版本"
+        },
+        {
+          "role": "后置定语",
+          "en": "used for analysis",
+          "zh": "用于分析的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "release",
+          "ipa": "rɪˈliːs",
+          "meaning": "发布；版本发布"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "An environment file lists the dependencies needed to run the workflow.",
+      "zh": "环境文件列出了运行该流程所需的依赖项。",
+      "note": "needed to run 是过去分词短语，修饰 dependencies；environment file 指可保存的软件环境描述。",
+      "quote": "",
+      "question": "What dependencies belong in your environment file?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "An environment file",
+          "zh": "环境文件"
+        },
+        {
+          "role": "谓语",
+          "en": "lists",
+          "zh": "列出"
+        },
+        {
+          "role": "宾语",
+          "en": "the dependencies",
+          "zh": "依赖项"
+        },
+        {
+          "role": "后置定语",
+          "en": "needed to run the workflow",
+          "zh": "运行该流程所需的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "dependency",
+          "ipa": "dɪˈpendənsi",
+          "meaning": "依赖项"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Pinned versions reduce unexpected changes caused by software updates.",
+      "zh": "固定版本可以减少软件更新带来的意外变化。",
+      "note": "caused by 是过去分词短语，解释变化的来源；reduce 不表示完全消除兼容性问题。",
+      "quote": "",
+      "question": "When would you update a pinned software dependency?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Pinned versions",
+          "zh": "固定的版本"
+        },
+        {
+          "role": "谓语",
+          "en": "reduce",
+          "zh": "减少"
+        },
+        {
+          "role": "宾语",
+          "en": "unexpected changes",
+          "zh": "意外变化"
+        },
+        {
+          "role": "后置定语",
+          "en": "caused by software updates",
+          "zh": "由软件更新引起的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "unexpected",
+          "ipa": "ˌʌnɪkˈspektɪd",
+          "meaning": "意外的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A random seed helps reproduce stochastic steps under compatible conditions.",
+      "zh": "在兼容条件下，随机种子有助于复现随机步骤。",
+      "note": "under compatible conditions 保留软件及硬件环境等条件；helps 不把种子等同于完整的复现保证。",
+      "quote": "",
+      "question": "Why might the same random seed still produce different outputs?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A random seed",
+          "zh": "随机种子"
+        },
+        {
+          "role": "谓语",
+          "en": "helps reproduce",
+          "zh": "有助于复现"
+        },
+        {
+          "role": "宾语",
+          "en": "stochastic steps",
+          "zh": "随机步骤"
+        },
+        {
+          "role": "条件状语",
+          "en": "under compatible conditions",
+          "zh": "在兼容条件下"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "compatible",
+          "ipa": "kəmˈpætəbəl",
+          "meaning": "兼容的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Raw inputs should remain unchanged throughout the analysis process.",
+      "zh": "在整个分析过程中，原始输入应保持不变。",
+      "note": "remain unchanged 表示保持原状；throughout 强调整个过程都应如此。",
+      "quote": "",
+      "question": "How do you distinguish original inputs from processed data?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Raw inputs",
+          "zh": "原始输入"
+        },
+        {
+          "role": "谓语",
+          "en": "should remain",
+          "zh": "应保持"
+        },
+        {
+          "role": "表语",
+          "en": "unchanged",
+          "zh": "不变"
+        },
+        {
+          "role": "时间状语",
+          "en": "throughout the analysis process",
+          "zh": "在整个分析过程中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "raw",
+          "ipa": "rɔː",
+          "meaning": "原始的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Checksums help detect whether a file has changed during transfer.",
+      "zh": "校验和有助于发现文件是否在传输过程中发生变化。",
+      "note": "whether 引出待确认的问题；has changed 使用现在完成时，关注传输后的文件状态。",
+      "quote": "",
+      "question": "When would you compare file checksums in your workflow?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Checksums",
+          "zh": "校验和"
+        },
+        {
+          "role": "谓语",
+          "en": "help detect",
+          "zh": "有助于发现"
+        },
+        {
+          "role": "宾语从句",
+          "en": "whether a file has changed",
+          "zh": "文件是否发生变化"
+        },
+        {
+          "role": "时间状语",
+          "en": "during transfer",
+          "zh": "在传输过程中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "transfer",
+          "ipa": "ˈtrænsfər",
+          "meaning": "传输"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Clear file names make intermediate results easier to locate.",
+      "zh": "清晰的文件名让中间结果更容易找到。",
+      "note": "make something easier to do 表达改善操作体验；intermediate results 指非最终输出。",
+      "quote": "",
+      "question": "What information should an intermediate file name convey?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Clear file names",
+          "zh": "清晰的文件名"
+        },
+        {
+          "role": "谓语",
+          "en": "make",
+          "zh": "使"
+        },
+        {
+          "role": "宾语",
+          "en": "intermediate results",
+          "zh": "中间结果"
+        },
+        {
+          "role": "宾补",
+          "en": "easier to locate",
+          "zh": "更容易找到"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "locate",
+          "ipa": "ˈloʊkeɪt",
+          "meaning": "找到；定位"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Relative paths make a project easier to move between computers.",
+      "zh": "相对路径让项目更容易在不同电脑之间迁移。",
+      "note": "easier to move 表示更易迁移；between computers 说明迁移的环境范围。",
+      "quote": "",
+      "question": "Which absolute paths would you replace before sharing your project?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Relative paths",
+          "zh": "相对路径"
+        },
+        {
+          "role": "谓语",
+          "en": "make",
+          "zh": "使"
+        },
+        {
+          "role": "宾语",
+          "en": "a project",
+          "zh": "项目"
+        },
+        {
+          "role": "宾补",
+          "en": "easier to move",
+          "zh": "更易迁移"
+        },
+        {
+          "role": "介词短语",
+          "en": "between computers",
+          "zh": "在不同电脑之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "relative",
+          "ipa": "ˈrelətɪv",
+          "meaning": "相对的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Configuration files separate adjustable settings from the core analysis logic.",
+      "zh": "配置文件将可调整的设置与核心分析逻辑分开。",
+      "note": "separate A from B 表示分离两类内容；adjustable 表示允许按任务调整。",
+      "quote": "",
+      "question": "Which settings should a collaborator change without editing the code?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Configuration files",
+          "zh": "配置文件"
+        },
+        {
+          "role": "谓语",
+          "en": "separate",
+          "zh": "分开"
+        },
+        {
+          "role": "宾语",
+          "en": "adjustable settings",
+          "zh": "可调整的设置"
+        },
+        {
+          "role": "介词短语",
+          "en": "from the core analysis logic",
+          "zh": "与核心分析逻辑"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "adjustable",
+          "ipa": "əˈdʒʌstəbəl",
+          "meaning": "可调整的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Execution logs help explain where a workflow stopped unexpectedly.",
+      "zh": "运行日志有助于说明流程在什么位置意外停止。",
+      "note": "where 引导宾语从句，定位停止位置；unexpectedly 修饰 stopped。",
+      "quote": "",
+      "question": "Which log message would help you diagnose a failed run?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Execution logs",
+          "zh": "运行日志"
+        },
+        {
+          "role": "谓语",
+          "en": "help explain",
+          "zh": "有助于说明"
+        },
+        {
+          "role": "宾语从句",
+          "en": "where a workflow stopped unexpectedly",
+          "zh": "流程在何处意外停止"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "execution",
+          "ipa": "ˌeksɪˈkjuːʃən",
+          "meaning": "执行；运行"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Cached outputs must be refreshed when their relevant inputs change.",
+      "zh": "相关输入变化时，必须刷新缓存的输出。",
+      "note": "must be refreshed 使用被动语态；relevant inputs 明确只需关注影响该输出的输入。",
+      "quote": "",
+      "question": "How would you know that a cached result is outdated?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Cached outputs",
+          "zh": "缓存的输出"
+        },
+        {
+          "role": "谓语",
+          "en": "must be refreshed",
+          "zh": "必须刷新"
+        },
+        {
+          "role": "时间状语",
+          "en": "when their relevant inputs change",
+          "zh": "当其相关输入变化时"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "refresh",
+          "ipa": "rɪˈfreʃ",
+          "meaning": "刷新；更新"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A small test dataset can reveal broken steps quickly.",
+      "zh": "小型测试数据集能够帮助快速发现失效的步骤。",
+      "note": "can reveal 表示发现问题的能力；quickly 修饰 reveal，强调排查速度。",
+      "quote": "",
+      "question": "What should a useful test dataset cover?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A small test dataset",
+          "zh": "小型测试数据集"
+        },
+        {
+          "role": "谓语",
+          "en": "can reveal",
+          "zh": "可以发现"
+        },
+        {
+          "role": "宾语",
+          "en": "broken steps",
+          "zh": "失效的步骤"
+        },
+        {
+          "role": "方式状语",
+          "en": "quickly",
+          "zh": "快速地"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "reveal",
+          "ipa": "rɪˈviːl",
+          "meaning": "揭示；发现"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Documentation should explain both expected inputs and important failure conditions.",
+      "zh": "文档应同时说明预期输入和重要的失败条件。",
+      "note": "both A and B 并列两项内容；failure conditions 指可能导致流程无法完成的条件。",
+      "quote": "",
+      "question": "Which failure condition would you document for a new user?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Documentation",
+          "zh": "文档"
+        },
+        {
+          "role": "谓语",
+          "en": "should explain",
+          "zh": "应说明"
+        },
+        {
+          "role": "宾语",
+          "en": "both expected inputs",
+          "zh": "预期输入"
+        },
+        {
+          "role": "并列宾语",
+          "en": "and important failure conditions",
+          "zh": "以及重要的失败条件"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "documentation",
+          "ipa": "ˌdɑːkjəmenˈteɪʃən",
+          "meaning": "文档"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A data dictionary defines variables, units, and allowed values clearly.",
+      "zh": "数据字典清楚定义变量、单位及允许的取值。",
+      "note": "defines 后接并列宾语；allowed values 指合法类别或数值范围。",
+      "quote": "",
+      "question": "Which variable in your dataset most needs a clear definition?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A data dictionary",
+          "zh": "数据字典"
+        },
+        {
+          "role": "谓语",
+          "en": "defines",
+          "zh": "定义"
+        },
+        {
+          "role": "宾语",
+          "en": "variables, units, and allowed values",
+          "zh": "变量、单位及允许的取值"
+        },
+        {
+          "role": "方式状语",
+          "en": "clearly",
+          "zh": "清楚地"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "define",
+          "ipa": "dɪˈfaɪn",
+          "meaning": "定义"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Shared examples should avoid exposing private identifiers or access credentials.",
+      "zh": "共享示例应避免泄露私人标识信息或访问凭据。",
+      "note": "avoid 后接动名词 exposing；or 连接两类需要保护的信息。",
+      "quote": "",
+      "question": "What information would you remove before sharing an example?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Shared examples",
+          "zh": "共享示例"
+        },
+        {
+          "role": "谓语",
+          "en": "should avoid",
+          "zh": "应避免"
+        },
+        {
+          "role": "宾语",
+          "en": "exposing private identifiers",
+          "zh": "泄露私人标识信息"
+        },
+        {
+          "role": "并列宾语",
+          "en": "or access credentials",
+          "zh": "或访问凭据"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "credential",
+          "ipa": "krəˈdenʃəl",
+          "meaning": "凭据"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Access restrictions should follow the consent terms governing each dataset.",
+      "zh": "访问限制应遵循每个数据集所适用的知情同意条款。",
+      "note": "governing each dataset 是现在分词短语，修饰 consent terms；follow 表示遵循。",
+      "quote": "",
+      "question": "How would you explain a data access restriction to a collaborator?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Access restrictions",
+          "zh": "访问限制"
+        },
+        {
+          "role": "谓语",
+          "en": "should follow",
+          "zh": "应遵循"
+        },
+        {
+          "role": "宾语",
+          "en": "the consent terms",
+          "zh": "知情同意条款"
+        },
+        {
+          "role": "后置定语",
+          "en": "governing each dataset",
+          "zh": "适用于每个数据集的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "consent",
+          "ipa": "kənˈsent",
+          "meaning": "同意；知情同意"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A license tells others how they may reuse shared code.",
+      "zh": "许可证说明他人可以如何重用共享代码。",
+      "note": "tell someone how 引出操作方式；may 在这里表示许可，而非可能性。",
+      "quote": "",
+      "question": "Which reuse permissions should your code license explain?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A license",
+          "zh": "许可证"
+        },
+        {
+          "role": "谓语",
+          "en": "tells",
+          "zh": "告诉"
+        },
+        {
+          "role": "宾语",
+          "en": "others",
+          "zh": "他人"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how they may reuse shared code",
+          "zh": "可以如何重用共享代码"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "license",
+          "ipa": "ˈlaɪsəns",
+          "meaning": "许可证"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Independent reruns can uncover assumptions missing from the written instructions.",
+      "zh": "由他人独立重新运行，有助于发现书面说明遗漏的前提条件。",
+      "note": "missing from 是后置修饰语，修饰 assumptions；can uncover 表示可能发现。",
+      "quote": "",
+      "question": "What would you ask a colleague to check during an independent rerun?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Independent reruns",
+          "zh": "独立重新运行"
+        },
+        {
+          "role": "谓语",
+          "en": "can uncover",
+          "zh": "能够发现"
+        },
+        {
+          "role": "宾语",
+          "en": "assumptions",
+          "zh": "前提条件"
+        },
+        {
+          "role": "后置定语",
+          "en": "missing from the written instructions",
+          "zh": "书面说明中遗漏的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "uncover",
+          "ipa": "ʌnˈkʌvər",
+          "meaning": "发现；揭示"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

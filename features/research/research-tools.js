@@ -6,7 +6,7 @@ const C = require('./research-core')
 const M = require('./research-metrics')
 const P = require('./research-prompts')
 const makeReport = require('./research-agent-report')
-const declarations = require('./plugin.json').tools
+const declarations = require('../../plugin.json').tools
 const clone = value => JSON.parse(JSON.stringify(value))
 const sha = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex')
 const SESSION_TTL = 60 * 60 * 1000

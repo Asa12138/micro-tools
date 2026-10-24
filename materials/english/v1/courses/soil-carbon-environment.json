@@ -1,0 +1,753 @@
+{
+  "title": "土壤与环境 · 清楚说明空间设计",
+  "domain": "environment",
+  "description": "20 句原创科研英语练习，聚焦土壤碳、环境变量、采样尺度与空间比较。所有设计和研究表述均为练习模板，应按真实项目改写，不表示任何地区的实际研究结果。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "This project asks how soil properties vary across the study area.",
+      "zh": "本项目探讨土壤性质如何在研究区域内变化。",
+      "note": "asks how 将项目目标表述为研究问题；across the study area 明确空间范围。",
+      "quote": "",
+      "question": "Which soil property is central to your research question?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "This project",
+          "zh": "本项目"
+        },
+        {
+          "role": "谓语",
+          "en": "asks",
+          "zh": "探讨"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how soil properties",
+          "zh": "土壤性质如何"
+        },
+        {
+          "role": "从句谓语",
+          "en": "vary",
+          "zh": "变化"
+        },
+        {
+          "role": "范围",
+          "en": "across the study area.",
+          "zh": "在研究区域内"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "property",
+          "ipa": "ˈprɑːpərti",
+          "meaning": "性质；属性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Soil carbon concentration and carbon stock describe different quantities.",
+      "zh": "土壤碳浓度与碳储量描述的是不同的量。",
+      "note": "concentration 与 stock 分别对应浓度和储量；并列主语使用复数谓语 describe。",
+      "quote": "",
+      "question": "How would you distinguish carbon concentration from carbon stock?",
+      "chunks": [
+        {
+          "role": "并列主语",
+          "en": "Soil carbon concentration and carbon stock",
+          "zh": "土壤碳浓度与碳储量"
+        },
+        {
+          "role": "谓语",
+          "en": "describe",
+          "zh": "描述"
+        },
+        {
+          "role": "宾语",
+          "en": "different quantities.",
+          "zh": "不同的量"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "stock",
+          "ipa": "stɑːk",
+          "meaning": "储量"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Estimating a carbon stock requires information beyond carbon concentration alone.",
+      "zh": "估计碳储量需要碳浓度以外的信息。",
+      "note": "动名词短语作主语，谓语用 requires；beyond...alone 强调单一指标不够。",
+      "quote": "",
+      "question": "What additional information would a carbon stock estimate require?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Estimating a carbon stock",
+          "zh": "估计碳储量"
+        },
+        {
+          "role": "谓语",
+          "en": "requires",
+          "zh": "需要"
+        },
+        {
+          "role": "宾语",
+          "en": "information",
+          "zh": "信息"
+        },
+        {
+          "role": "介词短语",
+          "en": "beyond carbon concentration alone.",
+          "zh": "超出仅有的碳浓度"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "concentration",
+          "ipa": "ˌkɑːnsənˈtreɪʃən",
+          "meaning": "浓度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Sampling depth should be reported when comparing soil carbon measurements.",
+      "zh": "比较土壤碳测量值时，应报告采样深度。",
+      "note": "should be reported 是情态动词加被动结构；when comparing 引出适用情境。",
+      "quote": "",
+      "question": "How would different sampling depths affect the comparison?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Sampling depth",
+          "zh": "采样深度"
+        },
+        {
+          "role": "谓语",
+          "en": "should be reported",
+          "zh": "应被报告"
+        },
+        {
+          "role": "状语",
+          "en": "when comparing",
+          "zh": "在比较时"
+        },
+        {
+          "role": "宾语",
+          "en": "soil carbon measurements.",
+          "zh": "土壤碳测量值"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "depth",
+          "ipa": "depθ",
+          "meaning": "深度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Soil moisture can influence the interpretation of biological measurements.",
+      "zh": "土壤含水状况可能影响对生物学测量结果的解释。",
+      "note": "influence 直接接宾语；the interpretation of 指对何种结果进行解释。",
+      "quote": "",
+      "question": "Why would you record soil moisture alongside biological measurements?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Soil moisture",
+          "zh": "土壤含水状况"
+        },
+        {
+          "role": "谓语",
+          "en": "can influence",
+          "zh": "可能影响"
+        },
+        {
+          "role": "宾语",
+          "en": "the interpretation",
+          "zh": "解释"
+        },
+        {
+          "role": "定语",
+          "en": "of biological measurements.",
+          "zh": "对生物学测量结果的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "moisture",
+          "ipa": "ˈmɔɪstʃər",
+          "meaning": "水分；含水状况"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A temperature gradient may coincide with changes in vegetation and soil texture.",
+      "zh": "温度梯度可能同时伴随植被和土壤质地的变化。",
+      "note": "coincide with 表示共同出现，不直接指定因果方向。",
+      "quote": "",
+      "question": "Which variables might change together along your environmental gradient?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A temperature gradient",
+          "zh": "温度梯度"
+        },
+        {
+          "role": "谓语",
+          "en": "may coincide",
+          "zh": "可能同时出现"
+        },
+        {
+          "role": "介词短语",
+          "en": "with changes",
+          "zh": "与变化"
+        },
+        {
+          "role": "定语",
+          "en": "in vegetation and soil texture.",
+          "zh": "植被与土壤质地方面的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "gradient",
+          "ipa": "ˈɡreɪdiənt",
+          "meaning": "梯度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Correlated environmental variables can make individual effects difficult to distinguish.",
+      "zh": "彼此相关的环境变量可能使各自的效应难以区分。",
+      "note": "make 加宾语和形容词补语；difficult to distinguish 说明分析难点。",
+      "quote": "",
+      "question": "How would you explain correlated predictors to a collaborator?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Correlated environmental variables",
+          "zh": "彼此相关的环境变量"
+        },
+        {
+          "role": "谓语",
+          "en": "can make",
+          "zh": "可能使"
+        },
+        {
+          "role": "宾语",
+          "en": "individual effects",
+          "zh": "各自的效应"
+        },
+        {
+          "role": "宾补",
+          "en": "difficult to distinguish.",
+          "zh": "难以区分"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "distinguish",
+          "ipa": "dɪˈstɪŋɡwɪʃ",
+          "meaning": "区分"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The study design should specify the spatial scale of each comparison.",
+      "zh": "研究设计应明确每项比较的空间尺度。",
+      "note": "specify 表示给出明确界定；of each comparison 将尺度对应到具体比较。",
+      "quote": "",
+      "question": "At what spatial scale does your main comparison operate?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The study design",
+          "zh": "研究设计"
+        },
+        {
+          "role": "谓语",
+          "en": "should specify",
+          "zh": "应明确"
+        },
+        {
+          "role": "宾语",
+          "en": "the spatial scale",
+          "zh": "空间尺度"
+        },
+        {
+          "role": "定语",
+          "en": "of each comparison.",
+          "zh": "每项比较的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "scale",
+          "ipa": "skeɪl",
+          "meaning": "尺度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Nearby sampling locations may share environmental features that influence measured responses.",
+      "zh": "邻近采样地点可能具有共同的环境特征，从而影响测量到的响应。",
+      "note": "that 引导定语从句修饰 features；may share 保留对具体地点的条件性判断。",
+      "quote": "",
+      "question": "Which shared features might connect nearby sampling locations?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Nearby sampling locations",
+          "zh": "邻近的采样地点"
+        },
+        {
+          "role": "谓语",
+          "en": "may share",
+          "zh": "可能具有共同的"
+        },
+        {
+          "role": "宾语",
+          "en": "environmental features",
+          "zh": "环境特征"
+        },
+        {
+          "role": "定语",
+          "en": "that influence measured responses.",
+          "zh": "影响测量响应的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "feature",
+          "ipa": "ˈfiːtʃər",
+          "meaning": "特征"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Replicate measurements within one plot do not automatically provide independent site replication.",
+      "zh": "同一样地内的重复测量并不自动构成独立的地点重复。",
+      "note": "do not automatically 区分测量重复与设计层面的独立重复；within 明确嵌套关系。",
+      "quote": "",
+      "question": "What is the independent sampling unit in your study?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Replicate measurements",
+          "zh": "重复测量"
+        },
+        {
+          "role": "定语",
+          "en": "within one plot",
+          "zh": "在同一样地内的"
+        },
+        {
+          "role": "谓语",
+          "en": "do not automatically provide",
+          "zh": "并不自动提供"
+        },
+        {
+          "role": "宾语",
+          "en": "independent site replication.",
+          "zh": "独立的地点重复"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "replicate",
+          "ipa": "ˈreplɪkət",
+          "meaning": "重复的；重复样本"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "We should distinguish spatial contrasts from changes measured through time.",
+      "zh": "我们应区分空间对比和随时间测得的变化。",
+      "note": "distinguish A from B 明确区分两种证据；through time 表示沿时间展开。",
+      "quote": "",
+      "question": "Why might a spatial contrast differ from a temporal change?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "We",
+          "zh": "我们"
+        },
+        {
+          "role": "谓语",
+          "en": "should distinguish",
+          "zh": "应区分"
+        },
+        {
+          "role": "宾语",
+          "en": "spatial contrasts",
+          "zh": "空间对比"
+        },
+        {
+          "role": "介词短语",
+          "en": "from changes measured through time.",
+          "zh": "与随时间测得的变化"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "contrast",
+          "ipa": "ˈkɑːntræst",
+          "meaning": "对比；差异"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A single sampling campaign cannot capture every aspect of seasonal variability.",
+      "zh": "一次采样调查无法涵盖季节变异的所有方面。",
+      "note": "cannot capture every aspect 指覆盖范围有限；campaign 在科研语境中可指集中调查。",
+      "quote": "",
+      "question": "Which seasonal changes could a single survey miss?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A single sampling campaign",
+          "zh": "一次采样调查"
+        },
+        {
+          "role": "谓语",
+          "en": "cannot capture",
+          "zh": "无法涵盖"
+        },
+        {
+          "role": "宾语",
+          "en": "every aspect",
+          "zh": "所有方面"
+        },
+        {
+          "role": "定语",
+          "en": "of seasonal variability.",
+          "zh": "季节变异的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "variability",
+          "ipa": "ˌveriəˈbɪləti",
+          "meaning": "变异性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Carbon measurements should be interpreted alongside information about soil conditions.",
+      "zh": "解释碳测量结果时，应结合土壤条件的信息。",
+      "note": "alongside information about 表示将背景信息纳入解释，而非单独看一个数值。",
+      "quote": "",
+      "question": "Which soil conditions would help interpret your carbon measurements?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Carbon measurements",
+          "zh": "碳测量结果"
+        },
+        {
+          "role": "谓语",
+          "en": "should be interpreted",
+          "zh": "应被解释"
+        },
+        {
+          "role": "介词短语",
+          "en": "alongside information",
+          "zh": "结合信息"
+        },
+        {
+          "role": "定语",
+          "en": "about soil conditions.",
+          "zh": "关于土壤条件的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "alongside",
+          "ipa": "əˌlɔːŋˈsaɪd",
+          "meaning": "与……一起；结合"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The observed association may reflect several environmental processes acting together.",
+      "zh": "观测到的关联可能反映多种环境过程的共同作用。",
+      "note": "acting together 是现在分词短语，修饰 processes；may reflect 保留多种解释。",
+      "quote": "",
+      "question": "What alternative processes could explain the same association?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The observed association",
+          "zh": "观测到的关联"
+        },
+        {
+          "role": "谓语",
+          "en": "may reflect",
+          "zh": "可能反映"
+        },
+        {
+          "role": "宾语",
+          "en": "several environmental processes",
+          "zh": "多种环境过程"
+        },
+        {
+          "role": "补充",
+          "en": "acting together.",
+          "zh": "共同作用"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "process",
+          "ipa": "ˈprɑːses",
+          "meaning": "过程"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A map helps readers understand the sampling coverage across the landscape.",
+      "zh": "地图帮助读者理解景观中的采样覆盖范围。",
+      "note": "help someone do 可省略 to；coverage 强调采样覆盖了哪些区域。",
+      "quote": "",
+      "question": "What should your sampling map make immediately clear?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A map",
+          "zh": "地图"
+        },
+        {
+          "role": "谓语",
+          "en": "helps readers understand",
+          "zh": "帮助读者理解"
+        },
+        {
+          "role": "宾语",
+          "en": "the sampling coverage",
+          "zh": "采样覆盖范围"
+        },
+        {
+          "role": "范围",
+          "en": "across the landscape.",
+          "zh": "在整个景观中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "coverage",
+          "ipa": "ˈkʌvərɪdʒ",
+          "meaning": "覆盖范围"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Unsampled areas may differ from the locations included in the analysis.",
+      "zh": "未采样区域可能不同于纳入分析的地点。",
+      "note": "differ from 用于比较；included in 为过去分词短语，限定分析范围。",
+      "quote": "",
+      "question": "How would you describe the limits of your geographic coverage?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Unsampled areas",
+          "zh": "未采样区域"
+        },
+        {
+          "role": "谓语",
+          "en": "may differ",
+          "zh": "可能不同"
+        },
+        {
+          "role": "介词短语",
+          "en": "from the locations",
+          "zh": "与那些地点"
+        },
+        {
+          "role": "定语",
+          "en": "included in the analysis.",
+          "zh": "纳入分析的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "location",
+          "ipa": "loʊˈkeɪʃən",
+          "meaning": "地点"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Our conclusions should match the environmental range represented by the samples.",
+      "zh": "我们的结论应与样本代表的环境范围相匹配。",
+      "note": "match 强调结论范围与数据范围一致；represented by 说明范围来自哪些样本。",
+      "quote": "",
+      "question": "Which environments are represented poorly in your dataset?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Our conclusions",
+          "zh": "我们的结论"
+        },
+        {
+          "role": "谓语",
+          "en": "should match",
+          "zh": "应匹配"
+        },
+        {
+          "role": "宾语",
+          "en": "the environmental range",
+          "zh": "环境范围"
+        },
+        {
+          "role": "定语",
+          "en": "represented by the samples.",
+          "zh": "由样本代表的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "range",
+          "ipa": "reɪndʒ",
+          "meaning": "范围"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Historical land use may help explain present differences between sampling sites.",
+      "zh": "历史土地利用可能有助于解释采样地点之间当前的差异。",
+      "note": "may help explain 表示可能贡献解释，而非唯一原因；present 此处作形容词。",
+      "quote": "",
+      "question": "What historical information would be useful for interpreting your sites?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Historical land use",
+          "zh": "历史土地利用"
+        },
+        {
+          "role": "谓语",
+          "en": "may help explain",
+          "zh": "可能有助于解释"
+        },
+        {
+          "role": "宾语",
+          "en": "present differences",
+          "zh": "当前的差异"
+        },
+        {
+          "role": "范围",
+          "en": "between sampling sites.",
+          "zh": "在采样地点之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "historical",
+          "ipa": "hɪˈstɔːrɪkəl",
+          "meaning": "历史的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Reporting measurement units makes soil datasets easier to compare and reuse.",
+      "zh": "报告测量单位会使土壤数据集更便于比较和复用。",
+      "note": "动名词 Reporting 作主语；make something easier to do 表达提高可用性。",
+      "quote": "",
+      "question": "Which unit conversions would you check before combining datasets?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Reporting measurement units",
+          "zh": "报告测量单位"
+        },
+        {
+          "role": "谓语",
+          "en": "makes",
+          "zh": "使"
+        },
+        {
+          "role": "宾语",
+          "en": "soil datasets",
+          "zh": "土壤数据集"
+        },
+        {
+          "role": "宾补",
+          "en": "easier to compare and reuse.",
+          "zh": "更便于比较和复用"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "unit",
+          "ipa": "ˈjuːnɪt",
+          "meaning": "单位"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A stronger follow-up study would address the most important uncertainty in our interpretation.",
+      "zh": "更有针对性的后续研究应处理当前解释中最重要的不确定性。",
+      "note": "would address 用于讨论拟议研究；in our interpretation 明确不确定性所在。",
+      "quote": "",
+      "question": "Which uncertainty would you prioritize in a follow-up study?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A stronger follow-up study",
+          "zh": "更有针对性的后续研究"
+        },
+        {
+          "role": "谓语",
+          "en": "would address",
+          "zh": "将处理"
+        },
+        {
+          "role": "宾语",
+          "en": "the most important uncertainty",
+          "zh": "最重要的不确定性"
+        },
+        {
+          "role": "范围",
+          "en": "in our interpretation.",
+          "zh": "在我们的解释中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "address",
+          "ipa": "əˈdres",
+          "meaning": "处理；回应"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

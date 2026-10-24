@@ -1,0 +1,753 @@
+{
+  "title": "统计表达 · 效应、不确定性与证据",
+  "domain": "methods",
+  "description": "原创练习，按实际项目使用。20 句练习解释效应量、区间、统计检验、缺失数据、混杂与因果措辞。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "An effect estimate describes the magnitude of a measured difference.",
+      "zh": "效应估计用于描述所测差异的大小。",
+      "note": "the magnitude of 表示某种差异或效应的大小；estimate 强调它是估计值。",
+      "quote": "",
+      "question": "Which effect estimate best answers your research question?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "An effect estimate",
+          "zh": "效应估计"
+        },
+        {
+          "role": "谓语",
+          "en": "describes",
+          "zh": "描述"
+        },
+        {
+          "role": "宾语",
+          "en": "the magnitude",
+          "zh": "大小"
+        },
+        {
+          "role": "介词短语",
+          "en": "of a measured difference",
+          "zh": "所测差异的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "magnitude",
+          "ipa": "ˈmæɡnətuːd",
+          "meaning": "大小；量级"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Uncertainty intervals help readers judge the precision of an estimate.",
+      "zh": "不确定性区间有助于读者判断估计的精确程度。",
+      "note": "help readers judge 表达工具的用途；precision 关注估计的不确定程度，与 accuracy 含义不同。",
+      "quote": "",
+      "question": "How would you explain a wide uncertainty interval?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Uncertainty intervals",
+          "zh": "不确定性区间"
+        },
+        {
+          "role": "谓语",
+          "en": "help",
+          "zh": "帮助"
+        },
+        {
+          "role": "宾语",
+          "en": "readers",
+          "zh": "读者"
+        },
+        {
+          "role": "宾补",
+          "en": "judge the precision",
+          "zh": "判断精确程度"
+        },
+        {
+          "role": "介词短语",
+          "en": "of an estimate",
+          "zh": "一个估计的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "precision",
+          "ipa": "prɪˈsɪʒən",
+          "meaning": "精确程度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A small p value does not measure practical importance.",
+      "zh": "较小的 p 值并不能衡量实际重要性。",
+      "note": "does not measure 用明确的否定动词说明指标的含义；practical importance 需要结合效应及应用背景判断。",
+      "quote": "",
+      "question": "What else would you report alongside a p value?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A small p value",
+          "zh": "较小的 p 值"
+        },
+        {
+          "role": "谓语",
+          "en": "does not measure",
+          "zh": "不能衡量"
+        },
+        {
+          "role": "宾语",
+          "en": "practical importance",
+          "zh": "实际重要性"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "practical",
+          "ipa": "ˈpræktɪkəl",
+          "meaning": "实际的；实用的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A nonsignificant result does not establish that the effect is absent.",
+      "zh": "统计学不显著的结果并不能证明效应不存在。",
+      "note": "does not establish 后接 that 从句；absent 表示不存在，语气强于尚未检出。",
+      "quote": "",
+      "question": "How would you discuss an inconclusive statistical result?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A nonsignificant result",
+          "zh": "统计学不显著的结果"
+        },
+        {
+          "role": "谓语",
+          "en": "does not establish",
+          "zh": "不能证明"
+        },
+        {
+          "role": "宾语从句",
+          "en": "that the effect is absent",
+          "zh": "效应不存在"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "absent",
+          "ipa": "ˈæbsənt",
+          "meaning": "不存在的；缺失的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Multiple comparisons increase the chance of at least one false positive.",
+      "zh": "多重比较会增加至少出现一个假阳性的概率。",
+      "note": "the chance of 后接名词短语；at least one 清楚界定这里讨论的是至少一次错误。",
+      "quote": "",
+      "question": "Why should readers know how many comparisons were performed?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Multiple comparisons",
+          "zh": "多重比较"
+        },
+        {
+          "role": "谓语",
+          "en": "increase",
+          "zh": "增加"
+        },
+        {
+          "role": "宾语",
+          "en": "the chance",
+          "zh": "概率"
+        },
+        {
+          "role": "介词短语",
+          "en": "of at least one false positive",
+          "zh": "至少出现一个假阳性的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "comparison",
+          "ipa": "kəmˈpærəsən",
+          "meaning": "比较"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The correction method should match the intended family of tests.",
+      "zh": "校正方法应与预先界定的检验家族相匹配。",
+      "note": "match 表示匹配；family of tests 指一组需要共同考虑多重性的问题。",
+      "quote": "",
+      "question": "How would you define the family of tests?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The correction method",
+          "zh": "校正方法"
+        },
+        {
+          "role": "谓语",
+          "en": "should match",
+          "zh": "应匹配"
+        },
+        {
+          "role": "宾语",
+          "en": "the intended family",
+          "zh": "预先界定的家族"
+        },
+        {
+          "role": "介词短语",
+          "en": "of tests",
+          "zh": "检验的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "correction",
+          "ipa": "kəˈrekʃən",
+          "meaning": "校正"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Correlation alone cannot establish a causal relationship between variables.",
+      "zh": "仅凭相关性无法确立变量之间的因果关系。",
+      "note": "alone 强调证据仅限于相关性；cannot establish 表示该证据不足以确立因果。",
+      "quote": "",
+      "question": "What additional evidence would strengthen a causal explanation?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Correlation alone",
+          "zh": "仅有相关性"
+        },
+        {
+          "role": "谓语",
+          "en": "cannot establish",
+          "zh": "无法确立"
+        },
+        {
+          "role": "宾语",
+          "en": "a causal relationship",
+          "zh": "因果关系"
+        },
+        {
+          "role": "介词短语",
+          "en": "between variables",
+          "zh": "变量之间的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "causal",
+          "ipa": "ˈkɔːzəl",
+          "meaning": "因果的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Confounding can produce an association without a direct causal effect.",
+      "zh": "混杂可以在没有直接因果效应时产生关联。",
+      "note": "without 后接名词短语，明确一种关联可能出现的条件；can 表示可能机制。",
+      "quote": "",
+      "question": "Can you describe a plausible confounder in your study?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Confounding",
+          "zh": "混杂"
+        },
+        {
+          "role": "谓语",
+          "en": "can produce",
+          "zh": "可以产生"
+        },
+        {
+          "role": "宾语",
+          "en": "an association",
+          "zh": "关联"
+        },
+        {
+          "role": "介词短语",
+          "en": "without a direct causal effect",
+          "zh": "在没有直接因果效应时"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "association",
+          "ipa": "əˌsoʊsiˈeɪʃən",
+          "meaning": "关联"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Adjustment reduces some biases only when its assumptions are appropriate.",
+      "zh": "调整只有在相关假设恰当时，才能减少某些偏倚。",
+      "note": "only when 给出必要条件；some biases 明确调整不必然消除所有偏倚。",
+      "quote": "",
+      "question": "Which assumptions support your adjustment strategy?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Adjustment",
+          "zh": "调整"
+        },
+        {
+          "role": "谓语",
+          "en": "reduces",
+          "zh": "减少"
+        },
+        {
+          "role": "宾语",
+          "en": "some biases",
+          "zh": "某些偏倚"
+        },
+        {
+          "role": "条件状语",
+          "en": "only when its assumptions are appropriate",
+          "zh": "只有在其假设恰当时"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "bias",
+          "ipa": "ˈbaɪəs",
+          "meaning": "偏倚"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The model estimates an association conditional on the included covariates.",
+      "zh": "该模型估计的是给定所纳入协变量条件下的关联。",
+      "note": "conditional on 表示以某些变量为条件；included 表示实际纳入模型的变量。",
+      "quote": "",
+      "question": "How would you describe the covariates in your model?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The model",
+          "zh": "该模型"
+        },
+        {
+          "role": "谓语",
+          "en": "estimates",
+          "zh": "估计"
+        },
+        {
+          "role": "宾语",
+          "en": "an association",
+          "zh": "关联"
+        },
+        {
+          "role": "后置定语",
+          "en": "conditional on the included covariates",
+          "zh": "以所纳入的协变量为条件的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "conditional",
+          "ipa": "kənˈdɪʃənəl",
+          "meaning": "有条件的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Outliers deserve investigation before we decide whether to exclude them.",
+      "zh": "在决定是否排除离群值之前，应先进行核查。",
+      "note": "deserve investigation 表示值得核查；whether to exclude them 表示尚待作出的决定。",
+      "quote": "",
+      "question": "What evidence would justify excluding an unusual observation?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Outliers",
+          "zh": "离群值"
+        },
+        {
+          "role": "谓语",
+          "en": "deserve",
+          "zh": "值得"
+        },
+        {
+          "role": "宾语",
+          "en": "investigation",
+          "zh": "核查"
+        },
+        {
+          "role": "时间状语",
+          "en": "before we decide",
+          "zh": "在我们决定之前"
+        },
+        {
+          "role": "宾语从句",
+          "en": "whether to exclude them",
+          "zh": "是否排除它们"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "outlier",
+          "ipa": "ˈaʊtlaɪər",
+          "meaning": "离群值"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Missing data can change both precision and the risk of bias.",
+      "zh": "缺失数据可能同时改变精确程度和偏倚风险。",
+      "note": "both A and B 将两个影响并列；can change 保留对缺失机制及分析方法的依赖。",
+      "quote": "",
+      "question": "What would you report about missing data?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Missing data",
+          "zh": "缺失数据"
+        },
+        {
+          "role": "谓语",
+          "en": "can change",
+          "zh": "可能改变"
+        },
+        {
+          "role": "宾语",
+          "en": "both precision",
+          "zh": "精确程度"
+        },
+        {
+          "role": "并列宾语",
+          "en": "and the risk of bias",
+          "zh": "以及偏倚风险"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "missing",
+          "ipa": "ˈmɪsɪŋ",
+          "meaning": "缺失的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The missingness mechanism matters when choosing how to handle incomplete records.",
+      "zh": "选择如何处理不完整记录时，缺失机制十分重要。",
+      "note": "matters 表示具有实质影响；when choosing 引出作出决策的情境。",
+      "quote": "",
+      "question": "How could different missingness mechanisms affect your analysis?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The missingness mechanism",
+          "zh": "缺失机制"
+        },
+        {
+          "role": "谓语",
+          "en": "matters",
+          "zh": "十分重要"
+        },
+        {
+          "role": "时间状语",
+          "en": "when choosing",
+          "zh": "在选择时"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how to handle incomplete records",
+          "zh": "如何处理不完整记录"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "mechanism",
+          "ipa": "ˈmekənɪzəm",
+          "meaning": "机制"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Subgroup differences require a direct comparison, not separate significance labels.",
+      "zh": "判断亚组之间是否有差异，需要直接比较，不能只看各自的显著性标签。",
+      "note": "require 表示所需证据；separate significance labels 指分别显著或不显著的判断。",
+      "quote": "",
+      "question": "How would you test whether effects differ between subgroups?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Subgroup differences",
+          "zh": "亚组差异"
+        },
+        {
+          "role": "谓语",
+          "en": "require",
+          "zh": "需要"
+        },
+        {
+          "role": "宾语",
+          "en": "a direct comparison",
+          "zh": "直接比较"
+        },
+        {
+          "role": "对照成分",
+          "en": "not separate significance labels",
+          "zh": "而非分别判断显著性"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "subgroup",
+          "ipa": "ˈsʌbɡruːp",
+          "meaning": "亚组"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "An interaction term allows an association to vary across conditions.",
+      "zh": "交互项允许关联随条件变化。",
+      "note": "allow something to do 表示允许某种变化；交互项在模型中表达这种变化，是否有统计证据还需检验。",
+      "question": "How would you explain an interaction to a collaborator?",
+      "quote": "",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "An interaction term",
+          "zh": "交互项"
+        },
+        {
+          "role": "谓语",
+          "en": "allows",
+          "zh": "允许"
+        },
+        {
+          "role": "宾语",
+          "en": "an association",
+          "zh": "某种关联"
+        },
+        {
+          "role": "宾补",
+          "en": "to vary",
+          "zh": "发生变化"
+        },
+        {
+          "role": "范围状语",
+          "en": "across conditions",
+          "zh": "在不同条件下"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "interaction",
+          "ipa": "ˌɪntərˈækʃən",
+          "meaning": "交互作用"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A larger sample may improve precision without removing systematic bias.",
+      "zh": "更大的样本可能提高精确程度，但未必消除系统性偏倚。",
+      "note": "may improve 表示可能改善；without removing 区分精确程度和系统性偏倚这两个问题。",
+      "quote": "",
+      "question": "Which problems cannot be solved by increasing sample size?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A larger sample",
+          "zh": "更大的样本"
+        },
+        {
+          "role": "谓语",
+          "en": "may improve",
+          "zh": "可能提高"
+        },
+        {
+          "role": "宾语",
+          "en": "precision",
+          "zh": "精确程度"
+        },
+        {
+          "role": "伴随状语",
+          "en": "without removing systematic bias",
+          "zh": "却没有消除系统性偏倚"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "systematic",
+          "ipa": "ˌsɪstəˈmætɪk",
+          "meaning": "系统性的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Model assumptions should be checked against the observed data structure.",
+      "zh": "应结合实际观测到的数据结构检查模型假设。",
+      "note": "should be checked 使用被动语态；against 表示以数据结构为对照来核查。",
+      "quote": "",
+      "question": "Which model assumption is most relevant to your data?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Model assumptions",
+          "zh": "模型假设"
+        },
+        {
+          "role": "谓语",
+          "en": "should be checked",
+          "zh": "应被检查"
+        },
+        {
+          "role": "介词短语",
+          "en": "against the observed data structure",
+          "zh": "对照观测到的数据结构"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "observed",
+          "ipa": "əbˈzɜːrvd",
+          "meaning": "观测到的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Exploratory findings can guide questions for a future confirmatory study.",
+      "zh": "探索性发现可以为未来的验证性研究提供问题线索。",
+      "note": "guide questions for 表示引导后续研究问题；exploratory 和 confirmatory 区分研究目的。",
+      "quote": "",
+      "question": "Which exploratory finding would you prioritize for confirmation?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Exploratory findings",
+          "zh": "探索性发现"
+        },
+        {
+          "role": "谓语",
+          "en": "can guide",
+          "zh": "可以引导"
+        },
+        {
+          "role": "宾语",
+          "en": "questions",
+          "zh": "研究问题"
+        },
+        {
+          "role": "介词短语",
+          "en": "for a future confirmatory study",
+          "zh": "为未来的验证性研究"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "exploratory",
+          "ipa": "ɪkˈsplɔːrəˌtɔːri",
+          "meaning": "探索性的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I report the estimated direction alongside its uncertainty interval.",
+      "zh": "我会同时报告估计效应的方向及其不确定性区间。",
+      "note": "alongside 表示同时呈现；estimated direction 提醒方向来自估计，需结合区间理解。",
+      "quote": "",
+      "question": "How would you summarize an estimate with substantial uncertainty?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "report",
+          "zh": "报告"
+        },
+        {
+          "role": "宾语",
+          "en": "the estimated direction",
+          "zh": "估计效应的方向"
+        },
+        {
+          "role": "介词短语",
+          "en": "alongside its uncertainty interval",
+          "zh": "以及其不确定性区间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "uncertainty",
+          "ipa": "ʌnˈsɜːrtənti",
+          "meaning": "不确定性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The conclusion should reflect the strength and scope of the evidence.",
+      "zh": "结论应与证据的强度及适用范围相一致。",
+      "note": "the strength and scope of 并列说明证据的两个维度；should reflect 用于提出表述原则。",
+      "quote": "",
+      "question": "Which word would you change to make a conclusion more accurate?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The conclusion",
+          "zh": "结论"
+        },
+        {
+          "role": "谓语",
+          "en": "should reflect",
+          "zh": "应反映"
+        },
+        {
+          "role": "宾语",
+          "en": "the strength and scope",
+          "zh": "强度与适用范围"
+        },
+        {
+          "role": "介词短语",
+          "en": "of the evidence",
+          "zh": "证据的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "scope",
+          "ipa": "skoʊp",
+          "meaning": "范围"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

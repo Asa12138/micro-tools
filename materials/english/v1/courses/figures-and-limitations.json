@@ -1,0 +1,773 @@
+{
+  "title": "图表与讨论 · 准确表达结果和局限",
+  "domain": "reading",
+  "description": "20 句原创科研英语练习，涵盖图轴、分组、效应、不确定性及口头答辩。所有结果句均为表达练习，不对应真实数据或既定结论，使用时请结合自己的图表。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "Before interpreting the pattern, I check the axis labels and units.",
+      "zh": "解释图中模式之前，我先查看坐标轴标签和单位。",
+      "note": "Before interpreting 引出先行步骤；labels and units 提醒同时看变量名称和尺度。",
+      "quote": "",
+      "question": "What do the two axes represent in your chosen figure?",
+      "chunks": [
+        {
+          "role": "状语",
+          "en": "Before interpreting the pattern,",
+          "zh": "解释模式之前"
+        },
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "check",
+          "zh": "查看"
+        },
+        {
+          "role": "宾语",
+          "en": "the axis labels and units.",
+          "zh": "坐标轴标签和单位"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "axis",
+          "ipa": "ˈæksɪs",
+          "meaning": "坐标轴"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The legend should explain the symbols, colors, and groups shown in the figure.",
+      "zh": "图例应说明图中展示的符号、颜色和分组。",
+      "note": "shown in the figure 是过去分词短语；并列宾语有助于逐项检查图例。",
+      "quote": "",
+      "question": "Which visual element would be unclear without the legend?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The legend",
+          "zh": "图例"
+        },
+        {
+          "role": "谓语",
+          "en": "should explain",
+          "zh": "应说明"
+        },
+        {
+          "role": "宾语",
+          "en": "the symbols, colors, and groups",
+          "zh": "符号、颜色和分组"
+        },
+        {
+          "role": "定语",
+          "en": "shown in the figure.",
+          "zh": "图中展示的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "legend",
+          "ipa": "ˈledʒənd",
+          "meaning": "图例"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Each point should correspond to a clearly defined observation or sampling unit.",
+      "zh": "每个点应对应一个定义明确的观测或采样单位。",
+      "note": "correspond to 表示对应；observation 与 sampling unit 需要按图的实际含义区分。",
+      "quote": "",
+      "question": "What exactly does one point represent in your plot?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Each point",
+          "zh": "每个点"
+        },
+        {
+          "role": "谓语",
+          "en": "should correspond",
+          "zh": "应对应"
+        },
+        {
+          "role": "介词短语",
+          "en": "to a clearly defined",
+          "zh": "一个定义明确的"
+        },
+        {
+          "role": "宾语",
+          "en": "observation or sampling unit.",
+          "zh": "观测或采样单位"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "correspond",
+          "ipa": "ˌkɔːrəˈspɑːnd",
+          "meaning": "对应"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A logarithmic axis changes how numerical differences appear on the page.",
+      "zh": "对数坐标轴会改变数值差异在页面上的呈现方式。",
+      "note": "how 引导宾语从句；changes how...appear 描述视觉映射方式的改变。",
+      "quote": "",
+      "question": "Why might the authors choose a logarithmic axis?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A logarithmic axis",
+          "zh": "对数坐标轴"
+        },
+        {
+          "role": "谓语",
+          "en": "changes",
+          "zh": "改变"
+        },
+        {
+          "role": "宾语",
+          "en": "how numerical differences",
+          "zh": "数值差异如何"
+        },
+        {
+          "role": "从句谓语",
+          "en": "appear",
+          "zh": "呈现"
+        },
+        {
+          "role": "状语",
+          "en": "on the page.",
+          "zh": "在页面上"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "logarithmic",
+          "ipa": "ˌlɔːɡəˈrɪðmɪk",
+          "meaning": "对数的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The caption should state what the error bars represent.",
+      "zh": "图注应注明误差线代表什么。",
+      "note": "what 引导宾语从句；represent 要与实际使用的标准差、标准误或区间相对应。",
+      "quote": "",
+      "question": "What do the error bars represent in this figure?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The caption",
+          "zh": "图注"
+        },
+        {
+          "role": "谓语",
+          "en": "should state",
+          "zh": "应注明"
+        },
+        {
+          "role": "宾语从句",
+          "en": "what the error bars",
+          "zh": "误差线所表示的内容"
+        },
+        {
+          "role": "从句谓语",
+          "en": "represent.",
+          "zh": "是什么"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "caption",
+          "ipa": "ˈkæpʃən",
+          "meaning": "图注"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Group averages can hide variation among the individual observations.",
+      "zh": "组均值可能掩盖各个观测值之间的变异。",
+      "note": "can hide 表示汇总可能带来的信息损失；among 指多个观测值之间。",
+      "quote": "",
+      "question": "What additional display would reveal variation within each group?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Group averages",
+          "zh": "组均值"
+        },
+        {
+          "role": "谓语",
+          "en": "can hide",
+          "zh": "可能掩盖"
+        },
+        {
+          "role": "宾语",
+          "en": "variation",
+          "zh": "变异"
+        },
+        {
+          "role": "范围",
+          "en": "among the individual observations.",
+          "zh": "在各个观测值之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "variation",
+          "ipa": "ˌveriˈeɪʃən",
+          "meaning": "变异；变化"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Overlapping data points may obscure the density of observations.",
+      "zh": "重叠的数据点可能使观测值的密度难以辨认。",
+      "note": "may obscure 描述视觉上的遮蔽；density of observations 指点在图中的聚集程度。",
+      "quote": "",
+      "question": "How could you make overlapping observations easier to see?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Overlapping data points",
+          "zh": "重叠的数据点"
+        },
+        {
+          "role": "谓语",
+          "en": "may obscure",
+          "zh": "可能遮蔽"
+        },
+        {
+          "role": "宾语",
+          "en": "the density",
+          "zh": "密度"
+        },
+        {
+          "role": "定语",
+          "en": "of observations.",
+          "zh": "观测值的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "obscure",
+          "ipa": "əbˈskjʊr",
+          "meaning": "遮蔽；使不清楚"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The direction of association should be described before discussing its possible explanation.",
+      "zh": "讨论可能解释之前，应先描述关联方向。",
+      "note": "should be described 使用被动语态突出报告顺序；possible explanation 保留解释的假设性质。",
+      "quote": "",
+      "question": "Describe the direction of an association without explaining its cause.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The direction of association",
+          "zh": "关联方向"
+        },
+        {
+          "role": "谓语",
+          "en": "should be described",
+          "zh": "应描述"
+        },
+        {
+          "role": "状语",
+          "en": "before discussing",
+          "zh": "在讨论之前"
+        },
+        {
+          "role": "宾语",
+          "en": "its possible explanation.",
+          "zh": "其可能解释"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "direction",
+          "ipa": "dəˈrekʃən",
+          "meaning": "方向"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The apparent trend may depend on a small number of influential observations.",
+      "zh": "表面上呈现的趋势可能取决于少数影响较大的观测值。",
+      "note": "depend on 为固定搭配；influential 指对估计或趋势影响较大的点。",
+      "quote": "",
+      "question": "How would you examine whether a few observations drive the trend?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The apparent trend",
+          "zh": "表面上呈现的趋势"
+        },
+        {
+          "role": "谓语",
+          "en": "may depend",
+          "zh": "可能取决于"
+        },
+        {
+          "role": "介词短语",
+          "en": "on a small number",
+          "zh": "少数"
+        },
+        {
+          "role": "宾语",
+          "en": "of influential observations.",
+          "zh": "影响较大的观测值"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "influential",
+          "ipa": "ˌɪnfluˈenʃəl",
+          "meaning": "影响较大的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A wide interval indicates substantial uncertainty under the stated analysis assumptions.",
+      "zh": "在所声明的分析假设下，较宽的区间表明较大的不确定性。",
+      "note": "under the stated assumptions 将解释限定在所采用的方法条件内；substantial 表示程度较大。",
+      "quote": "",
+      "question": "How would you communicate a wide uncertainty interval to a general audience?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A wide interval",
+          "zh": "较宽的区间"
+        },
+        {
+          "role": "谓语",
+          "en": "indicates",
+          "zh": "表明"
+        },
+        {
+          "role": "宾语",
+          "en": "substantial uncertainty",
+          "zh": "较大的不确定性"
+        },
+        {
+          "role": "范围",
+          "en": "under the stated analysis assumptions.",
+          "zh": "在所声明的分析假设下"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "interval",
+          "ipa": "ˈɪntərvəl",
+          "meaning": "区间"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The figure alone cannot establish the causal direction between these variables.",
+      "zh": "单凭这张图无法确定这些变量之间的因果方向。",
+      "note": "alone 强调证据来源有限；causal direction 指哪一个变量影响另一个。",
+      "quote": "",
+      "question": "What other evidence would help investigate the causal direction?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The figure alone",
+          "zh": "单凭这张图"
+        },
+        {
+          "role": "谓语",
+          "en": "cannot establish",
+          "zh": "无法确定"
+        },
+        {
+          "role": "宾语",
+          "en": "the causal direction",
+          "zh": "因果方向"
+        },
+        {
+          "role": "范围",
+          "en": "between these variables.",
+          "zh": "在这些变量之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "causal",
+          "ipa": "ˈkɔːzəl",
+          "meaning": "因果的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A nonsignificant result does not demonstrate the complete absence of an effect.",
+      "zh": "不显著的结果并不证明完全不存在效应。",
+      "note": "does not demonstrate 区分未检出证据和已经证实不存在；absence of 为常用搭配。",
+      "quote": "",
+      "question": "How would you describe a nonsignificant result without overstating it?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A nonsignificant result",
+          "zh": "不显著的结果"
+        },
+        {
+          "role": "谓语",
+          "en": "does not demonstrate",
+          "zh": "并不证明"
+        },
+        {
+          "role": "宾语",
+          "en": "the complete absence",
+          "zh": "完全不存在"
+        },
+        {
+          "role": "定语",
+          "en": "of an effect.",
+          "zh": "效应"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "absence",
+          "ipa": "ˈæbsəns",
+          "meaning": "不存在；缺失"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The confidence interval provides information about the precision of the estimate.",
+      "zh": "置信区间提供了关于估计精度的信息。",
+      "note": "information about 后接所说明的方面；precision 与效应大小是不同概念。",
+      "quote": "",
+      "question": "What does the interval width tell you about precision?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The confidence interval",
+          "zh": "置信区间"
+        },
+        {
+          "role": "谓语",
+          "en": "provides",
+          "zh": "提供"
+        },
+        {
+          "role": "宾语",
+          "en": "information",
+          "zh": "信息"
+        },
+        {
+          "role": "定语",
+          "en": "about the precision",
+          "zh": "关于精度的"
+        },
+        {
+          "role": "补充",
+          "en": "of the estimate.",
+          "zh": "该估计的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "precision",
+          "ipa": "prɪˈsɪʒən",
+          "meaning": "精度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A sensitivity analysis can show whether conclusions depend on particular choices.",
+      "zh": "敏感性分析可以显示结论是否依赖特定的分析选择。",
+      "note": "whether 引导需要考察的问题；depend on 用于说明结论对选择的依赖。",
+      "quote": "",
+      "question": "Which analysis choice would you vary in a sensitivity analysis?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A sensitivity analysis",
+          "zh": "敏感性分析"
+        },
+        {
+          "role": "谓语",
+          "en": "can show",
+          "zh": "可以显示"
+        },
+        {
+          "role": "宾语从句",
+          "en": "whether conclusions",
+          "zh": "结论是否"
+        },
+        {
+          "role": "从句谓语",
+          "en": "depend",
+          "zh": "依赖"
+        },
+        {
+          "role": "介词短语",
+          "en": "on particular choices.",
+          "zh": "特定选择"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "sensitivity",
+          "ipa": "ˌsensəˈtɪvəti",
+          "meaning": "敏感性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Consistency across analyses can strengthen confidence in a specific interpretation.",
+      "zh": "不同分析间的一致性可以增强对某一具体解释的信心。",
+      "note": "strengthen confidence in 表达增强支持程度；specific 避免把一致性扩展为所有解释都成立。",
+      "quote": "",
+      "question": "Which analyses would provide meaningfully different checks of your conclusion?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Consistency across analyses",
+          "zh": "不同分析间的一致性"
+        },
+        {
+          "role": "谓语",
+          "en": "can strengthen",
+          "zh": "可以增强"
+        },
+        {
+          "role": "宾语",
+          "en": "confidence",
+          "zh": "信心"
+        },
+        {
+          "role": "介词短语",
+          "en": "in a specific interpretation.",
+          "zh": "对某一具体解释的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "consistency",
+          "ipa": "kənˈsɪstənsi",
+          "meaning": "一致性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A limitation is most informative when its consequences are explained clearly.",
+      "zh": "说明清楚后果时，对局限的讨论最有信息价值。",
+      "note": "when 引出有用讨论的条件；consequences 要具体对应结果、范围或解释。",
+      "quote": "",
+      "question": "Explain how one limitation affects the conclusion, rather than only naming it.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A limitation",
+          "zh": "某项局限"
+        },
+        {
+          "role": "谓语",
+          "en": "is most informative",
+          "zh": "最有信息价值"
+        },
+        {
+          "role": "条件",
+          "en": "when its consequences",
+          "zh": "当其后果"
+        },
+        {
+          "role": "从句谓语",
+          "en": "are explained clearly.",
+          "zh": "被解释清楚时"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "consequence",
+          "ipa": "ˈkɑːnsəkwens",
+          "meaning": "后果；影响"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The findings may not generalize beyond the conditions represented in this study.",
+      "zh": "这些发现可能无法推广到本研究涵盖条件之外。",
+      "note": "generalize beyond 表示向研究范围外推广；may not 保留对具体情境的判断。",
+      "quote": "",
+      "question": "Which new setting would be most different from the study conditions?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The findings",
+          "zh": "这些发现"
+        },
+        {
+          "role": "谓语",
+          "en": "may not generalize",
+          "zh": "可能无法推广"
+        },
+        {
+          "role": "介词短语",
+          "en": "beyond the conditions",
+          "zh": "超出这些条件"
+        },
+        {
+          "role": "定语",
+          "en": "represented in this study.",
+          "zh": "本研究所涵盖的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "generalize",
+          "ipa": "ˈdʒenərəlaɪz",
+          "meaning": "推广；概括"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "We can acknowledge uncertainty while explaining what the evidence supports.",
+      "zh": "我们可以承认不确定性，同时说明证据支持什么。",
+      "note": "while 加动名词连接同时进行的两项沟通任务；supports 指证据实际支撑的范围。",
+      "quote": "",
+      "question": "How would you explain both the main evidence and its uncertainty?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "We",
+          "zh": "我们"
+        },
+        {
+          "role": "谓语",
+          "en": "can acknowledge",
+          "zh": "可以承认"
+        },
+        {
+          "role": "宾语",
+          "en": "uncertainty",
+          "zh": "不确定性"
+        },
+        {
+          "role": "状语",
+          "en": "while explaining",
+          "zh": "同时说明"
+        },
+        {
+          "role": "宾语",
+          "en": "what the evidence supports.",
+          "zh": "证据所支持的内容"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "acknowledge",
+          "ipa": "əkˈnɑːlɪdʒ",
+          "meaning": "承认；认可"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The next experiment should distinguish between plausible explanations for this pattern.",
+      "zh": "下一项实验应能区分对这一模式的几种合理解释。",
+      "note": "distinguish between 表示在多个解释之间作区分；plausible 指合理可信、仍有待检验。",
+      "quote": "",
+      "question": "What comparison could separate two plausible explanations for your result?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The next experiment",
+          "zh": "下一项实验"
+        },
+        {
+          "role": "谓语",
+          "en": "should distinguish",
+          "zh": "应区分"
+        },
+        {
+          "role": "宾语",
+          "en": "between plausible explanations",
+          "zh": "合理可信的解释之间的差异"
+        },
+        {
+          "role": "定语",
+          "en": "for this pattern.",
+          "zh": "针对这一模式的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "plausible",
+          "ipa": "ˈplɔːzəbəl",
+          "meaning": "合理可信的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My concluding sentence should connect the key result to the original question.",
+      "zh": "我的总结句应把关键结果与最初的研究问题联系起来。",
+      "note": "connect A to B 使报告结尾回到研究目标；concluding sentence 指收束讨论的总结句。",
+      "quote": "",
+      "question": "Give a one-sentence conclusion that directly answers your original question.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My concluding sentence",
+          "zh": "我的总结句"
+        },
+        {
+          "role": "谓语",
+          "en": "should connect",
+          "zh": "应连接"
+        },
+        {
+          "role": "宾语",
+          "en": "the key result",
+          "zh": "关键结果"
+        },
+        {
+          "role": "介词短语",
+          "en": "to the original question.",
+          "zh": "与最初的问题"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "concluding",
+          "ipa": "kənˈkluːdɪŋ",
+          "meaning": "总结性的；结束时的"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

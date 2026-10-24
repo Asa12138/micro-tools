@@ -3,19 +3,19 @@ const assert = require('node:assert/strict')
 const path = require('node:path')
 const fs = require('node:fs')
 const crypto = require('node:crypto')
-const createTools = require('../journal-tools')
+const createTools = require('../features/journals/journal-tools')
 const root = path.join(__dirname, '..')
 const manifest = require('../plugin.json')
 const hashes = () => ['journals.json.gz', 'ccf.json.gz'].map(file =>
   crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex'))
 const before = hashes()
 
-global.window = {}
+global.window = { ztools: { dbStorage: { getItem() {}, setItem() {} } } }
 require('../preload')
 assert.equal(typeof window.journalApi.search, 'function', 'old host / preview still works')
 delete require.cache[require.resolve('../preload')]
 const registered = {}
-global.window = { ztools: { registerTool(name, handler) {
+global.window = { ztools: { dbStorage: { getItem() {}, setItem() {} }, registerTool(name, handler) {
   assert.ok(manifest.tools[name], 'every tool is declared')
   registered[name] = handler
 } } }

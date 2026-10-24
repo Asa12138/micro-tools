@@ -1,0 +1,773 @@
+{
+  "title": "生信分析 · 从数据到可解释结果",
+  "domain": "methods",
+  "description": "原创练习，按实际项目使用。20 句覆盖样本对应、元数据、质量控制、批次、参考数据库及分析流程说明。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "Sample identifiers must remain consistent across every analysis table.",
+      "zh": "各分析表中的样本标识必须保持一致。",
+      "note": "must remain 后接形容词 consistent，强调需要持续满足的条件；across 表示跨表。",
+      "quote": "",
+      "question": "How do you check that sample identifiers match?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Sample identifiers",
+          "zh": "样本标识"
+        },
+        {
+          "role": "谓语",
+          "en": "must remain",
+          "zh": "必须保持"
+        },
+        {
+          "role": "表语",
+          "en": "consistent",
+          "zh": "一致"
+        },
+        {
+          "role": "介词短语",
+          "en": "across every analysis table",
+          "zh": "在每张分析表中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "consistent",
+          "ipa": "kənˈsɪstənt",
+          "meaning": "一致的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I check the metadata before choosing an appropriate comparison.",
+      "zh": "我会先检查元数据，再选择合适的比较方式。",
+      "note": "before choosing 用动名词表达步骤顺序；appropriate 强调比较方式要符合数据设计。",
+      "quote": "",
+      "question": "Which metadata fields guide your choice of comparison?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "check",
+          "zh": "检查"
+        },
+        {
+          "role": "宾语",
+          "en": "the metadata",
+          "zh": "元数据"
+        },
+        {
+          "role": "时间状语",
+          "en": "before choosing an appropriate comparison",
+          "zh": "在选择合适比较方式之前"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "comparison",
+          "ipa": "kəmˈpærəsən",
+          "meaning": "比较"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Missing labels can prevent us from interpreting a sample correctly.",
+      "zh": "缺失的标签可能使我们无法正确解读一个样本。",
+      "note": "prevent someone from doing 表示阻止某人做某事；can 保留可能性。",
+      "quote": "",
+      "question": "What would you do if a sample label were missing?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Missing labels",
+          "zh": "缺失的标签"
+        },
+        {
+          "role": "谓语",
+          "en": "can prevent",
+          "zh": "可能妨碍"
+        },
+        {
+          "role": "宾语",
+          "en": "us",
+          "zh": "我们"
+        },
+        {
+          "role": "介词短语",
+          "en": "from interpreting a sample correctly",
+          "zh": "正确解读一个样本"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "label",
+          "ipa": "ˈleɪbəl",
+          "meaning": "标签"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Quality thresholds should reflect the data type and research question.",
+      "zh": "质量阈值应与数据类型和研究问题相匹配。",
+      "note": "should reflect 用于解释决策原则；并列名词说明阈值取决于两个因素。",
+      "quote": "",
+      "question": "How would you justify your quality thresholds?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Quality thresholds",
+          "zh": "质量阈值"
+        },
+        {
+          "role": "谓语",
+          "en": "should reflect",
+          "zh": "应反映"
+        },
+        {
+          "role": "宾语",
+          "en": "the data type",
+          "zh": "数据类型"
+        },
+        {
+          "role": "并列宾语",
+          "en": "and research question",
+          "zh": "以及研究问题"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "threshold",
+          "ipa": "ˈθreʃhoʊld",
+          "meaning": "阈值"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "We document excluded samples and explain each exclusion clearly.",
+      "zh": "我们记录被排除的样本，并清楚解释每次排除的原因。",
+      "note": "document 和 explain 是共用主语的并列谓语；excluded 是过去分词，修饰 samples。",
+      "quote": "",
+      "question": "How will you communicate sample exclusions to collaborators?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "We",
+          "zh": "我们"
+        },
+        {
+          "role": "谓语",
+          "en": "document",
+          "zh": "记录"
+        },
+        {
+          "role": "宾语",
+          "en": "excluded samples",
+          "zh": "被排除的样本"
+        },
+        {
+          "role": "并列谓语",
+          "en": "and explain",
+          "zh": "并解释"
+        },
+        {
+          "role": "宾语与状语",
+          "en": "each exclusion clearly",
+          "zh": "清楚解释每次排除"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "exclude",
+          "ipa": "ɪkˈskluːd",
+          "meaning": "排除"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Unexpected clustering may reflect technical variation rather than biology.",
+      "zh": "异常的聚类现象可能反映技术变异，而非生物学差异。",
+      "note": "may reflect 提出待核查的解释；rather than 比较两种可能来源，不能把它当作已有结论。",
+      "quote": "",
+      "question": "What checks would help explain an unexpected cluster?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Unexpected clustering",
+          "zh": "异常的聚类现象"
+        },
+        {
+          "role": "谓语",
+          "en": "may reflect",
+          "zh": "可能反映"
+        },
+        {
+          "role": "宾语",
+          "en": "technical variation",
+          "zh": "技术变异"
+        },
+        {
+          "role": "比较短语",
+          "en": "rather than biology",
+          "zh": "而非生物学差异"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "variation",
+          "ipa": "ˌveriˈeɪʃən",
+          "meaning": "变异；变化"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Batch information helps us distinguish technical patterns from biological signals.",
+      "zh": "批次信息有助于我们区分技术模式和生物学信号。",
+      "note": "help someone do 与 distinguish A from B 连用；helps 表示提供帮助，不保证完全分离。",
+      "quote": "",
+      "question": "Where is batch information recorded in your project?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Batch information",
+          "zh": "批次信息"
+        },
+        {
+          "role": "谓语",
+          "en": "helps",
+          "zh": "有助于"
+        },
+        {
+          "role": "宾语",
+          "en": "us",
+          "zh": "我们"
+        },
+        {
+          "role": "宾补",
+          "en": "distinguish technical patterns",
+          "zh": "区分技术模式"
+        },
+        {
+          "role": "介词短语",
+          "en": "from biological signals",
+          "zh": "与生物学信号"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "distinguish",
+          "ipa": "dɪˈstɪŋɡwɪʃ",
+          "meaning": "区分"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A balanced design can reduce confounding between groups and batches.",
+      "zh": "平衡的设计可以减少分组与批次之间的混杂。",
+      "note": "between A and B 说明混杂涉及的两个变量；can reduce 不表示完全消除。",
+      "quote": "",
+      "question": "How could the design reduce group and batch confounding?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A balanced design",
+          "zh": "平衡的设计"
+        },
+        {
+          "role": "谓语",
+          "en": "can reduce",
+          "zh": "可以减少"
+        },
+        {
+          "role": "宾语",
+          "en": "confounding",
+          "zh": "混杂"
+        },
+        {
+          "role": "介词短语",
+          "en": "between groups and batches",
+          "zh": "在分组与批次之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "balanced",
+          "ipa": "ˈbælənst",
+          "meaning": "平衡的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Normalization changes the scale on which measurements are compared.",
+      "zh": "归一化会改变测量值进行比较时所使用的尺度。",
+      "note": "on which 引导定语从句，修饰 scale；measurements are compared 使用被动语态。",
+      "quote": "",
+      "question": "Why is the comparison scale important for your analysis?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Normalization",
+          "zh": "归一化"
+        },
+        {
+          "role": "谓语",
+          "en": "changes",
+          "zh": "改变"
+        },
+        {
+          "role": "宾语",
+          "en": "the scale",
+          "zh": "尺度"
+        },
+        {
+          "role": "定语从句",
+          "en": "on which measurements are compared",
+          "zh": "测量值据此进行比较"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "scale",
+          "ipa": "skeɪl",
+          "meaning": "尺度"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The reference database influences which features receive an annotation.",
+      "zh": "参考数据库会影响哪些特征能够获得注释。",
+      "note": "which 引出宾语从句，说明受影响的具体对象；an annotation 指一项注释。",
+      "quote": "",
+      "question": "How did you choose a reference database?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The reference database",
+          "zh": "参考数据库"
+        },
+        {
+          "role": "谓语",
+          "en": "influences",
+          "zh": "影响"
+        },
+        {
+          "role": "宾语从句主语",
+          "en": "which features",
+          "zh": "哪些特征"
+        },
+        {
+          "role": "宾语从句谓宾",
+          "en": "receive an annotation",
+          "zh": "获得注释"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "reference",
+          "ipa": "ˈrefərəns",
+          "meaning": "参考；参考资料"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Unclassified features should remain visible in the summary report.",
+      "zh": "未分类的特征也应在总结报告中保留展示。",
+      "note": "remain visible 表示保持可见状态；unclassified 不等于不存在或不重要。",
+      "quote": "",
+      "question": "How would you describe unclassified features in a presentation?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Unclassified features",
+          "zh": "未分类的特征"
+        },
+        {
+          "role": "谓语",
+          "en": "should remain",
+          "zh": "应保持"
+        },
+        {
+          "role": "表语",
+          "en": "visible",
+          "zh": "可见"
+        },
+        {
+          "role": "介词短语",
+          "en": "in the summary report",
+          "zh": "在总结报告中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "visible",
+          "ipa": "ˈvɪzəbəl",
+          "meaning": "可见的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Feature filtering can change the set of hypotheses being tested.",
+      "zh": "特征过滤可能改变实际接受检验的假设集合。",
+      "note": "being tested 是被动形式的分词短语，修饰 hypotheses；can change 提醒分析集合会变化。",
+      "quote": "",
+      "question": "How do you explain the purpose of feature filtering?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Feature filtering",
+          "zh": "特征过滤"
+        },
+        {
+          "role": "谓语",
+          "en": "can change",
+          "zh": "可能改变"
+        },
+        {
+          "role": "宾语",
+          "en": "the set of hypotheses",
+          "zh": "假设集合"
+        },
+        {
+          "role": "后置定语",
+          "en": "being tested",
+          "zh": "正在接受检验的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "hypothesis",
+          "ipa": "haɪˈpɑːθəsɪs",
+          "meaning": "假设"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Relative abundance describes proportions within a sample, not absolute quantities.",
+      "zh": "相对丰度描述样本内的比例，而不是绝对数量。",
+      "note": "within a sample 明确比例的参照范围；not absolute quantities 点明不能直接据此推断绝对数量。",
+      "quote": "",
+      "question": "How would you explain relative abundance to a new collaborator?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Relative abundance",
+          "zh": "相对丰度"
+        },
+        {
+          "role": "谓语",
+          "en": "describes",
+          "zh": "描述"
+        },
+        {
+          "role": "宾语",
+          "en": "proportions",
+          "zh": "比例"
+        },
+        {
+          "role": "介词短语",
+          "en": "within a sample",
+          "zh": "在一个样本内"
+        },
+        {
+          "role": "对照成分",
+          "en": "not absolute quantities",
+          "zh": "而非绝对数量"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "proportion",
+          "ipa": "prəˈpɔːrʃən",
+          "meaning": "比例"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The analysis unit should match the level of independent sampling.",
+      "zh": "分析单位应与独立采样所对应的层级一致。",
+      "note": "match 表示相匹配；the level of 明确需要对齐的是采样层级。",
+      "quote": "",
+      "question": "What is the independent sampling unit in your study?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The analysis unit",
+          "zh": "分析单位"
+        },
+        {
+          "role": "谓语",
+          "en": "should match",
+          "zh": "应匹配"
+        },
+        {
+          "role": "宾语",
+          "en": "the level",
+          "zh": "层级"
+        },
+        {
+          "role": "介词短语",
+          "en": "of independent sampling",
+          "zh": "独立采样的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "unit",
+          "ipa": "ˈjuːnɪt",
+          "meaning": "单位"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Repeated observations from one participant may require a different model.",
+      "zh": "来自同一参与者的重复观测可能需要采用不同的模型。",
+      "note": "from one participant 修饰 observations；may require 保留对具体研究设计的判断空间。",
+      "quote": "",
+      "question": "How would repeated observations affect your model choice?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Repeated observations",
+          "zh": "重复观测"
+        },
+        {
+          "role": "后置定语",
+          "en": "from one participant",
+          "zh": "来自同一参与者的"
+        },
+        {
+          "role": "谓语",
+          "en": "may require",
+          "zh": "可能需要"
+        },
+        {
+          "role": "宾语",
+          "en": "a different model",
+          "zh": "不同的模型"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "participant",
+          "ipa": "pɑːrˈtɪsəpənt",
+          "meaning": "参与者"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "We compare intermediate outputs to locate differences between pipeline versions.",
+      "zh": "我们通过比较中间输出，定位不同流程版本之间的差异。",
+      "note": "to locate 是目的状语；intermediate outputs 比笼统的 results 更准确地指流程中间产物。",
+      "quote": "",
+      "question": "Which intermediate outputs would you compare first?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "We",
+          "zh": "我们"
+        },
+        {
+          "role": "谓语",
+          "en": "compare",
+          "zh": "比较"
+        },
+        {
+          "role": "宾语",
+          "en": "intermediate outputs",
+          "zh": "中间输出"
+        },
+        {
+          "role": "目的状语",
+          "en": "to locate differences",
+          "zh": "以定位差异"
+        },
+        {
+          "role": "介词短语",
+          "en": "between pipeline versions",
+          "zh": "在流程版本之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "intermediate",
+          "ipa": "ˌɪntərˈmiːdiət",
+          "meaning": "中间的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A workflow diagram makes dependencies between analysis steps easier to explain.",
+      "zh": "流程图让分析步骤之间的依赖关系更容易说明。",
+      "note": "make something easier to do 表示使某事更容易完成；dependencies 指步骤间的前后依赖。",
+      "quote": "",
+      "question": "Which dependency is most important in your workflow?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A workflow diagram",
+          "zh": "流程图"
+        },
+        {
+          "role": "谓语",
+          "en": "makes",
+          "zh": "使"
+        },
+        {
+          "role": "宾语",
+          "en": "dependencies between analysis steps",
+          "zh": "分析步骤之间的依赖关系"
+        },
+        {
+          "role": "宾补",
+          "en": "easier to explain",
+          "zh": "更容易说明"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "dependency",
+          "ipa": "dɪˈpendənsi",
+          "meaning": "依赖关系"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Sensitivity checks reveal how conclusions depend on reasonable analytical choices.",
+      "zh": "敏感性检查揭示结论如何依赖合理的分析选择。",
+      "note": "how 引出宾语从句；depend on 用于说明结论与分析决策之间的关系。",
+      "quote": "",
+      "question": "Which analytical choice deserves a sensitivity check?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Sensitivity checks",
+          "zh": "敏感性检查"
+        },
+        {
+          "role": "谓语",
+          "en": "reveal",
+          "zh": "揭示"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how conclusions depend",
+          "zh": "结论如何依赖"
+        },
+        {
+          "role": "介词短语",
+          "en": "on reasonable analytical choices",
+          "zh": "合理的分析选择"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "sensitivity",
+          "ipa": "ˌsensəˈtɪvəti",
+          "meaning": "敏感性"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I summarize the workflow before discussing its strongest assumptions.",
+      "zh": "我先概述分析流程，再讨论其中最关键的假设。",
+      "note": "before discussing 表示讲述顺序；assumptions 指方法成立时依赖的前提。",
+      "quote": "",
+      "question": "Which assumption would you explain before presenting the results?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "summarize",
+          "zh": "概述"
+        },
+        {
+          "role": "宾语",
+          "en": "the workflow",
+          "zh": "分析流程"
+        },
+        {
+          "role": "时间状语",
+          "en": "before discussing its strongest assumptions",
+          "zh": "在讨论其关键假设之前"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "assumption",
+          "ipa": "əˈsʌmpʃən",
+          "meaning": "假设；前提"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Each figure should answer a question about the underlying data.",
+      "zh": "每张图都应回答一个与其底层数据有关的问题。",
+      "note": "underlying 修饰 data，指图所依据的数据；answer a question 让图的目的更加明确。",
+      "quote": "",
+      "question": "What question should your main figure answer?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Each figure",
+          "zh": "每张图"
+        },
+        {
+          "role": "谓语",
+          "en": "should answer",
+          "zh": "应回答"
+        },
+        {
+          "role": "宾语",
+          "en": "a question",
+          "zh": "一个问题"
+        },
+        {
+          "role": "介词短语",
+          "en": "about the underlying data",
+          "zh": "关于底层数据的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "underlying",
+          "ipa": "ˌʌndərˈlaɪɪŋ",
+          "meaning": "底层的；作为依据的"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

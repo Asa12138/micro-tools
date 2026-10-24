@@ -1,0 +1,778 @@
+{
+  "title": "博后面试 · 动机、贡献与合作",
+  "domain": "communication",
+  "description": "原创练习，按实际项目使用。20 句面试表达模板，围绕申请动机、技能贡献、团队合作、挫折反思及岗位提问。第一人称为假设性练习，不代表用户真实经历；请按实际能力、目标和案例修改。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "I hope to connect computational methods with meaningful biological questions.",
+      "zh": "我希望将计算方法与有意义的生物学问题联系起来。",
+      "note": "hope to 后接动词原形说明目标；connect A with B 表达两个方向的结合。",
+      "quote": "",
+      "question": "Which biological question would motivate your next research project?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "hope",
+          "zh": "希望"
+        },
+        {
+          "role": "宾语",
+          "en": "to connect computational methods",
+          "zh": "将计算方法联系起来"
+        },
+        {
+          "role": "介词短语",
+          "en": "with meaningful biological questions",
+          "zh": "与有意义的生物学问题"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "meaningful",
+          "ipa": "ˈmiːnɪŋfəl",
+          "meaning": "有意义的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "This position could help me develop a clearer independent research direction.",
+      "zh": "这个岗位可以帮助我形成更清晰的独立研究方向。",
+      "note": "could help me develop 表达岗位可能带来的成长；clearer 比较的是方向的清晰程度。",
+      "quote": "",
+      "question": "What independent research direction would you like to develop?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "This position",
+          "zh": "这个岗位"
+        },
+        {
+          "role": "谓语",
+          "en": "could help",
+          "zh": "可以帮助"
+        },
+        {
+          "role": "宾语",
+          "en": "me",
+          "zh": "我"
+        },
+        {
+          "role": "宾补",
+          "en": "develop",
+          "zh": "形成"
+        },
+        {
+          "role": "宾语",
+          "en": "a clearer independent research direction",
+          "zh": "更清晰的独立研究方向"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "independent",
+          "ipa": "ˌɪndɪˈpendənt",
+          "meaning": "独立的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would like to understand how your team chooses research priorities.",
+      "zh": "我想了解你们团队如何确定研究优先事项。",
+      "note": "would like to 比 want to 更适合礼貌提问；how 从句询问决策方式。",
+      "quote": "",
+      "question": "How would you ask about the team’s current priorities?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would like",
+          "zh": "想"
+        },
+        {
+          "role": "宾语",
+          "en": "to understand",
+          "zh": "了解"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how your team chooses research priorities",
+          "zh": "团队如何确定研究优先事项"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "priority",
+          "ipa": "praɪˈɔːrəti",
+          "meaning": "优先事项"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My ideal project would combine method development with close scientific collaboration.",
+      "zh": "我理想中的项目会将分析方法开发与密切的科研合作结合起来。",
+      "note": "would 描述理想情境；combine A with B 表达希望同时具备的两个要素。",
+      "quote": "",
+      "question": "What balance of methods development and collaboration would suit you?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My ideal project",
+          "zh": "我理想中的项目"
+        },
+        {
+          "role": "谓语",
+          "en": "would combine",
+          "zh": "会结合"
+        },
+        {
+          "role": "宾语",
+          "en": "method development",
+          "zh": "分析方法开发"
+        },
+        {
+          "role": "介词短语",
+          "en": "with close scientific collaboration",
+          "zh": "与密切的科研合作"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "collaboration",
+          "ipa": "kəˌlæbəˈreɪʃən",
+          "meaning": "合作"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I could contribute by making complex analyses easier to explain.",
+      "zh": "我可以通过让复杂分析更易理解，为团队作出贡献。",
+      "note": "contribute by 后接动名词说明贡献方式；make something easier to explain 表达沟通价值。",
+      "quote": "",
+      "question": "Which part of a complex analysis would you explain first?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "could contribute",
+          "zh": "可以作出贡献"
+        },
+        {
+          "role": "方式状语",
+          "en": "by making complex analyses",
+          "zh": "通过使复杂分析"
+        },
+        {
+          "role": "宾补",
+          "en": "easier to explain",
+          "zh": "更容易解释"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "contribute",
+          "ipa": "kənˈtrɪbjuːt",
+          "meaning": "作出贡献"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would first clarify the question before suggesting an analytical approach.",
+      "zh": "我会先澄清问题，再提出分析方案。",
+      "note": "first 与 before 说明工作顺序；suggest an approach 表示提出可讨论的方案。",
+      "quote": "",
+      "question": "What would you clarify before starting an unfamiliar analysis?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would first clarify",
+          "zh": "会先澄清"
+        },
+        {
+          "role": "宾语",
+          "en": "the question",
+          "zh": "问题"
+        },
+        {
+          "role": "时间状语",
+          "en": "before suggesting an analytical approach",
+          "zh": "在提出分析方案之前"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "clarify",
+          "ipa": "ˈklerəfaɪ",
+          "meaning": "澄清"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A concrete example would show how I approach unfamiliar problems.",
+      "zh": "一个具体案例可以展示我如何处理不熟悉的问题。",
+      "note": "show how 引出解决问题的方式；concrete example 应替换为本人真实且可说明的经历。",
+      "quote": "",
+      "question": "Which real example best illustrates your approach to unfamiliar problems?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A concrete example",
+          "zh": "一个具体案例"
+        },
+        {
+          "role": "谓语",
+          "en": "would show",
+          "zh": "可以展示"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how I approach unfamiliar problems",
+          "zh": "我如何处理不熟悉的问题"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "concrete",
+          "ipa": "ˈkɑːŋkriːt",
+          "meaning": "具体的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I prefer to explain my contribution separately from the team’s broader work.",
+      "zh": "我倾向于分别说明自己的贡献和团队整体的工作。",
+      "note": "prefer to 表达个人偏好；separately from 明确区分本人职责与团队成果。",
+      "quote": "",
+      "question": "How would you describe your own contribution to a collaborative project?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "prefer",
+          "zh": "倾向于"
+        },
+        {
+          "role": "宾语",
+          "en": "to explain my contribution",
+          "zh": "说明自己的贡献"
+        },
+        {
+          "role": "方式状语",
+          "en": "separately from the team’s broader work",
+          "zh": "与团队整体工作分别说明"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "contribution",
+          "ipa": "ˌkɑːntrɪˈbjuːʃən",
+          "meaning": "贡献"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "When methods disagree, I would examine their assumptions before choosing between them.",
+      "zh": "方法结果不一致时，我会先检查各自的假设，再作选择。",
+      "note": "When 引出情境；before choosing between them 表明选择前的判断依据。",
+      "quote": "",
+      "question": "What could explain disagreement between two reasonable methods?",
+      "chunks": [
+        {
+          "role": "时间状语",
+          "en": "When methods disagree",
+          "zh": "当方法结果不一致时"
+        },
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would examine",
+          "zh": "会检查"
+        },
+        {
+          "role": "宾语",
+          "en": "their assumptions",
+          "zh": "各自的假设"
+        },
+        {
+          "role": "时间状语",
+          "en": "before choosing between them",
+          "zh": "在作出选择之前"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "disagree",
+          "ipa": "ˌdɪsəˈɡriː",
+          "meaning": "不一致；意见不同"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "When discussing a failed attempt, I would explain the lessons and subsequent changes.",
+      "zh": "讨论一次未成功的尝试时，我会说明得到的经验和后续改进。",
+      "note": "When discussing 引出讨论情境；the lessons and subsequent changes 把反思与后续行动一起说明。",
+      "quote": "",
+      "question": "What did a real setback change about your way of working?",
+      "chunks": [
+        {
+          "role": "时间状语",
+          "en": "When discussing a failed attempt,",
+          "zh": "讨论一次未成功的尝试时"
+        },
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would explain",
+          "zh": "会说明"
+        },
+        {
+          "role": "宾语",
+          "en": "the lessons and subsequent changes.",
+          "zh": "得到的经验和后续改进"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "subsequent",
+          "ipa": "ˈsʌbsɪkwənt",
+          "meaning": "后续的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "An honest answer should distinguish current skills from areas requiring further training.",
+      "zh": "诚实的回答应区分已有技能与仍需进一步训练的领域。",
+      "note": "distinguish A from B 用于区分能力现状；requiring further training 修饰 areas。",
+      "quote": "",
+      "question": "Which skill would you most like to develop during a postdoc?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "An honest answer",
+          "zh": "诚实的回答"
+        },
+        {
+          "role": "谓语",
+          "en": "should distinguish",
+          "zh": "应区分"
+        },
+        {
+          "role": "宾语",
+          "en": "current skills",
+          "zh": "已有技能"
+        },
+        {
+          "role": "介词短语",
+          "en": "from areas requiring further training",
+          "zh": "与仍需进一步训练的领域"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "training",
+          "ipa": "ˈtreɪnɪŋ",
+          "meaning": "训练"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "For an unfamiliar tool, I would begin with documentation and small examples.",
+      "zh": "面对不熟悉的工具，我会从文档和小型示例入手。",
+      "note": "For 引出讨论对象；begin with 指明起点，适合介绍学习方法。",
+      "quote": "",
+      "question": "How would you demonstrate that you can learn a new tool?",
+      "chunks": [
+        {
+          "role": "话题状语",
+          "en": "For an unfamiliar tool",
+          "zh": "对于不熟悉的工具"
+        },
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would begin",
+          "zh": "会开始"
+        },
+        {
+          "role": "介词短语",
+          "en": "with documentation and small examples",
+          "zh": "从文档和小型示例入手"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "unfamiliar",
+          "ipa": "ˌʌnfəˈmɪljər",
+          "meaning": "不熟悉的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Regular discussions would help align my work with the team’s goals.",
+      "zh": "定期讨论有助于使我的工作与团队目标保持一致。",
+      "note": "help align A with B 表达协调；regular 指定期进行，不指定固定频率。",
+      "quote": "",
+      "question": "What kind of discussion schedule helps you work effectively?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Regular discussions",
+          "zh": "定期讨论"
+        },
+        {
+          "role": "谓语",
+          "en": "would help align",
+          "zh": "有助于协调"
+        },
+        {
+          "role": "宾语",
+          "en": "my work",
+          "zh": "我的工作"
+        },
+        {
+          "role": "介词短语",
+          "en": "with the team’s goals",
+          "zh": "与团队目标"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "align",
+          "ipa": "əˈlaɪn",
+          "meaning": "使一致；协调"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would express disagreement by explaining the evidence behind my concern.",
+      "zh": "我会通过说明担忧背后的证据，表达不同意见。",
+      "note": "by explaining 表达提出分歧的方式；the evidence behind 强调意见需要依据。",
+      "quote": "",
+      "question": "How would you disagree constructively with a senior collaborator?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would express",
+          "zh": "会表达"
+        },
+        {
+          "role": "宾语",
+          "en": "disagreement",
+          "zh": "不同意见"
+        },
+        {
+          "role": "方式状语",
+          "en": "by explaining the evidence",
+          "zh": "通过说明证据"
+        },
+        {
+          "role": "后置定语",
+          "en": "behind my concern",
+          "zh": "在我的担忧背后的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "concern",
+          "ipa": "kənˈsɜːrn",
+          "meaning": "担忧；关切"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Clear expectations would help me manage several projects without losing focus.",
+      "zh": "清晰的预期有助于我管理多个项目，同时保持专注。",
+      "note": "help someone manage 表达支持作用；without losing focus 说明同时需要维持的状态。",
+      "quote": "",
+      "question": "How would you prioritize competing project deadlines?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Clear expectations",
+          "zh": "清晰的预期"
+        },
+        {
+          "role": "谓语",
+          "en": "would help",
+          "zh": "有助于"
+        },
+        {
+          "role": "宾语",
+          "en": "me",
+          "zh": "我"
+        },
+        {
+          "role": "宾补",
+          "en": "manage several projects",
+          "zh": "管理多个项目"
+        },
+        {
+          "role": "伴随状语",
+          "en": "without losing focus",
+          "zh": "同时保持专注"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "expectation",
+          "ipa": "ˌekspekˈteɪʃən",
+          "meaning": "预期"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Could you describe how supervision changes as a researcher gains independence?",
+      "zh": "您能介绍一下，随着研究者逐渐独立，指导方式会如何变化吗？",
+      "note": "Could you describe 是礼貌的开放式提问；as 引出随发展而变化的过程。",
+      "quote": "",
+      "question": "What would you want to know about supervision in a new lab?",
+      "chunks": [
+        {
+          "role": "谓语",
+          "en": "Could",
+          "zh": "能否"
+        },
+        {
+          "role": "主语",
+          "en": "you",
+          "zh": "您"
+        },
+        {
+          "role": "谓语",
+          "en": "describe",
+          "zh": "介绍"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how supervision changes",
+          "zh": "指导方式如何变化"
+        },
+        {
+          "role": "时间从句",
+          "en": "as a researcher gains independence",
+          "zh": "随着研究者逐渐独立"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "supervision",
+          "ipa": "ˌsuːpərˈvɪʒən",
+          "meaning": "指导；监督"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "What opportunities would there be to develop and lead a new project?",
+      "zh": "这里会有哪些机会，让我开发并主导一个新项目？",
+      "note": "What opportunities would there be 使用 there be 的疑问形式；to develop and lead 说明机会的内容。",
+      "quote": "",
+      "question": "How would you ask about opportunities to lead a project?",
+      "chunks": [
+        {
+          "role": "疑问成分",
+          "en": "What opportunities",
+          "zh": "哪些机会"
+        },
+        {
+          "role": "谓语与存在结构",
+          "en": "would there be",
+          "zh": "会有"
+        },
+        {
+          "role": "后置定语",
+          "en": "to develop and lead",
+          "zh": "用于开发并主导"
+        },
+        {
+          "role": "宾语",
+          "en": "a new project",
+          "zh": "新项目"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "opportunity",
+          "ipa": "ˌɑːpərˈtuːnəti",
+          "meaning": "机会"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would appreciate hearing how the team supports professional development.",
+      "zh": "我想了解团队如何支持成员的职业发展。",
+      "note": "would appreciate hearing 是礼貌表达；appreciate 后接动名词 hearing。",
+      "quote": "",
+      "question": "Which professional development opportunity would matter most to you?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would appreciate",
+          "zh": "会很愿意"
+        },
+        {
+          "role": "宾语",
+          "en": "hearing",
+          "zh": "听取"
+        },
+        {
+          "role": "宾语从句",
+          "en": "how the team supports professional development",
+          "zh": "团队如何支持职业发展"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "professional",
+          "ipa": "prəˈfeʃənəl",
+          "meaning": "职业的；专业的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "How do collaborators usually agree on responsibilities at the start?",
+      "zh": "合作开始时，参与者通常如何商定各自的职责？",
+      "note": "agree on 表示就某事达成一致；at the start 明确希望在开始阶段沟通。",
+      "quote": "",
+      "question": "What responsibilities would you clarify before joining a shared project?",
+      "chunks": [
+        {
+          "role": "疑问与助动词",
+          "en": "How do",
+          "zh": "如何"
+        },
+        {
+          "role": "主语",
+          "en": "collaborators",
+          "zh": "合作参与者"
+        },
+        {
+          "role": "谓语",
+          "en": "usually agree",
+          "zh": "通常达成一致"
+        },
+        {
+          "role": "介词短语",
+          "en": "on responsibilities",
+          "zh": "关于职责"
+        },
+        {
+          "role": "时间状语",
+          "en": "at the start",
+          "zh": "在开始时"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "responsibility",
+          "ipa": "rɪˌspɑːnsəˈbɪləti",
+          "meaning": "职责；责任"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My next step would be to identify where our research interests overlap.",
+      "zh": "我的下一步会是明确双方研究兴趣的交集。",
+      "note": "My next step would be to 用于提出具体后续行动；where 从句表达交集所在。",
+      "quote": "",
+      "question": "How would you close an interview with a useful next step?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My next step",
+          "zh": "我的下一步"
+        },
+        {
+          "role": "系动词",
+          "en": "would be",
+          "zh": "会是"
+        },
+        {
+          "role": "表语",
+          "en": "to identify",
+          "zh": "明确"
+        },
+        {
+          "role": "宾语从句",
+          "en": "where our research interests overlap",
+          "zh": "双方研究兴趣在哪里交汇"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "overlap",
+          "ipa": "ˌoʊvərˈlæp",
+          "meaning": "重叠；交汇"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 {
   "name": "micro-tools",
   "title": "科研小盒",
-  "description": "科研常用小工具集合：期刊·会议查询（JCR / CCF）、AI 投稿助手（摘要解读、期刊匹配与投稿准备）、文献图谱（BibTeX 本地分析与可视化）、数据库检索。支持 ZTools AI 或用户自己的 API，纯 Preload 模式，无构建步骤。",
-  "version": "1.5.1",
+  "description": "科研常用小工具集合：期刊·会议查询（JCR / CCF）、AI 投稿助手（摘要解读、期刊匹配与投稿准备）、文献图谱（BibTeX 本地分析与可视化）、数据库检索、科研英语训练与个人题库。支持 ZTools AI 或用户自己的 API，纯 Preload 模式，无构建步骤。",
+  "version": "1.6.12",
   "author": "Asa12138",
   "email": "bfzede@gmail.com",
   "main": "index.html",
-  "logo": "logo.png",
+  "logo": "assets/images/logo.png",
   "preload": "preload.js",
   "tools": {
     "search_journals": {
@@ -696,6 +696,265 @@
       "outputSchema": {
         "type": "object"
       }
+    },
+    "list_english_lessons": {
+      "description": "读取科研英语内置与自建题库目录，包括课程 ID、领域、句数和来源。只读，不调用模型。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    },
+    "get_english_lesson": {
+      "description": "按课程 ID 读取完整科研英语课程，含双语句子、词汇音标、解析和科研追问。只读。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lesson_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "required": [
+          "lesson_id"
+        ]
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    },
+    "prepare_english_material": {
+      "description": "为自建科研英语课程准备素材。text 与本机 file_path 二选一；支持 PDF/TXT/MD（10 MB），PDF 仅提取文字，不做 OCR。网络内容请先由 Agent 自己抓取并传入 text 和真实 source。返回文本、schema、会话 ID；由当前 Agent 自行生成课程，无需配置插件 API。会话保留 60 分钟。 返回 sources 编号片段；生成时使用 source_id，程序自动回填原文 quote。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 180000,
+            "minLength": 1
+          },
+          "file_path": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1
+          },
+          "domain": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "用户自定义领域；也兼容 environment、methods 等既有分类"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120,
+            "default": 6
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "maxLength": 300
+              },
+              "url": {
+                "type": "string",
+                "maxLength": 2000
+              },
+              "kind": {
+                "type": "string",
+                "maxLength": 80,
+                "description": "用户自定义素材类型，例如 paper、会议报告"
+              }
+            },
+            "required": []
+          },
+          "level": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "用户自定义难度或学习目标，例如 B2、博士面试"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "用户填写的题库名称；提供后会保留，不被模型输出改名"
+          }
+        },
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object"
+      }
+    },
+    "save_english_lesson": {
+      "description": "校验 Agent 课程及原文出处：支持 prepare 返回的 source_id 自动回填 quote，也兼容 quote 排版归一化匹配；不接受找不到出处的依据。save:false 返回预览；save:true 追加保存，不覆盖旧课。必须达到所请求的句数。不调用模型。",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "lesson": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "domain": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "description": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "source": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "maxLength": 80
+                  }
+                }
+              },
+              "sentences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source_id": {
+                      "type": "string",
+                      "maxLength": 50
+                    },
+                    "en": {
+                      "type": "string"
+                    },
+                    "zh": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string"
+                    },
+                    "question": {
+                      "type": "string"
+                    },
+                    "vocabulary": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "term": {
+                            "type": "string"
+                          },
+                          "ipa": {
+                            "type": "string"
+                          },
+                          "meaning": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "chunks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "role": {
+                            "type": "string"
+                          },
+                          "en": {
+                            "type": "string"
+                          },
+                          "zh": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "phonetics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "word": {
+                            "type": "string"
+                          },
+                          "ipa": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "en",
+                    "zh",
+                    "note",
+                    "question",
+                    "vocabulary",
+                    "chunks"
+                  ],
+                  "anyOf": [
+                    {
+                      "required": [
+                        "source_id"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "quote"
+                      ]
+                    }
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 120
+              }
+            },
+            "required": [
+              "title",
+              "domain",
+              "source",
+              "sentences"
+            ]
+          },
+          "save": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "session_id",
+          "lesson"
+        ]
+      },
+      "outputSchema": {
+        "type": "object"
+      }
     }
   },
   "features": [
@@ -768,6 +1027,15 @@
         "ncbi",
         "pubmed",
         "genome"
+      ]
+    },
+    {
+      "code": "english",
+      "explain": "科研英语：听写、拼句、阅读解析与口语；AI / MCP 创建个人题库",
+      "cmds": [
+        "科研英语",
+        "英语练习",
+        "research english"
       ]
     }
   ]

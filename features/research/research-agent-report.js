@@ -9,7 +9,7 @@ const list = items => '<ul class="detail-list">' + items.map(x => '<li>' + esc(x
 const section = (title, body) => '<section class="panel"><h2>' + esc(title) + '</h2>' + body + '</section>'
 module.exports = function makeReport(session, directory, api) {
   const read = file => fs.readFileSync(path.join(directory, file), 'utf8')
-  const assets = { css: read('index.css') + '\n' + read('research.css'), core: read('research-core.js'), metrics: read('research-metrics.js') }
+  const assets = { css: read('index.css') + '\n' + read('features/research/research.css'), core: read('features/research/research-core.js'), metrics: read('features/research/research-metrics.js') }
   const d = session.data
   if (session.kind === 'submission') {
     return R.build('投稿分析', R.submissionHTML(d, { export: true, getJournal: api && (id => api.get(id)) }), d.title || '摘要投稿分析', assets)

@@ -1,0 +1,798 @@
+{
+  "title": "会议讨论 · 讲图、澄清与建设性追问",
+  "domain": "communication",
+  "description": "20 句原创科研英语练习，涵盖会议问答、解释图表、澄清问题、提出建议与回应分歧。均为交流模板，请按真实项目和现场问题调整，不对应特定论文或实际结果。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "I would appreciate a little clarification about your comparison group.",
+      "zh": "我希望您能进一步说明一下比较组的情况。",
+      "note": "would appreciate 是礼貌提出请求的结构；about 后接需要澄清的具体内容。",
+      "quote": "",
+      "question": "Ask a presenter to clarify how the comparison group was selected.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would appreciate",
+          "zh": "希望得到"
+        },
+        {
+          "role": "宾语",
+          "en": "a little clarification",
+          "zh": "一点澄清"
+        },
+        {
+          "role": "介词短语",
+          "en": "about your comparison group.",
+          "zh": "关于您的比较组"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "clarification",
+          "ipa": "ˌklærəfɪˈkeɪʃən",
+          "meaning": "澄清；进一步说明"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I understand your question as a concern about the sampling strategy.",
+      "zh": "我理解您的问题是在关注采样策略。",
+      "note": "understand A as B 用于复述对问题的理解，便于对方及时纠正。",
+      "quote": "",
+      "question": "Restate a difficult audience question before answering it.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "understand",
+          "zh": "理解"
+        },
+        {
+          "role": "宾语",
+          "en": "your question",
+          "zh": "您的问题"
+        },
+        {
+          "role": "介词短语",
+          "en": "as a concern",
+          "zh": "是一个关切"
+        },
+        {
+          "role": "定语",
+          "en": "about the sampling strategy.",
+          "zh": "关于采样策略的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "concern",
+          "ipa": "kənˈsɜːrn",
+          "meaning": "关切；担忧"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The horizontal axis shows the variable used to compare these observations.",
+      "zh": "横坐标轴展示了用于比较这些观测值的变量。",
+      "note": "used to compare 是过去分词短语，修饰 variable；正式答问时补充变量名和单位。",
+      "quote": "",
+      "question": "Explain the horizontal axis of a figure from your project.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The horizontal axis",
+          "zh": "横坐标轴"
+        },
+        {
+          "role": "谓语",
+          "en": "shows",
+          "zh": "展示"
+        },
+        {
+          "role": "宾语",
+          "en": "the variable",
+          "zh": "变量"
+        },
+        {
+          "role": "定语",
+          "en": "used to compare these observations.",
+          "zh": "用于比较这些观测值的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "horizontal",
+          "ipa": "ˌhɔːrəˈzɑːntəl",
+          "meaning": "水平的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Let me explain the color scale before discussing the broader pattern.",
+      "zh": "我先解释色标，再讨论整体模式。",
+      "note": "Let me explain 是简洁的引导语；before discussing 明确讲图顺序。",
+      "quote": "",
+      "question": "Introduce a color scale to someone unfamiliar with your data.",
+      "chunks": [
+        {
+          "role": "引导语",
+          "en": "Let me",
+          "zh": "让我"
+        },
+        {
+          "role": "谓语",
+          "en": "explain",
+          "zh": "解释"
+        },
+        {
+          "role": "宾语",
+          "en": "the color scale",
+          "zh": "色标"
+        },
+        {
+          "role": "状语",
+          "en": "before discussing the broader pattern.",
+          "zh": "再讨论整体模式之前"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "broader",
+          "ipa": "ˈbrɔːdər",
+          "meaning": "更广泛的；整体层面的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would separate your question into design and interpretation.",
+      "zh": "我会把您的问题分为研究设计和结果解释两部分讨论。",
+      "note": "separate...into... 将复杂问题拆成可回答的部分；would 使回应更柔和。",
+      "quote": "",
+      "question": "Divide a question with several parts into a clear response structure.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would separate",
+          "zh": "会拆分"
+        },
+        {
+          "role": "宾语",
+          "en": "your question",
+          "zh": "您的问题"
+        },
+        {
+          "role": "介词短语",
+          "en": "into design and interpretation.",
+          "zh": "为设计和解释两方面"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "separate",
+          "ipa": "ˈsepəreɪt",
+          "meaning": "分开；区分"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "That is a useful distinction between measurement uncertainty and biological variation.",
+      "zh": "这一区分很有帮助，它区分了测量不确定性与生物变异。",
+      "note": "a distinction between A and B 指对两个概念的区分；that 承接对方刚提出的观点。",
+      "quote": "",
+      "question": "Explain the difference between measurement uncertainty and biological variation.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "That",
+          "zh": "这一点"
+        },
+        {
+          "role": "谓语",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "表语",
+          "en": "a useful distinction",
+          "zh": "有帮助的区分"
+        },
+        {
+          "role": "介词短语",
+          "en": "between measurement uncertainty and biological variation.",
+          "zh": "在测量不确定性与生物变异之间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "distinction",
+          "ipa": "dɪˈstɪŋkʃən",
+          "meaning": "区别；区分"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I agree with the concern but would interpret the evidence more cautiously.",
+      "zh": "我认同这一关切，但会更谨慎地解释这些证据。",
+      "note": "agree with 先回应对方的具体观点；but would 后接自己的判断方式。",
+      "quote": "",
+      "question": "Respond politely when you share a concern but differ on its interpretation.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "agree with",
+          "zh": "同意"
+        },
+        {
+          "role": "宾语",
+          "en": "the concern",
+          "zh": "这一关切"
+        },
+        {
+          "role": "并列谓语",
+          "en": "but would interpret",
+          "zh": "但会解释"
+        },
+        {
+          "role": "宾语",
+          "en": "the evidence",
+          "zh": "这些证据"
+        },
+        {
+          "role": "方式状语",
+          "en": "more cautiously.",
+          "zh": "更谨慎地"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "cautiously",
+          "ipa": "ˈkɔːʃəsli",
+          "meaning": "谨慎地"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "An alternative explanation would involve differences in the sampled environments.",
+      "zh": "另一种可能的解释是采样环境存在差异。",
+      "note": "An alternative explanation 引入替代解释；would involve 保留假设性。",
+      "quote": "",
+      "question": "Offer an alternative explanation without dismissing the speaker’s interpretation.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "An alternative explanation",
+          "zh": "另一种可能的解释"
+        },
+        {
+          "role": "谓语",
+          "en": "would involve",
+          "zh": "可能涉及"
+        },
+        {
+          "role": "宾语",
+          "en": "differences",
+          "zh": "差异"
+        },
+        {
+          "role": "定语",
+          "en": "in the sampled environments.",
+          "zh": "采样环境方面的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "alternative",
+          "ipa": "ɔːlˈtɜːrnətɪv",
+          "meaning": "替代的；另一种选择"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The evidence would be stronger if the comparison included an independent dataset.",
+      "zh": "如果比较纳入一个独立数据集，证据会更有力。",
+      "note": "would...if...included 构成假设条件句，用于提出建设性建议。",
+      "quote": "",
+      "question": "Suggest one feasible way to strengthen the evidence in a study.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The evidence",
+          "zh": "这些证据"
+        },
+        {
+          "role": "谓语",
+          "en": "would be stronger",
+          "zh": "会更有力"
+        },
+        {
+          "role": "条件",
+          "en": "if the comparison",
+          "zh": "如果比较"
+        },
+        {
+          "role": "从句谓语",
+          "en": "included an independent dataset.",
+          "zh": "纳入一个独立数据集"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "evidence",
+          "ipa": "ˈevɪdəns",
+          "meaning": "证据"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My suggestion is to examine the assumption most relevant to this conclusion.",
+      "zh": "我的建议是考察与这个结论最相关的假设。",
+      "note": "My suggestion is to... 用不定式明确建议采取的动作；most relevant 指出优先顺序。",
+      "quote": "",
+      "question": "Which assumption would you recommend checking first, and why?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My suggestion",
+          "zh": "我的建议"
+        },
+        {
+          "role": "谓语",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "表语",
+          "en": "to examine",
+          "zh": "考察"
+        },
+        {
+          "role": "宾语",
+          "en": "the assumption",
+          "zh": "这一假设"
+        },
+        {
+          "role": "定语",
+          "en": "most relevant to this conclusion.",
+          "zh": "与这个结论最相关的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "assumption",
+          "ipa": "əˈsʌmpʃən",
+          "meaning": "假设；前提"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would need to check the analysis before giving you a precise answer.",
+      "zh": "我需要先核查分析，才能给您准确回答。",
+      "note": "would need to check 说明需要核实的步骤；before giving 避免临场猜测。",
+      "quote": "",
+      "question": "How would you respond when the answer depends on an unchecked detail?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would need to check",
+          "zh": "需要核查"
+        },
+        {
+          "role": "宾语",
+          "en": "the analysis",
+          "zh": "分析"
+        },
+        {
+          "role": "状语",
+          "en": "before giving you",
+          "zh": "在向您给出……之前"
+        },
+        {
+          "role": "宾语",
+          "en": "a precise answer.",
+          "zh": "准确回答"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "precise",
+          "ipa": "prɪˈsaɪs",
+          "meaning": "准确的；精确的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "That question goes beyond the conditions covered by the current study.",
+      "zh": "那个问题超出了当前研究涵盖的条件。",
+      "note": "go beyond 指范围超出；covered by 为过去分词定语，具体限定研究条件。",
+      "quote": "",
+      "question": "Explain which aspect of an audience question falls outside your study.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "That question",
+          "zh": "那个问题"
+        },
+        {
+          "role": "谓语",
+          "en": "goes beyond",
+          "zh": "超出"
+        },
+        {
+          "role": "宾语",
+          "en": "the conditions",
+          "zh": "条件"
+        },
+        {
+          "role": "定语",
+          "en": "covered by the current study.",
+          "zh": "当前研究所涵盖的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "condition",
+          "ipa": "kənˈdɪʃən",
+          "meaning": "条件"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A useful next step would be to test that idea in another setting.",
+      "zh": "有价值的下一步是在另一种情境中检验那个想法。",
+      "note": "would be to... 把建议转化为明确行动；another setting 可指地点、人群或研究条件。",
+      "quote": "",
+      "question": "Propose a new setting that would meaningfully test the same idea.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A useful next step",
+          "zh": "有价值的下一步"
+        },
+        {
+          "role": "谓语",
+          "en": "would be",
+          "zh": "将是"
+        },
+        {
+          "role": "表语",
+          "en": "to test",
+          "zh": "检验"
+        },
+        {
+          "role": "宾语",
+          "en": "that idea",
+          "zh": "那个想法"
+        },
+        {
+          "role": "范围",
+          "en": "in another setting.",
+          "zh": "在另一种情境中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "setting",
+          "ipa": "ˈsetɪŋ",
+          "meaning": "情境；环境"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "For this audience, I would start with the biological question and then introduce the model.",
+      "zh": "面向在场听众，我会先介绍生物学问题，再引入模型。",
+      "note": "start with...and then... 清楚安排讲解顺序；For this audience 用于说明信息层次的选择。",
+      "quote": "",
+      "question": "How would you explain your analysis to researchers outside your field?",
+      "chunks": [
+        {
+          "role": "状语",
+          "en": "For this audience,",
+          "zh": "对在场听众而言"
+        },
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would start with",
+          "zh": "会先介绍"
+        },
+        {
+          "role": "宾语",
+          "en": "the biological question",
+          "zh": "生物学问题"
+        },
+        {
+          "role": "补充",
+          "en": "and then introduce the model.",
+          "zh": "再引入模型"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "audience",
+          "ipa": "ˈɔːdiəns",
+          "meaning": "听众"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "The technical detail matters because it affects which comparisons are valid.",
+      "zh": "这项技术细节很重要，因为它影响哪些比较是有效的。",
+      "note": "matters because 将技术细节与推断后果相连；which comparisons are valid 是宾语从句。",
+      "quote": "",
+      "question": "Choose one technical detail and explain why a general audience should care.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The technical detail",
+          "zh": "这项技术细节"
+        },
+        {
+          "role": "谓语",
+          "en": "matters",
+          "zh": "重要"
+        },
+        {
+          "role": "原因",
+          "en": "because it affects",
+          "zh": "因为它影响"
+        },
+        {
+          "role": "宾语从句",
+          "en": "which comparisons are valid.",
+          "zh": "哪些比较是有效的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "valid",
+          "ipa": "ˈvælɪd",
+          "meaning": "有效的；有依据的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Let me return to the specific comparison that addresses your question.",
+      "zh": "让我回到能够回应您问题的那项具体比较。",
+      "note": "return to 用于把讨论拉回相关证据；that addresses...说明选择该比较的理由。",
+      "quote": "",
+      "question": "Bring a discussion back to the evidence most relevant to the question.",
+      "chunks": [
+        {
+          "role": "引导语",
+          "en": "Let me",
+          "zh": "让我"
+        },
+        {
+          "role": "谓语",
+          "en": "return",
+          "zh": "回到"
+        },
+        {
+          "role": "介词短语",
+          "en": "to the specific comparison",
+          "zh": "那项具体比较"
+        },
+        {
+          "role": "定语",
+          "en": "that addresses your question.",
+          "zh": "能够回应您的问题的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "specific",
+          "ipa": "spəˈsɪfɪk",
+          "meaning": "具体的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Your suggestion could help distinguish between competing interpretations of the same pattern.",
+      "zh": "您的建议可能有助于区分对同一模式的不同解释。",
+      "note": "could help 表达建议的潜在价值；competing interpretations 指都需要评估的备选解释。",
+      "quote": "",
+      "question": "Explain how a colleague’s suggestion could resolve an uncertainty.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Your suggestion",
+          "zh": "您的建议"
+        },
+        {
+          "role": "谓语",
+          "en": "could help distinguish",
+          "zh": "可能有助于区分"
+        },
+        {
+          "role": "介词短语",
+          "en": "between competing interpretations",
+          "zh": "相互竞争的解释"
+        },
+        {
+          "role": "定语",
+          "en": "of the same pattern.",
+          "zh": "针对同一模式的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "competing",
+          "ipa": "kəmˈpiːtɪŋ",
+          "meaning": "相互竞争的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "I would welcome your thoughts on the most informative follow-up comparison.",
+      "zh": "我很希望听听您认为哪项后续比较最有信息价值。",
+      "note": "would welcome your thoughts on... 是邀请具体反馈的表达；informative 强调比较能提供什么信息。",
+      "quote": "",
+      "question": "Invite a discussant to suggest the most informative next comparison.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "I",
+          "zh": "我"
+        },
+        {
+          "role": "谓语",
+          "en": "would welcome",
+          "zh": "欢迎"
+        },
+        {
+          "role": "宾语",
+          "en": "your thoughts",
+          "zh": "您的意见"
+        },
+        {
+          "role": "介词短语",
+          "en": "on the most informative follow-up comparison.",
+          "zh": "关于最有信息价值的后续比较"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "informative",
+          "ipa": "ɪnˈfɔːrmətɪv",
+          "meaning": "有信息价值的；有启发性的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "We can discuss the implementation details after the session if more time is needed.",
+      "zh": "如果需要更多时间，我们可以在会议环节结束后讨论实施细节。",
+      "note": "after the session 提供继续讨论的具体时机；if...needed 说明何时采用该安排。",
+      "quote": "",
+      "question": "How would you continue a detailed discussion when question time is limited?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "We",
+          "zh": "我们"
+        },
+        {
+          "role": "谓语",
+          "en": "can discuss",
+          "zh": "可以讨论"
+        },
+        {
+          "role": "宾语",
+          "en": "the implementation details",
+          "zh": "实施细节"
+        },
+        {
+          "role": "状语",
+          "en": "after the session",
+          "zh": "会议环节结束后"
+        },
+        {
+          "role": "条件",
+          "en": "if more time is needed.",
+          "zh": "如果需要更多时间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "session",
+          "ipa": "ˈseʃən",
+          "meaning": "会议环节；讨论场次"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "My brief answer is that the interpretation depends on the comparison being made.",
+      "zh": "简而言之，这一解释取决于所进行的比较。",
+      "note": "My brief answer is that... 用于先给结论；being made 后置修饰 comparison。",
+      "quote": "",
+      "question": "Give a short answer first, then name the condition that changes it.",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "My brief answer",
+          "zh": "我的简短回答"
+        },
+        {
+          "role": "谓语",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "表语",
+          "en": "that the interpretation",
+          "zh": "这一解释"
+        },
+        {
+          "role": "从句谓语",
+          "en": "depends",
+          "zh": "取决于"
+        },
+        {
+          "role": "介词短语",
+          "en": "on the comparison being made.",
+          "zh": "正在进行的比较"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "brief",
+          "ipa": "briːf",
+          "meaning": "简短的"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

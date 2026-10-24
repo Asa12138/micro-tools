@@ -1,0 +1,763 @@
+{
+  "title": "机器学习 · 数据划分与模型验证",
+  "domain": "methods",
+  "description": "原创练习，按实际项目使用。20 句练习介绍数据泄漏、模型选择、类别不平衡、校准、外部验证及解释边界。",
+  "level": "B2",
+  "source": {
+    "title": "科研小盒原创科研英语课程 · 2026-10",
+    "url": "",
+    "kind": "original"
+  },
+  "sentences": [
+    {
+      "en": "The test set should remain separate during model development.",
+      "zh": "模型开发期间，测试集应保持独立。",
+      "note": "remain separate 表示持续保持分离状态；during model development 说明适用阶段。",
+      "quote": "",
+      "question": "When would you first inspect the test set results?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "The test set",
+          "zh": "测试集"
+        },
+        {
+          "role": "谓语",
+          "en": "should remain",
+          "zh": "应保持"
+        },
+        {
+          "role": "表语",
+          "en": "separate",
+          "zh": "独立"
+        },
+        {
+          "role": "时间状语",
+          "en": "during model development",
+          "zh": "在模型开发期间"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "separate",
+          "ipa": "ˈsepərət",
+          "meaning": "分开的；独立的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Preprocessing parameters should be learned from the training data only.",
+      "zh": "预处理参数应仅从训练数据中学习得到。",
+      "note": "should be learned 使用被动语态；only 限定参数学习的数据来源。",
+      "quote": "",
+      "question": "Which preprocessing steps learn parameters from the data?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Preprocessing parameters",
+          "zh": "预处理参数"
+        },
+        {
+          "role": "谓语",
+          "en": "should be learned",
+          "zh": "应学习得到"
+        },
+        {
+          "role": "介词短语",
+          "en": "from the training data only",
+          "zh": "仅从训练数据中"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "parameter",
+          "ipa": "pəˈræmɪtər",
+          "meaning": "参数"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Information leakage can make validation performance appear unrealistically strong.",
+      "zh": "信息泄漏可能让验证表现显得好得不真实。",
+      "note": "make something appear 加形容词，表达某种表象；can 保留具体情境下的可能性。",
+      "quote": "",
+      "question": "What is one possible source of leakage in your workflow?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Information leakage",
+          "zh": "信息泄漏"
+        },
+        {
+          "role": "谓语",
+          "en": "can make",
+          "zh": "可能使"
+        },
+        {
+          "role": "宾语",
+          "en": "validation performance",
+          "zh": "验证表现"
+        },
+        {
+          "role": "宾补",
+          "en": "appear unrealistically strong",
+          "zh": "显得好得不真实"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "leakage",
+          "ipa": "ˈliːkɪdʒ",
+          "meaning": "泄漏"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Samples from one individual should stay within the same partition.",
+      "zh": "来自同一个体的样本应保留在同一数据分区内。",
+      "note": "from one individual 修饰 samples；within the same partition 表示避免个体信息跨分区泄漏。",
+      "quote": "",
+      "question": "How would you split repeated samples from individual participants?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Samples",
+          "zh": "样本"
+        },
+        {
+          "role": "后置定语",
+          "en": "from one individual",
+          "zh": "来自同一个体的"
+        },
+        {
+          "role": "谓语",
+          "en": "should stay",
+          "zh": "应保留"
+        },
+        {
+          "role": "介词短语",
+          "en": "within the same partition",
+          "zh": "在同一数据分区内"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "partition",
+          "ipa": "pɑːrˈtɪʃən",
+          "meaning": "分区；划分"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A temporal split can evaluate predictions on later observations.",
+      "zh": "按时间划分可以评估模型对较晚观测的预测表现。",
+      "note": "temporal 表示与时间有关；on later observations 说明评估的数据来自较晚时段。",
+      "quote": "",
+      "question": "Would a temporal split fit your intended prediction task?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A temporal split",
+          "zh": "按时间进行的划分"
+        },
+        {
+          "role": "谓语",
+          "en": "can evaluate",
+          "zh": "可以评估"
+        },
+        {
+          "role": "宾语",
+          "en": "predictions",
+          "zh": "预测"
+        },
+        {
+          "role": "介词短语",
+          "en": "on later observations",
+          "zh": "在较晚观测上的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "temporal",
+          "ipa": "ˈtempərəl",
+          "meaning": "时间上的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Cross-validation estimates performance under the chosen resampling scheme.",
+      "zh": "交叉验证估计的是所选重采样方案下的模型表现。",
+      "note": "under the chosen scheme 明确性能估计依赖的设计；estimates 不表示保证未来表现。",
+      "quote": "",
+      "question": "Why did you choose that cross-validation scheme?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Cross-validation",
+          "zh": "交叉验证"
+        },
+        {
+          "role": "谓语",
+          "en": "estimates",
+          "zh": "估计"
+        },
+        {
+          "role": "宾语",
+          "en": "performance",
+          "zh": "模型表现"
+        },
+        {
+          "role": "介词短语",
+          "en": "under the chosen resampling scheme",
+          "zh": "在所选重采样方案下"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "scheme",
+          "ipa": "skiːm",
+          "meaning": "方案"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Nested validation separates parameter tuning from the outer performance evaluation.",
+      "zh": "嵌套验证将参数调优与外层性能评估分开。",
+      "note": "separate A from B 表示分离两项工作；outer 指嵌套结构中的外层。",
+      "quote": "",
+      "question": "What role does the inner validation loop serve?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Nested validation",
+          "zh": "嵌套验证"
+        },
+        {
+          "role": "谓语",
+          "en": "separates",
+          "zh": "分开"
+        },
+        {
+          "role": "宾语",
+          "en": "parameter tuning",
+          "zh": "参数调优"
+        },
+        {
+          "role": "介词短语",
+          "en": "from the outer performance evaluation",
+          "zh": "与外层性能评估"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "nested",
+          "ipa": "ˈnestɪd",
+          "meaning": "嵌套的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Feature selection belongs inside the training process for each split.",
+      "zh": "每次数据划分中的特征选择都应在训练流程内部完成。",
+      "note": "belongs inside 表示应归入某个范围；for each split 强调要对每次划分分别执行。",
+      "quote": "",
+      "question": "Where does feature selection occur in your validation procedure?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Feature selection",
+          "zh": "特征选择"
+        },
+        {
+          "role": "谓语",
+          "en": "belongs",
+          "zh": "应归于"
+        },
+        {
+          "role": "介词短语",
+          "en": "inside the training process",
+          "zh": "训练流程内部"
+        },
+        {
+          "role": "范围状语",
+          "en": "for each split",
+          "zh": "对于每次划分"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "selection",
+          "ipa": "səˈlekʃən",
+          "meaning": "选择"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "A simple baseline helps establish whether added complexity is useful.",
+      "zh": "简单的基线模型有助于判断增加复杂度是否有用。",
+      "note": "whether 引出待回答的问题；added complexity 指更复杂模型带来的额外复杂度。",
+      "quote": "",
+      "question": "Which baseline would provide a fair comparison for your model?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "A simple baseline",
+          "zh": "简单的基线模型"
+        },
+        {
+          "role": "谓语",
+          "en": "helps establish",
+          "zh": "有助于判断"
+        },
+        {
+          "role": "宾语从句",
+          "en": "whether added complexity is useful",
+          "zh": "增加复杂度是否有用"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "baseline",
+          "ipa": "ˈbeɪslaɪn",
+          "meaning": "基线；基准"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Class imbalance can make overall accuracy a misleading summary.",
+      "zh": "类别不平衡可能使总体准确率成为具有误导性的概括。",
+      "note": "make A B 使用名词作宾语补足语；overall 限定这里指总体准确率。",
+      "quote": "",
+      "question": "Which metric would complement accuracy for an imbalanced dataset?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Class imbalance",
+          "zh": "类别不平衡"
+        },
+        {
+          "role": "谓语",
+          "en": "can make",
+          "zh": "可能使"
+        },
+        {
+          "role": "宾语",
+          "en": "overall accuracy",
+          "zh": "总体准确率"
+        },
+        {
+          "role": "宾补",
+          "en": "a misleading summary",
+          "zh": "成为误导性的概括"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "imbalance",
+          "ipa": "ɪmˈbæləns",
+          "meaning": "不平衡"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Precision depends on prevalence as well as model performance.",
+      "zh": "精确率既取决于模型表现，也取决于阳性比例。",
+      "note": "depend on 表示取决于；as well as 并列两个因素。分类任务中的 precision 指精确率。",
+      "quote": "",
+      "question": "Why might precision change in a different population?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Precision",
+          "zh": "精确率"
+        },
+        {
+          "role": "谓语",
+          "en": "depends",
+          "zh": "取决于"
+        },
+        {
+          "role": "介词短语",
+          "en": "on prevalence",
+          "zh": "阳性比例"
+        },
+        {
+          "role": "并列短语",
+          "en": "as well as model performance",
+          "zh": "以及模型表现"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "prevalence",
+          "ipa": "ˈprevələns",
+          "meaning": "阳性比例；患病率"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Recall measures the proportion of actual positives identified by the model.",
+      "zh": "召回率衡量模型识别出的阳性占实际阳性的比例。",
+      "note": "the proportion of 明确这里衡量比例；actual positives 是分母，identified by the model 限定其中被识别的部分。",
+      "quote": "",
+      "question": "When is missing a positive case especially costly?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Recall",
+          "zh": "召回率"
+        },
+        {
+          "role": "谓语",
+          "en": "measures",
+          "zh": "衡量"
+        },
+        {
+          "role": "宾语",
+          "en": "the proportion",
+          "zh": "比例"
+        },
+        {
+          "role": "介词短语",
+          "en": "of actual positives",
+          "zh": "实际阳性中"
+        },
+        {
+          "role": "后置定语",
+          "en": "identified by the model",
+          "zh": "被模型识别的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "recall",
+          "ipa": "rɪˈkɔːl",
+          "meaning": "召回率"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Choosing a decision threshold requires considering the costs of different errors.",
+      "zh": "选择决策阈值需要考虑不同错误的代价。",
+      "note": "Choosing 加名词构成动名词主语；requires considering 表示决策时需要考虑的因素，不预设阈值已正确反映代价。",
+      "quote": "",
+      "question": "How would the intended application affect your decision threshold?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Choosing a decision threshold",
+          "zh": "选择决策阈值"
+        },
+        {
+          "role": "谓语",
+          "en": "requires",
+          "zh": "需要"
+        },
+        {
+          "role": "宾语",
+          "en": "considering the costs",
+          "zh": "考虑代价"
+        },
+        {
+          "role": "后置定语",
+          "en": "of different errors",
+          "zh": "不同错误的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "threshold",
+          "ipa": "ˈθreʃhoʊld",
+          "meaning": "阈值"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Calibration compares predicted probabilities with observed frequencies of the outcome.",
+      "zh": "校准比较预测概率与实际观测到的结局频率。",
+      "note": "compare A with B 用来介绍比较对象；probabilities 与 frequencies 区分预测值和观测频率。",
+      "quote": "",
+      "question": "Why does probability calibration matter for decision making?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Calibration",
+          "zh": "校准"
+        },
+        {
+          "role": "谓语",
+          "en": "compares",
+          "zh": "比较"
+        },
+        {
+          "role": "宾语",
+          "en": "predicted probabilities",
+          "zh": "预测概率"
+        },
+        {
+          "role": "介词短语",
+          "en": "with observed frequencies",
+          "zh": "与观测频率"
+        },
+        {
+          "role": "后置定语",
+          "en": "of the outcome",
+          "zh": "该结局的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "probability",
+          "ipa": "ˌprɑːbəˈbɪləti",
+          "meaning": "概率"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Good discrimination does not guarantee that predicted probabilities are calibrated.",
+      "zh": "良好的区分能力并不保证预测概率经过良好校准。",
+      "note": "does not guarantee 后接 that 从句；discrimination 与 calibration 是不同的性能维度。",
+      "quote": "",
+      "question": "How would you distinguish discrimination from calibration?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Good discrimination",
+          "zh": "良好的区分能力"
+        },
+        {
+          "role": "谓语",
+          "en": "does not guarantee",
+          "zh": "并不保证"
+        },
+        {
+          "role": "宾语从句",
+          "en": "that predicted probabilities are calibrated",
+          "zh": "预测概率经过良好校准"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "guarantee",
+          "ipa": "ˌɡærənˈtiː",
+          "meaning": "保证"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "External validation examines performance in data collected outside the development setting.",
+      "zh": "外部验证考察模型在开发环境之外收集的数据上的表现。",
+      "note": "collected 是过去分词，修饰 data；outside 明确与开发环境之间的区分。",
+      "quote": "",
+      "question": "What makes a validation dataset external to your development data?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "External validation",
+          "zh": "外部验证"
+        },
+        {
+          "role": "谓语",
+          "en": "examines",
+          "zh": "考察"
+        },
+        {
+          "role": "宾语",
+          "en": "performance",
+          "zh": "表现"
+        },
+        {
+          "role": "介词短语",
+          "en": "in data collected",
+          "zh": "在收集的数据中"
+        },
+        {
+          "role": "后置修饰",
+          "en": "outside the development setting",
+          "zh": "开发环境之外的"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "external",
+          "ipa": "ɪkˈstɜːrnəl",
+          "meaning": "外部的"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Distribution shifts can weaken performance when the deployment population changes.",
+      "zh": "部署人群发生变化时，分布偏移可能削弱模型表现。",
+      "note": "when 引导情境从句；can weaken 表示可能影响，不能据此认定所有偏移都有相同后果。",
+      "quote": "",
+      "question": "Which population changes could affect your model after deployment?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Distribution shifts",
+          "zh": "分布偏移"
+        },
+        {
+          "role": "谓语",
+          "en": "can weaken",
+          "zh": "可能削弱"
+        },
+        {
+          "role": "宾语",
+          "en": "performance",
+          "zh": "模型表现"
+        },
+        {
+          "role": "时间状语",
+          "en": "when the deployment population changes",
+          "zh": "当部署人群发生变化时"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "distribution",
+          "ipa": "ˌdɪstrɪˈbjuːʃən",
+          "meaning": "分布"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Feature importance describes model behavior rather than proving a biological mechanism.",
+      "zh": "特征重要性描述模型的行为，并不能证明生物学机制。",
+      "note": "rather than proving 对照两种解释；model behavior 将重要性限定在模型层面。",
+      "quote": "",
+      "question": "How would you present an important feature without making a causal claim?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Feature importance",
+          "zh": "特征重要性"
+        },
+        {
+          "role": "谓语",
+          "en": "describes",
+          "zh": "描述"
+        },
+        {
+          "role": "宾语",
+          "en": "model behavior",
+          "zh": "模型行为"
+        },
+        {
+          "role": "对照短语",
+          "en": "rather than proving",
+          "zh": "而非证明"
+        },
+        {
+          "role": "宾语",
+          "en": "a biological mechanism",
+          "zh": "生物学机制"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "behavior",
+          "ipa": "bɪˈheɪvjər",
+          "meaning": "行为"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "Correlated features can share predictive information and complicate importance rankings.",
+      "zh": "相关特征可能共享预测信息，使重要性排序更复杂。",
+      "note": "share 和 complicate 是共用 can 的并列谓语；rankings 指特征的相对排序。",
+      "quote": "",
+      "question": "How might correlated features affect your interpretation of importance?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "Correlated features",
+          "zh": "相关特征"
+        },
+        {
+          "role": "谓语",
+          "en": "can share",
+          "zh": "可能共享"
+        },
+        {
+          "role": "宾语",
+          "en": "predictive information",
+          "zh": "预测信息"
+        },
+        {
+          "role": "并列谓语",
+          "en": "and complicate",
+          "zh": "并使其复杂化"
+        },
+        {
+          "role": "宾语",
+          "en": "importance rankings",
+          "zh": "重要性排序"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "ranking",
+          "ipa": "ˈræŋkɪŋ",
+          "meaning": "排序"
+        }
+      ],
+      "phonetics": []
+    },
+    {
+      "en": "We should report performance uncertainty alongside the chosen evaluation metrics.",
+      "zh": "我们应在报告所选评估指标的同时，报告性能的不确定性。",
+      "note": "alongside 表示共同呈现；chosen evaluation metrics 提醒读者指标经过选择且需要说明。",
+      "quote": "",
+      "question": "How would you communicate uncertainty in model performance?",
+      "chunks": [
+        {
+          "role": "主语",
+          "en": "We",
+          "zh": "我们"
+        },
+        {
+          "role": "谓语",
+          "en": "should report",
+          "zh": "应报告"
+        },
+        {
+          "role": "宾语",
+          "en": "performance uncertainty",
+          "zh": "性能的不确定性"
+        },
+        {
+          "role": "介词短语",
+          "en": "alongside the chosen evaluation metrics",
+          "zh": "以及所选评估指标"
+        }
+      ],
+      "vocabulary": [
+        {
+          "term": "evaluation",
+          "ipa": "ɪˌvæljuˈeɪʃən",
+          "meaning": "评估"
+        }
+      ],
+      "phonetics": []
+    }
+  ]
+}

@@ -4,14 +4,14 @@ const fs = require('node:fs')
 const path = require('node:path')
 const os = require('node:os')
 const { JSDOM, VirtualConsole } = require('jsdom')
-const C = require('../research-core')
+const C = require('../features/research/research-core')
 const root = path.join(__dirname, '..')
 let modelCalls = 0
 const handlers = {}
-global.window = { ztools: { ai() { modelCalls++; throw new Error('No model configured') }, registerTool(name, handler) { handlers[name] = handler } } }
+global.window = { ztools: { dbStorage: { getItem() {}, setItem() {} }, ai() { modelCalls++; throw new Error('No model configured') }, registerTool(name, handler) { handlers[name] = handler } } }
 require('../preload')
 const bridge = window.researchAgent, journalApi = window.journalApi
-assert.equal(Object.keys(handlers).length, 10)
+assert.equal(Object.keys(handlers).length, 14)
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'research-mcp-test-'))
 async function main() {
   const abstract = 'We compared soil microbial communities across an observational chronosequence. Community composition was associated with soil carbon and moisture. The sampling design does not establish causal effects.'
@@ -74,7 +74,7 @@ async function main() {
   w.addEventListener('error', e => errors.push(e.message))
   w.journalApi = journalApi; w.researchAgent = bridge
   w.researchApi = { getSettings: () => ({ mode: 'host', hostAvailable: false }), call: () => { modelCalls++; throw Error('No model') } }
-  for (const file of ['research-core.js', 'research-metrics.js', 'research-report.js', 'research-prompts.js', 'index.js', 'research-ui.js']) w.eval(fs.readFileSync(path.join(root, file), 'utf8'))
+  for (const file of ['features/research/research-core.js', 'features/research/research-metrics.js', 'features/research/research-report.js', 'features/research/research-prompts.js', 'index.js', 'features/research/research-ui.js']) w.eval(fs.readFileSync(path.join(root, file), 'utf8'))
   w.document.getElementById('submissionAgent').click()
   assert.ok(w.document.getElementById('submissionResults').textContent.includes('ISME Journal'))
   assert.equal(w.injected, undefined)
@@ -173,6 +173,6 @@ async function main() {
   const now = Date.now
   try { Date.now = () => now() + 61 * 60 * 1000; assert.throws(() => handlers.get_literature_entries({ session_id: parsed.session_id }), /过期/); assert.equal(bridge.latest('literature'), null) } finally { Date.now = now }
   assert.equal(modelCalls, 0)
-  console.log('PASS: 10 registered tools, no-API submission/literature workflows, atomic validation, live UI import, interactive HTML/CSV exports, file and session boundaries; model calls = 0')
+  console.log('PASS: 14 registered tools, no-API submission/literature workflows, atomic validation, live UI import, interactive HTML/CSV exports, file and session boundaries; model calls = 0')
 }
 main().catch(e => { console.error(e); process.exitCode = 1 }).finally(() => fs.rmSync(temp, { recursive: true, force: true }))

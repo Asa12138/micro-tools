@@ -5,10 +5,10 @@ const path = require('node:path')
 const vm = require('node:vm')
 const http = require('node:http')
 const { JSDOM } = require('jsdom')
-const C = require('../research-core')
-const M = require('../research-metrics')
-const R = require('../research-report')
-const createService = require('../research-service')
+const C = require('../features/research/research-core')
+const M = require('../features/research/research-metrics')
+const R = require('../features/research/research-report')
+const createService = require('../features/research/research-service')
 const root = path.join(__dirname, '..')
 const testcase = process.argv[2]
 const output = process.argv[3]
@@ -104,7 +104,9 @@ async function main() {
     check(a.kinds.find(x => x.kind === 'unknown').count === 111, 'do not invent paper genre')
     console.log('BibTeX:', JSON.stringify({ total: a.total, journals: a.journals.length, missing: a.missing, years: [a.years[0].label, a.years.at(-1).label] }))
   }
-  global.window = {}
+  // Preload also initializes the English service; provide an isolated host store.
+  const preloadStore = new Map()
+  global.window = { ztools: { dbStorage: { getItem: key => preloadStore.get(key), setItem: (key, value) => preloadStore.set(key, value) } } }
   require('../preload'); const journalApi = global.window.journalApi
   if (entries) { const matches = M.matchJournals(entries, journalApi), actual = M.analyze(entries, matches); check(actual.authors.length === 510 && actual.ifRecords.length === 69 && actual.statuses['missing-venue'] === 36 && actual.statuses.unmatched === 6, 'real corpus author and conservative JIF coverage'); console.log('Bibliometrics:', JSON.stringify({ authors: actual.authors.length, multi: actual.multi, matchedJif: actual.ifRecords.length, statuses: actual.statuses, ifYears: actual.ifYears, median: actual.ifSummary.median })); if (output) fs.writeFileSync(path.join(output, 'bibliometrics.json'), JSON.stringify(actual, null, 2)) }
   const shortlist = C.candidates(journalApi, { journal_seeds: ['Nature', 'ISME Journal'], search_terms: ['microbiology ecology'] })
@@ -139,8 +141,8 @@ async function main() {
     if (messages[0].content.includes('已核对期刊候选')) return JSON.stringify({ strategy: '匹配', recommendations: [{ id: input.candidates[0].id, tier: '优先比较', fit: '较高', reasons: ['主题'], concerns: [], to_verify: ['官网要求'] }, { id: 999999, tier: '优先比较' }, { id: input.candidates[0].id }], general_assessment: [{ id: input.candidates.find(c => c.is_general)?.id, decision: '入选', reason: '跨领域意义待核实' }, { id: 999999, reason: '不存在' }], checklist: [{ title: '检查稿型', detail: '官网核实' }], limitations: '仅摘要' })
     return JSON.stringify({ items: input.items.map(e => ({ id: e.id, kind: 'research', evidence: e.title.slice(0, 20), reason: '测试推断' })).concat([{ id: 999999, kind: 'review', evidence: 'fake' }]) })
   } }
-  for (const file of ['research-core.js', 'research-metrics.js', 'research-report.js', 'research-prompts.js', 'index.js', 'research-ui.js']) w.eval(fs.readFileSync(path.join(root, file), 'utf8'))
-  check([...doc.querySelectorAll('#view-home [data-open]')].map(e => e.dataset.open).join() === 'journal,submission,literature,database', 'homepage card order')
+  for (const file of ['features/research/research-core.js', 'features/research/research-metrics.js', 'features/research/research-report.js', 'features/research/research-prompts.js', 'index.js', 'features/research/research-ui.js']) w.eval(fs.readFileSync(path.join(root, file), 'utf8'))
+  check([...doc.querySelectorAll('#view-home [data-open]')].map(e => e.dataset.open).join() === 'journal,submission,literature,english,database', 'homepage card order')
   doc.querySelector('[data-open="submission"]').click()
   check(!get('view-submission').hidden && get('view-home').hidden, 'submission routing')
   check(!get('paperTitle').required && get('paperType').value === 'auto' && get('paperIncludeGeneral').checked, 'optional title, automatic type, general journals on by default')

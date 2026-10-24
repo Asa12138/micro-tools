@@ -1,0 +1,42 @@
+const assert=require('node:assert/strict'),C=require('../features/english/english-core'),Generation=require('../features/english/english-generation');
+const create=require('../features/english/english-service');
+async function main(){
+ const raw='We found no signifi-\ncant change in soil\u00a0\u00a0carbon. The “ﬁeld” result was 12 percent.';
+ const course={sentences:[{quote:'We found no significant change in soil carbon.'},{quote:'The "field" result was 12 percent.'}]};
+ C.validateEvidence(course,raw);for(const s of course.sentences)assert.ok(raw.includes(s.quote));
+ for(const quote of ['We found significant change in soil carbon.','The "field" result was 21 percent.'])assert.throws(()=>C.validateEvidence({sentences:[{quote}]},raw),/未匹配/);
+ const map=new Map(),api=create({getItem:k=>map.get(k),setItem:(k,v)=>map.set(k,structuredClone(v))});
+ const long=Array.from({length:900},(_,i)=>`In study ${i}, researchers compared soil communities across sampling sites and reported associations with environmental measurements.`).join('\n')+'\nReferences\nUnrelated bibliographic text appears here.';
+ const prepared=await api.prepare({text:long,title:'User title',count:7});assert.ok(prepared.material_stats.selected_chars<=18000);assert.ok(prepared.sources.some(x=>x.text.includes('study 899')));assert.ok(prepared.sources.every(x=>!x.text.includes('bibliographic')));
+ const short=await api.prepare({text:raw,title:'Original title',count:2});
+ const anchored=api.validateSession({session_id:short.session_id,partial:true,lesson:{title:'Model changed it',sentences:[{en:'A teaching sentence.',source_id:short.sources[0].id}]}});
+ assert.equal(anchored.title,'Original title');assert.ok(raw.includes(anchored.sentences[0].quote));assert.equal(anchored.sentences[0].source_id,undefined);
+ assert.throws(()=>api.validateSession({session_id:short.session_id,partial:true,lesson:{title:'x',sentences:[{en:'A teaching sentence.',source_id:'S999'}]}}),/编号不存在/);
+ assert.throws(()=>api.tools.save_english_lesson({session_id:short.session_id,lesson:anchored,partial:true,save:true}),/句数应为 2/);
+ let calls=0,failSecond=true;const payloads=[],drafts=[];
+ const job=new Generation({api,call:async messages=>{calls++;const payload=JSON.parse(messages[1].content);payloads.push(payload);return JSON.stringify({sentences:Array.from({length:payload.count},(_,i)=>({en:`We compare soil communities in example ${calls*10+i}.`,chunks:[{role:'主语',en:'We'},{role:'谓语',en:'compare'},{role:'宾语',en:'soil communities'},{role:'状语',en:`in example ${calls*10+i}`}],source_id:failSecond&&calls===2?'invalid':payload.sources[0].id}))})},onDraft:(d,id,partial)=>drafts.push({count:d.sentences.length,partial})});
+ await assert.rejects(job.start({text:long,title:'Chosen title',count:7}),/编号不存在/);assert.equal(job.sentences.length,6);assert.ok(job.failedResponse);assert.deepEqual(drafts,[{count:6,partial:true}]);
+ failSecond=false;await job.run();assert.equal(calls,3);assert.equal(payloads[2].count,1);assert.equal(job.sentences.length,7);assert.equal(job.course().title,'Chosen title');assert.equal(drafts.at(-1).partial,false);assert.ok(job.sentences.every(x=>long.includes(x.quote)));assert.ok(JSON.stringify(payloads[0]).length<long.length/4);
+ let resolveCall,cancelled=false;const stopJob=new Generation({api,call:()=>new Promise(r=>resolveCall=r),cancel:()=>{cancelled=true}});const pending=stopJob.start({title:'Cancel',text:raw,count:1});await new Promise(r=>setImmediate(r));stopJob.stop();resolveCall(JSON.stringify({sentences:[{en:'We study soil.',source_id:'S001'}]}));await assert.rejects(pending,/已停止/);assert.equal(cancelled,true);assert.equal(stopJob.sentences.length,0);
+ const shortSentence={en:'Soil carbon did not change under these study conditions.',chunks:[{role:'主语',en:'Soil carbon'},{role:'谓语',en:'did not change'},{role:'状语',en:'under these study conditions.'}],source_id:'S001'};
+ const makeLesson=sentence=>({title:'Length check',sentences:[sentence]});
+ assert.equal(C.validateTeaching(makeLesson(shortSentence)).sentences[0],shortSentence);
+ assert.doesNotThrow(()=>C.validateTeaching(makeLesson({en:'We study soil.'}))); // Existing MCP/manual fixtures stay compatible.
+ assert.throws(()=>C.validateTeaching(makeLesson({en:'We study soil.'}),{requireChunks:true}),/缺少句法块/);
+ assert.doesNotThrow(()=>C.validateTeaching(makeLesson({en:Array(22).fill('word').join(' ')})));
+ assert.throws(()=>C.validateTeaching(makeLesson({en:Array(23).fill('word').join(' ')})),e=>e.code==='ENGLISH_TEACHING'&&e.message.includes('23 词'));
+ assert.throws(()=>C.validateTeaching(makeLesson({...shortSentence,chunks:[{en:shortSentence.en}]})),/每块应为 1–6 词/);
+ assert.throws(()=>C.validateTeaching(makeLesson({...shortSentence,chunks:[{en:'Soil carbon did change'},{en:'under these study conditions.'}]})),/不能增删/); // Must not lose negation.
+ const badSentence={en:'These soil carbon measurements may reflect local variation across the sampled sites, but further research is required to establish the underlying ecological mechanism.',source_id:'S001',chunks:[{role:'背景',en:'These soil carbon measurements may reflect local variation across the sampled sites, but further research is required to establish the underlying ecological mechanism.'}]};
+ assert.ok(C.words(badSentence.en).length>22);
+ let repairCalls=0;const repairPhases=[],repairMessages=[];
+ const repairedJob=new Generation({api,call:async messages=>{repairCalls++;repairMessages.push(structuredClone(messages));return JSON.stringify({sentences:[repairCalls===1?badSentence:shortSentence]})},onProgress:p=>repairPhases.push(p.phase)});
+ await repairedJob.start({title:'Short practice',text:raw,count:1});assert.equal(repairCalls,2);assert.equal(repairedJob.sentences.length,1);assert.equal(repairedJob.failedResponse,'');assert.ok(repairPhases.includes('repair'));assert.equal(repairMessages[1].length,4);assert.match(repairMessages[1][3].content,/最多 22 词/);
+ let repeatedCalls=0;const repeatedJob=new Generation({api,call:async()=>{repeatedCalls++;return JSON.stringify({sentences:[badSentence]})}});
+ await assert.rejects(repeatedJob.start({title:'Still too long',text:raw,count:1}),e=>e.code==='ENGLISH_TEACHING');assert.equal(repeatedCalls,2);assert.equal(repeatedJob.sentences.length,0);assert.ok(repeatedJob.failedResponse.includes(badSentence.en));
+ let finishRepair,cancelRepairCalls=0;const cancelledRepair=new Generation({api,call:async()=>{cancelRepairCalls++;if(cancelRepairCalls===1)return JSON.stringify({sentences:[badSentence]});return new Promise(r=>{finishRepair=r})}});
+ const repairPending=cancelledRepair.start({title:'Cancelled correction',text:raw,count:1});await new Promise(r=>setImmediate(r));assert.equal(cancelRepairCalls,2);cancelledRepair.stop();finishRepair(JSON.stringify({sentences:[shortSentence]}));await assert.rejects(repairPending,/已停止/);assert.equal(cancelledRepair.sentences.length,0);assert.ok(cancelledRepair.failedResponse.includes(badSentence.en));
+ console.log('PASS generation: typography-safe evidence, no factual fuzzy matching, source IDs, preserved title, bounded context, partial recovery, resume, sentence/chunk bounds, one repair per batch and cancellation. Model calls are stubs.');
+ console.log(JSON.stringify({originalChars:long.length,firstBatchPayloadChars:JSON.stringify(payloads[0]).length,selectedFragments:prepared.sources.length}));
+}
+main().catch(e=>{console.error(e);process.exitCode=1});

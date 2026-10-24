@@ -22,9 +22,9 @@
   function alive() { if (stopped) throw new Error('已停止分析。') }
   async function ask(prompt, input) { const result = await api().call([{ role: 'system', content: prompt }, { role: 'user', content: JSON.stringify(input) }]); alive(); return C.jsonResult(result) }
   function modelLabel() {
-    if (!window.researchApi) return 'AI 尚未连接 · 本地文献分析可用'
+    if (!window.researchApi) return 'AI 尚未连接 · 本地功能可用'
     const conf = api().getSettings()
-    return conf.mode === 'host' ? '模型：ZTools ' + (conf.hostModel || '默认模型') : '模型：' + (conf.model || '待配置') + (conf.hasKey ? ' · 会话 key 已填写' : ' · 请检查 key / 本地服务')
+    return conf.mode === 'host' ? '模型：ZTools ' + (conf.hostModel || '默认模型') : '模型：' + (conf.model || '待配置') + (conf.hasKey ? ' · API 已配置' : ' · 请检查 key / 本地服务')
   }
   function updateModelLabels() { document.querySelectorAll('[data-model-status]').forEach(el => { el.textContent = modelLabel() }) }
   q('#settingsBtn').addEventListener('click', () => showView('settings'))
@@ -43,6 +43,10 @@
     ollama: { protocol: 'openai', baseUrl: 'http://127.0.0.1:11434/v1', url: 'https://docs.ollama.com/api/openai-compatibility', guide: '先启动本机 Ollama 并拉取模型，填写本机已有的模型名称。通常无需 key。请求在本机处理。' }
   }
   function modeChanged() { const direct = q('#aiMode').value === 'direct'; q('#hostSettings').hidden = direct; q('#directSettings').hidden = !direct }
+  function keyState(conf) {
+    q('#keyState').textContent = conf.hasKey ? (conf.credentialStorage === 'session' ? 'API key 暂存于本次会话' : 'API key 已保存 · 重启后可用') : '尚未保存 API key'
+    q('#aiKey').placeholder = conf.hasKey ? '已配置，留空保留；输入新 key 可替换' : '填写 API key，保存后在本机保留'
+  }
   function providerGuide() {
     const preset = PRESETS[q('#aiProvider').value] || PRESETS.custom
     q('#providerGuide').innerHTML = esc(preset.guide) + (preset.url ? ' <button type="button" class="text-button" id="providerDocs">官方配置文档 ↗</button>' : '')
@@ -53,7 +57,7 @@
       const conf = api().getSettings()
       q('#aiMode').value = conf.mode; q('#aiProtocol').value = conf.protocol; q('#aiProvider').value = PRESETS[conf.provider] ? conf.provider : 'custom'
       q('#aiBaseUrl').value = conf.baseUrl; q('#aiModel').value = conf.model; q('#aiKey').value = ''
-      q('#keyState').textContent = conf.hasKey ? '本次会话已配置 key' : '本次会话没有 key'
+      keyState(conf)
       modeChanged(); providerGuide()
       const models = await api().models()
       q('#hostModel').innerHTML = '<option value="">ZTools 默认模型</option>' + models.map(m => '<option value="' + esc(m.value) + '">' + esc((m.provider ? m.provider + ' · ' : '') + m.label) + '</option>').join('')
@@ -64,14 +68,14 @@
   }
   function saveSettings() {
     const conf = api().saveSettings({ mode: q('#aiMode').value, protocol: q('#aiProtocol').value, provider: q('#aiProvider').value, baseUrl: q('#aiBaseUrl').value, model: q('#aiModel').value, hostModel: q('#hostModel').value, apiKey: q('#aiKey').value })
-    q('#aiKey').value = ''; q('#keyState').textContent = conf.hasKey ? '本次会话已配置 key' : '本次会话没有 key'; updateModelLabels()
+    q('#aiKey').value = ''; keyState(conf); updateModelLabels()
     return conf
   }
   q('#aiMode').onchange = modeChanged
   q('#aiProvider').onchange = () => { const p = PRESETS[q('#aiProvider').value]; q('#aiProtocol').value = p.protocol; q('#aiBaseUrl').value = p.baseUrl; q('#aiModel').value = ''; q('#aiKey').value = ''; providerGuide() }
   q('#openHostSettings').onclick = () => { try { api().openHostSettings() } catch (err) { status('settingsStatus', err.message, 'error') } }
-  q('#clearApiKey').onclick = () => { try { api().saveSettings({ clearKey: true }); q('#aiKey').value = ''; q('#keyState').textContent = '本次会话没有 key'; status('settingsStatus', '会话 key 已清除。', 'success'); updateModelLabels() } catch (err) { status('settingsStatus', err.message, 'error') } }
-  q('#settingsForm').onsubmit = e => { e.preventDefault(); try { const conf = saveSettings(); status('settingsStatus', conf.persisted ? '配置已保存。API key 仅保留在本次会话内存中。' : '配置已用于本次会话；当前环境不能保存非敏感配置。', 'success') } catch (err) { status('settingsStatus', err.message, 'error') } }
+  q('#clearApiKey').onclick = () => { try { const conf = api().saveSettings({ clearKey: true }); q('#aiKey').value = ''; keyState(conf); status('settingsStatus', '已清除当前连接保存的 API key。', 'success'); updateModelLabels() } catch (err) { status('settingsStatus', err.message, 'error') } }
+  q('#settingsForm').onsubmit = e => { e.preventDefault(); try { const conf = saveSettings(); const text = !conf.persisted ? '配置仅用于本次会话，当前环境不支持保存。' : conf.mode === 'host' ? '配置已保存，模型凭据由 ZTools 管理。' : conf.credentialStorage === 'session' ? '模型设置已保存；当前环境中的 key 仅在本次会话可用。' : '配置已保存，重新打开后可继续使用。'; status('settingsStatus', text, conf.persisted ? 'success' : '') } catch (err) { status('settingsStatus', err.message, 'error') } }
   q('#testApi').onclick = async () => {
     try {
       if (busy) throw new Error('请先完成或停止其它模型任务。')
@@ -264,7 +268,7 @@
         if (window.researchApi && typeof api().reportAssets === 'function') reportAssets = api().reportAssets()
         else {
           // Development HTTP preview only. ZTools reads the same files through Preload.
-          const files = await Promise.all(['index.css', 'research.css', 'research-core.js', 'research-metrics.js'].map(async name => { const r = await fetch(name); if (!r.ok) throw new Error('报告资源读取失败：' + name); return r.text() }))
+          const files = await Promise.all(['index.css', 'features/research/research.css', 'features/research/research-core.js', 'features/research/research-metrics.js'].map(async name => { const r = await fetch(name); if (!r.ok) throw new Error('报告资源读取失败：' + name); return r.text() }))
           reportAssets = { css: files[0] + '\n' + files[1], core: files[2], metrics: files[3] }
         }
       }
