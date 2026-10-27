@@ -449,3 +449,29 @@ body.en-theme-active .app{max-width:1200px}
 .en-community-cover-topic small{display:block;margin-top:6px;font-size:7px;letter-spacing:1.8px;opacity:.7}
 .en-community-cover-icon{display:block;flex:0 0 48px;width:48px;height:48px;background:currentColor;opacity:.7;-webkit-mask:var(--domain-icon) center/contain no-repeat;mask:var(--domain-icon) center/contain no-repeat}
 @media(max-width:620px){.en-community-card-body{padding:18px}.en-community-cover{min-height:88px;padding:20px}.en-community-cover-icon{width:40px;height:40px;flex-basis:40px}}
+
+/* Imported courses skip generation; validation and saving remain explicit. */
+#enCreate.is-json-import :is(.en-generation-only,.en-material-actions,.ai-routes,.en-agent-guide,.en-create-notes),
+#enCreate.is-json-import #enAgentReturn>:not(#enImportAgent){display:none}
+#enCreate.is-json-import #enAgentReturn{margin:0}
+/* Immersive sentence practice shares one viewport baseline across all modes. */
+body:has(#view-english:not([hidden]).is-practicing) :is(.topbar,.web-header){display:none}
+body:has(#view-english:not([hidden]).is-practicing) .app{padding-top:0}
+.english .en-workspace{min-height:0;padding-top:4px}
+.english .en-analysis-float{overscroll-behavior:contain}
+.english #enSpeaking{width:100%;max-width:850px;margin:4px auto 0}
+.english :is(#enMicDetails,#enSpeakingDetails){margin:8px auto 0;text-align:left;font-size:12px;border-top:1px solid var(--en-line);padding:8px 0}
+.english :is(#enMicDetails,#enSpeakingDetails)>summary{cursor:pointer;font-size:12px;color:var(--en-muted);text-align:left}
+.english #enSpeakingDetails[open]{padding:8px 12px;background:var(--en-subtle)}
+.english #enSpeakingDetails h3{font-size:14px;line-height:1.5;margin:10px 0}
+.english #enNotes{min-height:70px;height:90px;font-size:13px}
+.english #enMicDetails .en-mic-controls{justify-content:flex-start;margin:10px 0 4px}
+.english #enMicDetails select{max-width:min(320px,65vw);font-size:12px}
+.english[data-theme] :is(.en-inputs input.good,.en-tile.good){color:#15803d;border-color:#16a34a}
+.english[data-theme] :is(.en-inputs input.bad,.en-tile.bad){color:#b91c1c;border-color:#dc2626}
+.english[data-theme="dark"] :is(.en-inputs input.good,.en-tile.good){color:#86efac}
+.english[data-theme="dark"] :is(.en-inputs input.bad,.en-tile.bad){color:#fca5a5}
+
+.english .en-record-status{display:flex;align-items:center;justify-content:center;gap:8px;min-height:18px;margin:4px 0}.english .en-record-status meter{width:72px;height:8px}.english .en-record-status .help-text{font-size:11px;margin:0}
+
+.en-speaking-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.english .en-speaking-options>details{width:100%;min-width:0}.english .en-stage{overflow-anchor:none}@media(max-width:650px){.en-speaking-options{grid-template-columns:1fr;gap:0}}

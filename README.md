@@ -4,7 +4,7 @@
 
 [下载安装包](https://github.com/Asa12138/micro-tools/releases) · [科研英语网页版](https://asa12138.github.io/apps/research-english/) · [素材广场](https://asa-english-community.netlify.app/) · [反馈问题](https://github.com/Asa12138/micro-tools/issues) · [去 GitHub 点个 Star ⭐](https://github.com/Asa12138/micro-tools)
 
-当前版本：**1.7.6** · [更新记录](CHANGELOG.md)
+当前版本：**1.7.7** · [更新记录](CHANGELOG.md)
 
 ## 安装
 
