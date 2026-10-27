@@ -1,20 +1,21 @@
 {
+  "format": "research-english-course-v1",
   "title": "合作与组会交流",
   "domain": "communication",
-  "level": "B1–B2",
   "description": "20句原创合作交流练习，涵盖议程、分工、反馈、分歧与行动总结。第一人称内容请按真实经历使用。",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
-    "kind": "original",
-    "url": ""
+    "url": "",
+    "kind": "original"
   },
   "sentences": [
     {
       "en": "Could we agree on the main goal for today's meeting?",
       "zh": "我们能否先就今天会议的主要目标达成一致？",
       "note": "Could we… 用共同商量的语气提议；agree on 后接需要达成一致的事项。",
-      "question": "What should your next project meeting accomplish?",
       "quote": "",
+      "question": "What should your next project meeting accomplish?",
       "chunks": [
         {
           "role": "疑问主谓",
@@ -45,8 +46,8 @@
       "en": "I have added the main discussion points to our agenda.",
       "zh": "我已将主要讨论事项加入议程。",
       "note": "have added 用现在完成时说明准备已完成；add A to B 表示把事项加入议程。",
-      "question": "Which items would you include in a project meeting agenda?",
       "quote": "",
+      "question": "Which items would you include in a project meeting agenda?",
       "chunks": [
         {
           "role": "主语",
@@ -82,8 +83,8 @@
       "en": "Let us separate urgent decisions from topics that need further discussion.",
       "zh": "我们先把紧急决策和需要进一步讨论的话题分开。",
       "note": "Let us… 提出共同采取的行动；separate A from B 可用于整理议题的优先级。",
-      "question": "Which decision needs attention first in your current project?",
       "quote": "",
+      "question": "Which decision needs attention first in your current project?",
       "chunks": [
         {
           "role": "主谓结构",
@@ -119,8 +120,8 @@
       "en": "I can prepare a short summary before our next meeting.",
       "zh": "我可以在下次会议前准备一份简短总结。",
       "note": "can prepare 表示主动承担任务；before 明确交付的时间节点。",
-      "question": "What would you summarize before meeting a potential collaborator?",
       "quote": "",
+      "question": "What would you summarize before meeting a potential collaborator?",
       "chunks": [
         {
           "role": "主语",
@@ -156,8 +157,8 @@
       "en": "Could you explain how this task fits the project timeline?",
       "zh": "你能说明这项任务如何纳入项目时间安排吗？",
       "note": "how 引导宾语从句；fits the timeline 用于讨论任务与整体进度的关系。",
-      "question": "How would you explain the timing of your next analysis task?",
       "quote": "",
+      "question": "How would you explain the timing of your next analysis task?",
       "chunks": [
         {
           "role": "疑问主谓",
@@ -198,8 +199,8 @@
       "en": "We should confirm who is responsible for each analysis step.",
       "zh": "我们应确认每个分析步骤由谁负责。",
       "note": "who is responsible… 是嵌入问句，保持陈述语序；be responsible for 表示负责。",
-      "question": "How would you clarify responsibilities in a shared analysis project?",
       "quote": "",
+      "question": "How would you clarify responsibilities in a shared analysis project?",
       "chunks": [
         {
           "role": "主语",
@@ -235,8 +236,8 @@
       "en": "I will share the draft once the figures are ready.",
       "zh": "图准备好后，我会分享草稿。",
       "note": "once 在这里表示一旦；时间从句用 are ready，不需要使用 will。",
-      "question": "What needs to be ready before you share your next draft?",
       "quote": "",
+      "question": "What needs to be ready before you share your next draft?",
       "chunks": [
         {
           "role": "主语",
@@ -272,8 +273,8 @@
       "en": "Please let me know which section needs the most attention.",
       "zh": "请告诉我哪一部分最需要重点修改。",
       "note": "let me know 用于请求反馈；which section needs… 以 section 为从句主语。",
-      "question": "Which section of your current work would benefit most from feedback?",
       "quote": "",
+      "question": "Which section of your current work would benefit most from feedback?",
       "chunks": [
         {
           "role": "礼貌请求",
@@ -309,8 +310,8 @@
       "en": "Your suggestion helps me see the problem from another perspective.",
       "zh": "你的建议帮助我从另一个角度理解这个问题。",
       "note": "help someone do something 表示帮助某人做某事；from another perspective 引出新视角。",
-      "question": "Can you describe feedback that changed how you approached a problem?",
       "quote": "",
+      "question": "Can you describe feedback that changed how you approached a problem?",
       "chunks": [
         {
           "role": "主语",
@@ -346,8 +347,8 @@
       "en": "I agree with the goal, but I suggest a different approach.",
       "zh": "我赞同这个目标，但建议采用另一种做法。",
       "note": "agree with the goal 先明确共同目标；suggest 后接名词短语，提出具体替代方法。",
-      "question": "How would you propose another approach while maintaining a constructive tone?",
       "quote": "",
+      "question": "How would you propose another approach while maintaining a constructive tone?",
       "chunks": [
         {
           "role": "主语",
@@ -388,8 +389,8 @@
       "en": "Could we compare the advantages of these two options first?",
       "zh": "我们可以先比较这两个选项的优点吗？",
       "note": "Could we compare… 是合作式提议；of these two options 修饰 advantages。",
-      "question": "What criteria would you use to compare two analysis options?",
       "quote": "",
+      "question": "What criteria would you use to compare two analysis options?",
       "chunks": [
         {
           "role": "疑问主谓",
@@ -425,8 +426,8 @@
       "en": "I may have misunderstood the scope of the requested revision.",
       "zh": "我可能误解了这次修改要求的范围。",
       "note": "may have misunderstood 表示对过去理解的可能性判断；scope 指工作范围。",
-      "question": "How would you clarify an ambiguous revision request?",
       "quote": "",
+      "question": "How would you clarify an ambiguous revision request?",
       "chunks": [
         {
           "role": "主语",
@@ -462,8 +463,8 @@
       "en": "This change would require additional time for checking the results.",
       "zh": "这一改动需要额外时间来核查结果。",
       "note": "would require 用于说明拟议改动的影响；for checking 表达额外时间的用途。",
-      "question": "How would you explain a reasonable delay caused by additional checks?",
       "quote": "",
+      "question": "How would you explain a reasonable delay caused by additional checks?",
       "chunks": [
         {
           "role": "主语",
@@ -499,8 +500,8 @@
       "en": "Would it help if we divided this task into smaller steps?",
       "zh": "如果把这项任务拆成更小的步骤，会有帮助吗？",
       "note": "Would it help if… 委婉提出建议；divided 采用过去式以配合假设语气。",
-      "question": "How could you break a complex analysis task into manageable parts?",
       "quote": "",
+      "question": "How could you break a complex analysis task into manageable parts?",
       "chunks": [
         {
           "role": "疑问主谓",
@@ -536,8 +537,8 @@
       "en": "I would appreciate feedback on the clarity of this explanation.",
       "zh": "我希望得到关于这段解释是否清楚的反馈。",
       "note": "I would appreciate… 比 I want 更适合礼貌请求；on the clarity 明确希望反馈的重点。",
-      "question": "Which part of your project is hardest to explain clearly?",
       "quote": "",
+      "question": "Which part of your project is hardest to explain clearly?",
       "chunks": [
         {
           "role": "主语",
@@ -578,8 +579,8 @@
       "en": "Let us record the decision so everyone has the same understanding.",
       "zh": "我们把决定记录下来，以便大家保持一致的理解。",
       "note": "so 引出记录决定的目的；the same understanding 强调对行动事项的共同理解。",
-      "question": "What details should a meeting record include to prevent confusion?",
       "quote": "",
+      "question": "What details should a meeting record include to prevent confusion?",
       "chunks": [
         {
           "role": "主谓结构",
@@ -615,8 +616,8 @@
       "en": "We can revisit this question after reviewing the new information.",
       "zh": "我们可以在查看新信息之后重新讨论这个问题。",
       "note": "revisit 表示重新审视已讨论的问题；after reviewing 把讨论放在检查信息之后。",
-      "question": "When would it be useful to reconsider a previous project decision?",
       "quote": "",
+      "question": "When would it be useful to reconsider a previous project decision?",
       "chunks": [
         {
           "role": "主语",
@@ -652,8 +653,8 @@
       "en": "Could we schedule a short follow-up meeting for next week?",
       "zh": "我们可以安排下周进行一次简短的后续会议吗？",
       "note": "schedule 作动词表示安排时间；follow-up 作定语说明这是后续沟通。",
-      "question": "What would you want to review in a follow-up meeting?",
       "quote": "",
+      "question": "What would you want to review in a follow-up meeting?",
       "chunks": [
         {
           "role": "疑问主谓",
@@ -684,8 +685,8 @@
       "en": "I will send a written summary of the agreed next steps.",
       "zh": "我会发送一份书面总结，列出已商定的下一步行动。",
       "note": "written 是过去分词作定语；agreed next steps 指各方已商定的后续行动。",
-      "question": "How would you summarize next steps after a productive meeting?",
       "quote": "",
+      "question": "How would you summarize next steps after a productive meeting?",
       "chunks": [
         {
           "role": "主语",
@@ -721,8 +722,8 @@
       "en": "Thank you for explaining the reasoning behind your recommendation.",
       "zh": "感谢你解释这项建议背后的理由。",
       "note": "thank someone for doing something 表达感谢；reasoning 强调推理过程，而不仅是结论。",
-      "question": "How would you acknowledge useful feedback before explaining your next action?",
       "quote": "",
+      "question": "How would you acknowledge useful feedback before explaining your next action?",
       "chunks": [
         {
           "role": "主句",
@@ -754,5 +755,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "图表与讨论 · 准确表达结果和局限",
   "domain": "reading",
   "description": "20 句原创科研英语练习，涵盖图轴、分组、效应、不确定性及口头答辩。所有结果句均为表达练习，不对应真实数据或既定结论，使用时请结合自己的图表。",
-  "level": "B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -769,5 +770,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

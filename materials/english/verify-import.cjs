@@ -2,7 +2,7 @@
 const fs = require('fs'), path = require('path'), assert = require('assert/strict');
 const C = require('../../features/english/english-core');
 const root = path.resolve(process.argv[2] || __dirname);
-const origin = 'https://asa12138.github.io/research-english/';
+const origin = 'https://asa12138.github.io/apps/research-english/materials/';
 const data = new Map();
 const storage = { getItem: key => data.get(key), setItem: (key, value) => data.set(key, structuredClone(value)) };
 const service = require('../../features/english/english-service')(storage);

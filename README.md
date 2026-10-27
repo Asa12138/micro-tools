@@ -4,7 +4,7 @@
 
 [下载安装包](https://github.com/Asa12138/micro-tools/releases) · [科研英语网页版](https://asa12138.github.io/apps/research-english/) · [素材广场](https://asa-english-community.netlify.app/) · [反馈问题](https://github.com/Asa12138/micro-tools/issues) · [去 GitHub 点个 Star ⭐](https://github.com/Asa12138/micro-tools)
 
-当前版本：**1.7.0** · [更新记录](CHANGELOG.md)
+当前版本：**1.7.6** · [更新记录](CHANGELOG.md)
 
 ## 安装
 
@@ -21,7 +21,7 @@
 | **期刊 · 会议查询** | 按名称、缩写或 ISSN 检索，查看影响因子、JCR 分区、JCI 与 CCF 等级。 |
 | **投稿助手** | 根据标题与摘要比较投稿方向，结合本地期刊库生成并导出分析报告。 |
 | **文献图谱** | 导入 BibTeX，分析年度趋势、期刊分布、作者合作与关键词共现，导出图表和报告。 |
-| **科研英语** | 整句听写、拼图、阅读解析、跟读录音，以及单词本、收藏与错题复习。 |
+| **科研英语** | 整句听写、拼图、打字练习、跟读录音，以及单词本、收藏与错题复习。 |
 | **数据库查询** | 快速前往 NCBI、PubMed、UniProt、PDB、Ensembl 等数据库检索。 |
 
 ## 科研英语
@@ -41,3 +41,5 @@
 - 课程与学习记录支持备份、导入和导出；录音需单独下载。反馈问题时请附版本号和复现步骤，并隐藏密钥及未公开内容。
 
 作者：[Asa12138](https://github.com/Asa12138) · [第三方许可说明](vendor/ENGLISH-LICENSES.txt)
+
+素材维护与接入：[素材规范 v1 与 JSON 示例](docs/english-material-spec-v1.md)。

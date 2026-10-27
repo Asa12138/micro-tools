@@ -11,7 +11,7 @@ async function main(){
  try{
   execFileSync(process.execPath,[path.join(__dirname,'../materials/english/assemble-packs.cjs'),dir]);
   const storage=memory(),responses=new Map(),calls=[];
-  for(const item of manifest.courses){const bytes=fs.readFileSync(path.join(dir,item.url));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(hash(JSON.parse(bytes)),item.lessonId);responses.set(new URL(item.url,createCatalog.DEFAULT_URL).href,bytes)}
+  for(const item of manifest.courses){const bytes=fs.readFileSync(path.join(dir,item.url));assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(hash(JSON.parse(bytes)),item.contentId||item.lessonId);responses.set(new URL(item.url,createCatalog.DEFAULT_URL).href,bytes)}
   const request=async url=>{calls.push(url);if(!responses.has(url))throw Error('Unexpected URL: '+url);return responses.get(url)};
   let api=create(storage,{catalogRequest:request}),directory=await api.catalogList();
   assert.equal(directory.courses.length,4);assert(directory.courses.every(c=>c.count===60&&!c.installedLessonId));assert.equal(directory.bundled,true);assert.equal(calls.length,0);
@@ -28,7 +28,7 @@ async function main(){
   await api.catalogDownload({id:'remote:'+legacy.id});assert.equal(api.list().length,8);assert.equal(api.progress(legacy.lessonId).seconds,123);assert.equal(api.progress(legacy.lessonId).results[0].notes,'保留旧笔记');
   api.trash(legacy.lessonId);api=create(storage,{catalogRequest:request});assert(!api.list().some(x=>x.id===legacy.lessonId));assert.equal((await api.catalogList()).courses[0].installedLessonId,null);
   await api.catalogDownload({id:'remote:'+legacy.id});assert(api.list().some(x=>x.id===legacy.lessonId));assert.equal(api.progress(legacy.lessonId).seconds,123);
-  const copy=api.edit(legacy.lessonId,api.get(legacy.lessonId));assert.notEqual(copy.id,legacy.lessonId);assert.equal(copy.lesson.library,'custom');assert.equal(copy.lesson.downloaded,false);assert(api.list().some(x=>x.id===legacy.lessonId));assert.equal(api.progress(copy.id).results[0].notes,'保留旧笔记');
+  const copy=api.edit(legacy.lessonId,api.get(legacy.lessonId));assert.equal(copy.id,legacy.lessonId);assert.equal(copy.unchanged,true);assert.equal(copy.lesson.downloaded,true);assert.equal(api.progress(copy.id).results[0].notes,'保留旧笔记');
   const edited=api.edit(legacy.lessonId,{...api.get(legacy.lessonId),title:'我的科研面试练习'});assert.equal(edited.lesson.library,'custom');assert(!edited.lesson.downloaded);assert(api.list().some(x=>x.id===legacy.lessonId));
   const backup=api.list().filter(x=>!x.builtin).map(x=>api.get(x.id)),restored=create(memory());for(const item of backup){const r=restored.save(item);assert.equal(r.id,item.id);assert.equal(r.lesson.library,item.library)}
   const fake=api.save({title:legacy.title,sentences:['A different sentence with the same course title.'],catalog:api.get(legacy.lessonId).catalog});assert.equal(fake.lesson.library,'custom','titles and stale provenance cannot classify a custom lesson');

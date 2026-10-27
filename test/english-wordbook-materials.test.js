@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),create=require('../features/english/english-service'),createBooks=require('../features/english/english-wordbooks'),createCatalog=require('../features/english/english-catalog');
-const seed=require('../assets/data/english-wordbook-biomedical.json'),manifest=require('../assets/data/english-catalog-default.json'),bytes=fs.readFileSync(__dirname+'/../materials/english/v1/wordbooks/monash-biomedical-cn.json');
+const seed=require('../assets/data/english-wordbook-biomedical.json'),manifest=require('../assets/data/english-catalog-default.json'),bytes=fs.readFileSync(__dirname+'/../materials/english/source/wordbooks/monash-biomedical-cn.json');
 const memory=()=>{const db=new Map();return {getItem:k=>db.get(k),setItem:(k,v)=>db.set(k,structuredClone(v))}};
 (async()=>{
  const storage=memory();let calls=0,body=bytes;const api=create(storage,{catalogRequest:async url=>{calls++;return url.endsWith('catalog.json')?Buffer.from(JSON.stringify(manifest)):body}});
@@ -13,5 +13,5 @@ const memory=()=>{const db=new Map();return {getItem:k=>db.get(k),setItem:(k,v)=
  body=Buffer.from('{}');await assert.rejects(()=>api.wordbooks('download',{id:catalog.wordbooks[0].id}),/校验失败/);assert.equal(api.wordbooks().length,3);await assert.rejects(()=>api.wordbooks('download',{id:'remote:missing'}),/找不到/);
  const cached=memory();cached.setItem('english-catalog-cache-v1',{url:createCatalog.DEFAULT_URL,raw:{version:1,courses:manifest.courses},updatedAt:'old'});assert.equal((await create(cached).wordbooks('catalog')).wordbooks.length,1,'legacy course-only default cache includes bundled wordbook entry');
  const invalid=structuredClone(manifest);invalid.wordbooks[0].url='https://127.0.0.1/private';const bad=createCatalog({storage:memory(),request:async()=>Buffer.from(JSON.stringify(invalid))});await assert.rejects(()=>bad.list({refresh:true}),/公开网站/);
- assert.equal(JSON.parse(bytes).words.length,3290);assert.equal(JSON.parse(bytes).duplicatesRemoved,17);console.log('PASS bundled material, legacy adoption/mastery/progress, optional download/idempotency/offline, tamper rejection, catalog compatibility and URL validation.');
+ assert.equal(JSON.parse(bytes).words.length,3290);assert.equal(JSON.parse(bytes).duplicatesRemoved,undefined,'portable material omits processing counters');assert.equal(new Set(JSON.parse(bytes).words.map(w=>w.term.normalize('NFKC').toLowerCase())).size,3290);console.log('PASS bundled material, legacy adoption/mastery/progress, optional download/idempotency/offline, tamper rejection, catalog compatibility and URL validation.');
 })().catch(e=>{console.error(e);process.exitCode=1});

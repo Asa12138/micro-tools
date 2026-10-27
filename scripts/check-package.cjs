@@ -5,6 +5,16 @@ const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),zlib
 function validate(files){
  const manifest=JSON.parse(files.get('plugin.json')||'null');
  if(manifest?.name!=='micro-tools')throw Error('插件身份必须保持 micro-tools，避免切换本机存储空间');
+ const datasets=JSON.parse(files.get('assets/data/journals/manifest.json')||'null');
+ if(!datasets)throw Error('缺少期刊数据版本清单');
+ for(const key of ['jcr','ccf']){
+  const item=datasets[key],bytes=files.get(item.file);
+  if(!bytes)throw Error('打包清单漏掉期刊数据：'+item.file);
+  const sha=require('node:crypto').createHash('sha256').update(bytes).digest('hex');
+  if(sha!==item.sha256)throw Error('期刊数据哈希不符：'+item.file);
+  if(JSON.parse(zlib.gunzipSync(bytes)).length!==item.records)throw Error('期刊数据条数不符：'+item.file);
+ }
+ if(datasets.ccf.linkedJcrSha256!==datasets.jcr.sha256)throw Error('CCF 下标与 JCR 快照未配对');
  const missing=new Set();
  function resolve(from,ref){
   if(/^(?:[a-z]+:|#|\/\/)/i.test(ref))return;
@@ -43,6 +53,7 @@ function smoke(files){
    const values=new Map(),registered={};
    global.window={ztools:{dbStorage:{getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v)},registerTool:(k,fn)=>registered[k]=fn}};
    require(path.resolve('preload.js'));
+   assert.equal(registered.search_journals({query:'Nature',limit:1}).items[0].name,'NATURE','期刊数据必须从安装清单中的版本目录载入');
    const api=window.englishApi;assert(api,'英语服务必须由 preload 完整载入');
    for(const method of ['list','communityList','communityGet','communityDownload','wordbooks','settings'])assert.equal(typeof api[method],'function',method);
    const seed=api.list()[0];api.saveProgress(seed.id,{seconds:37});assert.equal(api.progress(seed.id).seconds,37);

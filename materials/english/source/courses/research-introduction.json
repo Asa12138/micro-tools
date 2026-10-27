@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "研究介绍：从核心问题到下一步计划",
   "domain": "communication",
   "description": "20 句原创练习表达，从研究兴趣、问题设计和分析计划，练到结果解读、局限与合作目标。请按真实经历使用，计划句仅在符合自己的安排时使用。",
-  "level": "B1/B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -799,5 +800,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

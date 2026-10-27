@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "博后面试 · 动机、贡献与合作",
   "domain": "communication",
   "description": "原创练习，按实际项目使用。20 句面试表达模板，围绕申请动机、技能贡献、团队合作、挫折反思及岗位提问。第一人称为假设性练习，不代表用户真实经历；请按实际能力、目标和案例修改。",
-  "level": "B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -774,5 +775,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

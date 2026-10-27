@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "生信分析 · 从数据到可解释结果",
   "domain": "methods",
   "description": "原创练习，按实际项目使用。20 句覆盖样本对应、元数据、质量控制、批次、参考数据库及分析流程说明。",
-  "level": "B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -769,5 +770,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

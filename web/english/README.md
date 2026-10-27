@@ -46,7 +46,10 @@ node scripts/build-english-web.cjs /绝对路径/网站仓库/apps/research-engl
 
 - 自定义 AI 支持 OpenAI 兼容 `chat/completions` HTTPS 接口。翻译支持 Google 网页接口、Google Cloud、OpenAI 兼容接口和自建翻译中转（POST `{text,source,target}`，返回 `{translation}`）。
 - 接口必须允许网页 Origin 的 CORS 请求。第三方 API 禁止跨域时，浏览器无法像 Electron 的 Node 层一样直连；可配置用户自己的 HTTPS 后端中转。网页不能读取系统代理配置、设置 HTTP CONNECT 代理或运行 localhost MCP Server。不提供公共密钥中转，不上传给维护者。素材广场沿用现有 Supabase 公共目录；`web/english/community-config.json` 仅含已公开的项目地址与 publishable key，不含用户会话或服务端密钥。社区迁移项目时同步这个公开配置。
-- 微软语音复用桌面相同的 edge-tts v2 协议，通过浏览器原生 WebSocket 按需生成任意课程句子，支持 Andrew、Ava、Emma、Ryan、Sonia；无需下载配套音频包，也不自动降级为系统声音。生成结果复用 IndexedDB 播放缓存；在线许可与预加载开关继续生效。已在 Microsoft Edge 156 验证真实合成；同机 Chromium 直连失败，Chrome、Firefox、Safari 不能保证可用，可手动选择系统声音。若以后需要跨浏览器稳定的微软语音，再部署服务端中转。
+- 微软语音沿用 edge-tts v2 协议，优先播放缓存和配套音频。直连失败时默认回退到本机英语声音（可在设置关闭）；会等待浏览器加载声音列表，且停止/切句后不会播放过期请求。
+- 没有本机英语声音时，可主动选择「Google 兼容发音（联网）」，将句子按短段发送给 Google，通过浏览器播放器直接播放；不伪装成 Andrew，也不声称生成了可下载的 MP3。在线开关和本课许可继续有效；微软预加载不会为 Google 发起请求。
+- 本机回退只选设备上的英语声音；它不生成可导出的音频文件。跨浏览器生成相同 Andrew 音色的文件仍需要可用的微软服务连接或独立后端。
+
 - 单词美式/英式发音使用浏览器音频播放器直接加载 Google 音频，翻译接口仍通过 fetch 读取 JSON；媒体播放不要求接口允许脚本跨域读取音频字节。
 - 练习快捷键使用捕获阶段处理 Alt+A / Alt+P，并支持 F8 打开答案与解析（Mac 顶部按键为媒体控制时可用 Fn+F8）。浏览器或扩展若在网页收到事件前拦截 Alt+A，可使用 F8 或界面按钮。
 - 音频首次自动播放可能被拦截，点击播放后即可继续。录音需要 HTTPS 和用户麦克风授权；PDF 与 Excel 在本机解析，不上传文件。所有接口只在用户发起相应操作时接收必要文本。

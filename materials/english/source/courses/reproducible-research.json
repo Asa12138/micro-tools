@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "可复现研究 · 代码、记录与协作",
   "domain": "methods",
   "description": "原创练习，按实际项目使用。20 句练习解释版本、运行环境、工作流记录、数据完整性、文档和隐私保护。",
-  "level": "B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -744,5 +745,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "统计表达 · 效应、不确定性与证据",
   "domain": "methods",
   "description": "原创练习，按实际项目使用。20 句练习解释效应量、区间、统计检验、缺失数据、混杂与因果措辞。",
-  "level": "B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -531,8 +532,8 @@
       "en": "An interaction term allows an association to vary across conditions.",
       "zh": "交互项允许关联随条件变化。",
       "note": "allow something to do 表示允许某种变化；交互项在模型中表达这种变化，是否有统计证据还需检验。",
-      "question": "How would you explain an interaction to a collaborator?",
       "quote": "",
+      "question": "How would you explain an interaction to a collaborator?",
       "chunks": [
         {
           "role": "主语",
@@ -749,5 +750,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

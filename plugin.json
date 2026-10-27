@@ -2,7 +2,7 @@
   "name": "micro-tools",
   "title": "科研小盒",
   "description": "科研常用小工具集合：期刊·会议查询（JCR / CCF）、AI 投稿助手（摘要解读、期刊匹配与投稿准备）、文献图谱（BibTeX 本地分析与可视化）、数据库检索、科研英语训练与个人题库。支持 ZTools AI 或用户自己的 API，纯 Preload 模式，无构建步骤。",
-  "version": "1.7.0",
+  "version": "1.7.6",
   "author": "Asa12138",
   "email": "bfzede@gmail.com",
   "main": "index.html",
@@ -786,6 +786,15 @@
             "minLength": 1,
             "maxLength": 160,
             "description": "用户填写的题库名称；提供后会保留，不被模型输出改名"
+          },
+          "tags": {
+            "type": "array",
+            "maxItems": 6,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 30
+            }
           }
         },
         "required": []
@@ -821,6 +830,15 @@
               "level": {
                 "type": "string",
                 "maxLength": 80
+              },
+              "tags": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 30
+                }
               },
               "source": {
                 "type": "object",
@@ -1042,7 +1060,7 @@
     },
     {
       "code": "english",
-      "explain": "科研英语：听写、拼句、阅读解析与口语；AI / MCP 创建个人题库",
+      "explain": "科研英语：听写、拼句、打字与口语；AI / MCP 创建个人题库",
       "cmds": [
         "科研英语",
         "英语练习",

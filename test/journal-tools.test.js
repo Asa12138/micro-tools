@@ -6,9 +6,15 @@ const crypto = require('node:crypto')
 const createTools = require('../features/journals/journal-tools')
 const root = path.join(__dirname, '..')
 const manifest = require('../plugin.json')
-const hashes = () => ['journals.json.gz', 'ccf.json.gz'].map(file =>
-  crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex'))
+const datasets = require('../assets/data/journals/manifest.json')
+const hashes = () => ['jcr', 'ccf'].map(key =>
+  crypto.createHash('sha256').update(fs.readFileSync(path.join(root, datasets[key].file))).digest('hex'))
 const before = hashes()
+for (const key of ['jcr', 'ccf']) {
+  const bytes = fs.readFileSync(path.join(root, datasets[key].file))
+  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), datasets[key].sha256)
+}
+assert.equal(datasets.ccf.linkedJcrSha256, datasets.jcr.sha256)
 
 global.window = { ztools: { dbStorage: { getItem() {}, setItem() {} } } }
 require('../preload')
@@ -40,6 +46,8 @@ assert.equal(n.item.ccfRank, null)
 assert.equal(n.item._tokensAll, undefined)
 assert.equal(n.item.jifNum, undefined)
 assert.equal(n.snapshot.id, nature.snapshot.id)
+// Recorded before removing the identical root download copies.
+assert.equal(n.snapshot.id, '3ee548c0607346fa', 'moving files does not invalidate journal IDs')
 
 for (const query of ['0028-0836', '00280836', '0028 0836', '1476-4687']) {
   const found = search({ query })

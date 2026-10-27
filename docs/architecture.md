@@ -2,15 +2,16 @@
 
 本项目继续使用相对路径、CommonJS Preload 和浏览器原生脚本，无构建步骤。
 
-- 根目录：`plugin.json`、`preload.js`、`index.html/js/css`、`pack.sh` 与用户文档。`journals.json.gz` 和 `ccf.json.gz` 保留原公开路径，兼容已安装小程序的数据下载。
+- 根目录：`plugin.json`、`preload.js`、`index.html/js/css`、`pack.sh` 与用户文档。根目录不再保存期刊 gzip；插件及小程序维护脚本均读取带版本的期刊数据目录。
 - `features/english/`：英语课程、练习、AI 整理、翻译、语音与 PDF 接口。
 - `features/research/`：投稿助手、文献图谱、离线报告与 MCP 工作流。
 - `features/journals/`：期刊 MCP 工具。数据读取由根目录 Preload 提供。
 - `shared/`：本机凭据等公共服务。
 - `assets/data/`：默认课程目录、种子题库与示例课程。
+- `assets/data/journals/`：`manifest.json` 指定当前配套 JCR / CCF 快照；`2026-v1/` 保存原始 gzip 字节，说明见该目录 README。
 - `assets/audio/`：内置课程音频与五种音色试听；`assets/images/`：图标。
 - `vendor/pdfjs/`、`vendor/ms-edge-tts/`：第三方库及所需协议补丁；许可证在 `vendor/ENGLISH-LICENSES.txt`。
-- `materials/english/`：素材包编辑源文件和生成脚本，不随插件安装。
+- `materials/english/`：`source/courses/` 和 `source/wordbooks/` 保存编辑源，目录外层保留生成脚本；不随插件安装。合并版在网站仓库维护为发布产物。
 - `scripts/`、`test/`、`docs/`：维护脚本、测试和文档。
 
 ## 路径约定

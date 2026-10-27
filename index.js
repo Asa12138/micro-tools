@@ -201,7 +201,7 @@ function initJournal() {
     const info = api.ensureLoaded()
     if (!info.ok) {
       els.jHint.textContent = '数据加载失败：' + info.error
-      els.jResults.innerHTML = '<div class="empty">无法读取 journals.json.gz，请确认它与插件在同一目录。</div>'
+      els.jResults.innerHTML = '<div class="empty">无法读取期刊数据，请确认插件的版本数据文件完整。</div>'
       return
     }
     journalInited = true
@@ -364,5 +364,5 @@ showView('home');
 (async()=>{
  let version;
  try{version=window.microToolsVersion||(await fetch('plugin.json',{cache:'no-store'}).then(r=>r.json())).version;document.getElementById('appVersion').textContent='v'+version}catch{document.getElementById('appVersion').textContent='开发预览';return}
- try{const changelog=window.microToolsChangelog??await fetch('CHANGELOG.md',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()});const sections=changelog.split(/^## /m),section=sections.find(s=>s.startsWith('v'+version+'（'));if(!section)throw Error();document.getElementById('appReleaseTitle').textContent=section.split('\n')[0];const list=document.getElementById('appReleaseNotes');for(const line of section.split('\n').filter(l=>l.startsWith('- '))){const li=document.createElement('li');li.textContent=line.slice(2);list.append(li)}}catch{document.getElementById('appReleaseTitle').textContent='v'+version+' · 暂无对应更新记录'}
+ try{const changelog=window.microToolsChangelog??await fetch('CHANGELOG.md',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()});const sections=changelog.split(/^## /m),section=sections.find(s=>s.startsWith(version+' - ')||s.startsWith('v'+version+'（'));if(!section)throw Error();document.getElementById('appReleaseTitle').textContent=section.split('\n')[0];const list=document.getElementById('appReleaseNotes');for(const line of section.split('\n').filter(l=>l.startsWith('- '))){const li=document.createElement('li');li.textContent=line.slice(2);list.append(li)}}catch{document.getElementById('appReleaseTitle').textContent='v'+version+' · 暂无对应更新记录'}
 })();

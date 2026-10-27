@@ -1,9 +1,10 @@
 [
   {
+    "format": "research-english-course-v1",
     "title": "介绍一个环境微生物项目",
     "domain": "environment",
     "description": "原创科研表达练习。讲述自己的项目时请替换为真实经历和结果。",
-    "level": "B2",
+    "level": "★★★",
     "source": {
       "title": "科研小盒原创表达练习",
       "url": "",
@@ -551,14 +552,16 @@
         ]
       }
     ],
+    "tags": [],
     "id": "english-starter-environment",
     "builtin": true
   },
   {
+    "format": "research-english-course-v1",
     "title": "把分析选择讲清楚",
     "domain": "methods",
     "description": "原创科研表达练习。讲述自己的项目时请替换为真实经历和结果。",
-    "level": "B2",
+    "level": "★★★",
     "source": {
       "title": "科研小盒原创表达练习",
       "url": "",
@@ -1085,14 +1088,16 @@
         ]
       }
     ],
+    "tags": [],
     "id": "english-starter-methods",
     "builtin": true
   },
   {
+    "format": "research-english-course-v1",
     "title": "读论文：问题、证据与解释",
     "domain": "reading",
     "description": "原创科研表达练习。讲述自己的项目时请替换为真实经历和结果。",
-    "level": "B2",
+    "level": "★★★",
     "source": {
       "title": "科研小盒原创表达练习",
       "url": "",
@@ -1552,14 +1557,16 @@
         ]
       }
     ],
+    "tags": [],
     "id": "english-starter-reading",
     "builtin": true
   },
   {
+    "format": "research-english-course-v1",
     "title": "实验室面试与学术交流",
     "domain": "communication",
     "description": "原创科研表达练习。讲述自己的项目时请替换为真实经历和结果。",
-    "level": "B2",
+    "level": "★★★",
     "source": {
       "title": "科研小盒原创表达练习",
       "url": "",
@@ -2137,6 +2144,7 @@
         ]
       }
     ],
+    "tags": [],
     "id": "english-starter-communication",
     "builtin": true
   }

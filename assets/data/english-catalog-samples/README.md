@@ -19,7 +19,8 @@
       "id": "paper-reading",
       "title": "论文阅读与讨论",
       "domain": "论文阅读",
-      "level": "B2",
+      "level": "★★★",
+      "tags": [],
       "count": 4,
       "description": "课程说明",
       "url": "paper-reading.json",
@@ -31,7 +32,7 @@
 
 - `version` 固定为 `1`；`courses` 最多 200 项。
 - `id` 在目录内唯一，使用字母、数字、下划线、短横线。
-- `title` 最长 160 字符；`domain`、`level` 可自定义，最长 80 字符。
+- `title` 最长 160 字符；`domain` 可自定义，最长 80 字符；`level` 为 1–5 个 `★` 或 `null`（未评级），`tags` 为标签数组。
 - `count` 必须与课程真实句数相同，范围为 1–120。
 - `url` 可以是相对于目录的路径，也可以是公开 HTTPS 地址。若目录 URL 会重定向，建议使用最终原始内容地址或课程绝对地址。
 - `sha256` 可省略；填写后必须与课程文件一致。macOS 可以执行 `shasum -a 256 paper-reading.json` 计算。
@@ -41,13 +42,15 @@
 
 ## 课程格式
 
-课程使用 `english-core.js` 的结构。最简形式如下；可参考同目录的完整示例补充语法、音标和追问。
+课程使用 [统一素材规范](../../../docs/english-material-spec-v1.md) 的结构。最简形式如下；可参考同目录的完整示例补充语法、音标和追问。
 
 ```json
 {
+  "format": "research-english-course-v1",
   "title": "我的课程",
   "domain": "我的领域",
-  "level": "B2",
+  "level": "★★★",
+      "tags": [],
   "description": "一句话课程说明",
   "source": {"title": "来源说明", "kind": "原创表达", "url": ""},
   "sentences": [

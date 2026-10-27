@@ -32,12 +32,12 @@ async function boot(){
   $('webLoading').remove();await window.EnglishUI.onView('english');
   document.querySelectorAll('[data-open-settings]').forEach(b=>b.onclick=openAI);
   $('webAbout').onclick=()=>{$('enSettingsTab').click();$('enPrefTab-backup').click()};
-  document.querySelector('#view-english .ai-route-prerequisite').textContent='复制完整提示词交给自己的 Agent，无需 MCP。';$('enCopyMCP').hidden=true;const mcp=$('enCopyMCP').closest('section');mcp.querySelector('h3,h4').textContent='让自己的 Agent 建库';mcp.querySelector('ol')?.remove();for(const p of mcp.querySelectorAll(':scope > p'))p.textContent='填写上方素材与设置，复制完整提示词交给任意 Agent。把生成的 JSON 粘贴回来校验，或从自建素材库导入文件。';
-  $('enRefresh').textContent='↻ 刷新题库';document.querySelector('#view-english .ai-check-note').textContent='自动检查仅核对已保存配置，不发送请求；点击「测试连接」才调用一次模型。';document.querySelector('#enCreate .privacy-note').textContent='PDF 在本机提取；点击 AI 整理才将正文发送给你配置的模型。也可复制完整提示词交给自己的 Agent，生成 JSON 后导入。';
+  const guideImage=document.querySelector('#enPrefPane-agent img[src$="agent-guide-prompt.png"]');if(guideImage){guideImage.src='assets/images/agent-guide-prompt-web.png';guideImage.closest('a').href=guideImage.src}document.querySelector('#enPrefPane-agent .en-mcp-help').hidden=true;
+  $('enRefresh').textContent='↻ 刷新题库';document.querySelector('#view-english .ai-check-note').textContent='自动检查仅核对已保存配置，不发送请求；点击「测试连接」才调用一次模型。';document.querySelector('#enCreate .privacy-note').textContent='PDF 在本机提取；点击「AI 整理」才将正文发送给已配置的模型。';
   document.querySelector('.en-translation-network').hidden=true;
-  const note=$('enVoice').closest('section').querySelector(':scope > p.help-text');if(note)note.textContent='微软在线语音按需生成并保存在当前浏览器，无需下载配套音频包。当前已验证 Microsoft Edge；其他浏览器可能无法直连，可选择本机英语声音。';
-  $('enSound').querySelector('p').textContent='选择微软声音后，未缓存的句子会发送给微软生成语音并缓存；素材广场和自建课程均可使用。在线开关与后台预加载设置照常生效。';
-  $('enGoogleNetwork').value='direct';
+  const note=$('enVoice').closest('section').querySelector(':scope > p.help-text');if(note)note.textContent='优先使用缓存和配套音频；微软直连失败时可自动改用本机英语声音。若浏览器没有英语声音，选择 Google 兼容发音（所选句子会发送给 Google，在线播放，不生成本地音频文件）。';
+  $('enSound').querySelector('p').textContent='微软声音将未缓存的句子发送给微软；Google 兼容发音将本句发送给 Google。本机声音不需要微软连接。关闭在线语音后，仅播放本地音频与本机声音。';
+  $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音将句子发送给 Microsoft 并缓存；选择 Google 兼容发音会将句子发送给 Google 在线播放。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';
   const panel=$('enPrefPane-backup'),section=el('section',null,'en-mcp en-settings-section');section.append(el('h4','浏览器数据与同步'));
   section.append(el('p','课程、单词本、掌握状态、学习足迹和设置保存在此浏览器的 IndexedDB。不会自动同步到 ZTools、其他设备或其他浏览器。清除网站数据会删除它们；隐私模式中的数据通常随窗口关闭而清除。','help-text'));
   section.append(el('p','完整备份包含课程、练习记录、单词本、设置与学习足迹；不含密钥、录音、下载音频和网络缓存。录音请在口语练习中单独下载。','help-text'));

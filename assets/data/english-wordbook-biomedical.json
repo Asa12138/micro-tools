@@ -1,14 +1,17 @@
 {
   "format": "research-english-wordbook-v1",
-  "id": "biomedical-basics",
   "title": "生物基础词表",
   "description": "保留原表中文释义与英美音标，支持顺序和随机打字练习。",
+  "domain": "biomedical",
+  "tags": [
+    "生物基础",
+    "中英词表"
+  ],
   "source": {
+    "note": "用户提供的双语整理词表；名称沿用原文件，释义与音标未另行修订。",
     "file": "biomedical_english_with_pronunciation.xls",
-    "sha256": "ffb97fc26ad7fd62e131b14259576c79af3618a95f49452699b6e6be8ec114ac",
-    "note": "用户提供的双语整理词表；名称沿用原文件，释义与音标未另行修订。"
+    "sha256": "ffb97fc26ad7fd62e131b14259576c79af3618a95f49452699b6e6be8ec114ac"
   },
-  "duplicatesRemoved": 0,
   "words": [
     {
       "term": "cell",
@@ -922,5 +925,7 @@
       "usphone": "steɪn",
       "ukphone": "steɪn"
     }
-  ]
+  ],
+  "level": null,
+  "id": "biomedical-basics"
 }

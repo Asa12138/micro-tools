@@ -1,8 +1,9 @@
 {
+  "format": "research-english-course-v1",
   "title": "论文阅读 · 从摘要读到研究设计",
   "domain": "reading",
   "description": "20 句原创科研英语练习，用于概括论文问题、辨认研究设计、讨论比较对象与证据范围。句子不摘自特定论文，请结合实际阅读材料使用。",
-  "level": "B2",
+  "level": "★★★",
   "source": {
     "title": "科研小盒原创科研英语课程 · 2026-10",
     "url": "",
@@ -784,5 +785,6 @@
       ],
       "phonetics": []
     }
-  ]
+  ],
+  "tags": []
 }

@@ -4,7 +4,7 @@
   constructor({api,call,parse=JSON.parse,cancel=()=>{},onProgress=()=>{},onDraft=()=>{}}){Object.assign(this,{api,call,parse,cancelModel:cancel,onProgress,onDraft});this.sentences=[];this.busy=false;this.cancelled=false;this.failedResponse='';}
   stop(){this.cancelled=true;this.cancelModel()}
   async start(input){this.input=JSON.parse(JSON.stringify(input));this.sentences=[];this.prepared=null;return this.run()}
-  course(sentences=this.sentences){return {title:this.input.title||'我的科研素材',domain:this.input.domain,level:this.input.level,source:this.input.source,sentences}}
+  course(sentences=this.sentences){return {title:this.input.title||'我的科研素材',domain:this.input.domain,level:this.input.level,tags:this.input.tags,source:this.input.source,sentences}}
   async run(){
    if(this.busy)throw Error('正在整理，请先停止当前任务。');this.busy=true;this.cancelled=false;this.failedResponse='';
    try{

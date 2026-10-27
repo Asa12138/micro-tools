@@ -2,6 +2,7 @@
 // In-memory fixtures; no network, production data or paid APIs.
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
 const create=require('../features/english/english-service'),C=require('../features/english/english-core'),createActivity=require('../features/english/english-activity');
+let testWindow;
 const wait=()=>new Promise(r=>setTimeout(r,35)),root=path.join(__dirname,'..');
 (async()=>{
  let date=new Date(2026,9,24,12),activity=createActivity({now:()=>date});
@@ -15,7 +16,7 @@ const wait=()=>new Promise(r=>setTimeout(r,35)),root=path.join(__dirname,'..');
  const id=api.list()[0].id;api.saveProgress(id,{seconds:42,results:{0:{favorite:true,notes:'Keep note',modes:{}}}});
  const imported=api.wordbooks('import',{title:'Research fixture',rows:[['cell','细胞'],['soil','土壤'],['plot','图'],['sample','样本']],preview:false});
  const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'http://localhost/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window,$=id=>w.document.getElementById(id),errors=[];
- w.englishApi=api;w.addEventListener('error',e=>errors.push(e.message));w.HTMLMediaElement.prototype.pause=function(){};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};
+ testWindow=w;w.englishApi=api;w.addEventListener('error',e=>errors.push(e.message));w.HTMLMediaElement.prototype.pause=function(){};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};
  w.LessonAudioCache=class{set(){}prioritize(){}async get(){throw Error('no audio')}};
  for(const f of ['english-core.js','english-wordbook-ui.js','english-extras.js','english-ui.js'])w.eval(fs.readFileSync(root+'/features/english/'+f,'utf8'));
  const clickText=(scope,text)=>{const b=[...scope.querySelectorAll('button')].find(b=>b.textContent===text);assert(b,'button '+text);b.click();return b};
@@ -29,7 +30,7 @@ const wait=()=>new Promise(r=>setTimeout(r,35)),root=path.join(__dirname,'..');
  assert.equal(api.progress(id).results[0].favoriteFolder,folder.id);assert.equal(api.progress(id).results[0].notes,'Keep note');
  $('enPracticeBack').click();await wait();assert.match($('enFavoritesTab').textContent,/0 句/);const folderCard=$('enCourses').querySelector('[data-folder-id="'+folder.id+'"]');assert.match(folderCard.textContent,/1 句/);folderCard.click();await wait();assert.equal($('enCourseTitle').textContent,'论文写作');
  // Repeated success on one sentence, including collection routes, counts once per day.
- $('enMode').value='study';$('enMode').dispatchEvent(new w.Event('change'));$('enCheck').click();await wait();$('enRetry').click();$('enCheck').click();await wait();assert.equal(api.activity().todaySentences,1);
+ $('enMode').value='typing';$('enMode').dispatchEvent(new w.Event('change'));const completeSentence=()=>{const words=C.words(api.get(id).sentences[0].en);[...$('enAnswer').querySelectorAll('input')].forEach((input,i)=>{input.value=words[i];input.dispatchEvent(new w.Event('input'))});$('enCheck').click()};completeSentence();await wait();$('enRetry').click();completeSentence();await wait();assert.equal(api.activity().todaySentences,1);
  $('enPracticeBack').click();await wait();assert.equal($('enTodaySentences').textContent,'1 句');
  // Folder assignment survives restart, clean, merge, and a real UI backup export/import.
  assert.equal(create(storage).progress(id).results[0].favoriteFolder,folder.id);assert.equal(C.mergeProgress({},api.progress(id)).results[0].favoriteFolder,folder.id);
@@ -47,4 +48,4 @@ const wait=()=>new Promise(r=>setTimeout(r,35)),root=path.join(__dirname,'..');
  clickText($('enWordbookContent'),'开始打字练习');await wait();assert.equal(practice.querySelector('select').value,'random');assert.match(practice.textContent,/3 \/ 4/);assert.equal(queries,1,'no automatic dictionary request');
  assert(w.EnglishUI.back());await wait();assert(practice.hidden);assert.equal(practice.children.length,0);assert(!$('enHub').hidden);
  assert.deepEqual(errors,[]);dom.window.close();console.log('PASS five-tab hub, compact activity, legacy/default/custom folders, original record mapping, backup roundtrip, daily sentence dedupe, standalone typing, random queue/resume, dictionary, pause and exit cleanup.');
-})().catch(e=>{console.error(e);process.exitCode=1});
+})().catch(e=>{testWindow?.close();console.error(e);process.exitCode=1});

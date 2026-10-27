@@ -2,6 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
+const datasets = require('../../assets/data/journals/manifest.json')
 
 const SUMMARY_FIELDS = ['name', 'abbr', 'issn', 'eissn', 'publisher', 'category',
   'jif', 'quartile', 'year', 'ccfRank', 'ccfCat', 'ccfAbbr']
@@ -21,7 +22,7 @@ module.exports = function createJournalTools(api, directory) {
         hash.update(file + '\0')
         // An unavailable CCF file must not turn a usable JCR database into an error.
         if (file === 'ccf.json.gz' && state.ccfError) hash.update('unavailable')
-        else hash.update(fs.readFileSync(path.join(directory, file)))
+        else hash.update(fs.readFileSync(path.join(directory, file === 'journals.json.gz' ? datasets.jcr.file : datasets.ccf.file)))
       }
       const years = new Set()
       recordIds = new Map()
@@ -33,9 +34,9 @@ module.exports = function createJournalTools(api, directory) {
       snapshot = {
         id: hash.digest('hex').slice(0, 16),
         source: '科研小盒内置 JCR / CCF 本地快照',
-        jcrEdition: 'JCR 2026（随插件数据集标注）',
+        jcrEdition: datasets.jcr.edition + '（随插件数据集标注）',
         jifYears: Array.from(years).sort(),
-        ccfEdition: '第七版（2026.3，随插件数据集标注）',
+        ccfEdition: datasets.ccf.edition + '（随插件数据集标注）',
         journalCount: api.total,
         recordCount: api.allTotal,
         notes: '非实时查询；year 是 JIF 数据年，quartile 是 JCR 分区，不是中科院分区。指标保留原始字符串；缺失值为 null，不代表 0。',

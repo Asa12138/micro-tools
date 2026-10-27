@@ -5,7 +5,7 @@ const {voices}=require('../../features/english/english-core');
 const {Bytes}=require('./platform');
 const clientToken='6A5AA1D4EAFF4E9FB37E23D68491D6F4';
 const escape=text=>text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g,'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
-const connectionError='微软在线语音连接失败。当前请使用 Microsoft Edge，并检查网络与系统时间；Chrome、Firefox、Safari 可能无法直连此服务。';
+const connectionError='微软在线语音连接失败。可自动使用本机英语声音，或在设置选择 Google 兼容发音。';
 function synthesize(text,voice){
  return new Promise((resolve,reject)=>{
   const id=crypto.randomUUID().replaceAll('-',''),url=new URL('wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1');
@@ -13,7 +13,7 @@ function synthesize(text,voice){
   const ws=new WebSocket(url.href),chunks=[];let size=0,done=false;
   ws.binaryType='arraybuffer';
   const deadline=setTimeout(()=>finish(Error('微软语音生成超时，请重试。')),45000);
-  let timer=setTimeout(()=>finish(Error(connectionError)),12000);
+  let timer=setTimeout(()=>finish(Error(connectionError)),5000);
   function finish(error){if(done)return;done=true;clearTimeout(timer);clearTimeout(deadline);ws.onopen=ws.onmessage=ws.onerror=ws.onclose=null;ws.close();if(error)reject(error);else resolve(Bytes.concat(chunks).toString('base64'))}
   ws.onopen=()=>{
    clearTimeout(timer);timer=setTimeout(()=>finish(Error('微软语音生成超时，请重试。')),30000);
@@ -43,12 +43,12 @@ function synthesize(text,voice){
   ws.onclose=event=>finish(Error(event.code===1008?'微软语音请求受到限制，请稍后重试。':connectionError));
  });
 }
-const inflight=new Map(),waiting=[];let active=0;
+const inflight=new Map(),waiting=[];let active=0,unavailableUntil=0;
 module.exports=async function speech(text,voice='andrew'){
  if(typeof text!=='string'||!text.trim()||text.length>1000)throw Error('语音句子需为 1–1000 字符');
  if(!Object.hasOwn(voices,voice))throw Error('不支持的微软语音');
- const key=voice+'|'+text;if(inflight.has(key))return inflight.get(key);
+ if(Date.now()<unavailableUntil)throw Error(connectionError);const key=voice+'|'+text;if(inflight.has(key))return inflight.get(key);
  const job=(async()=>{if(active>=2)await new Promise(resolve=>waiting.push(resolve));else active++;
-  try{return await synthesize(text,voices[voice])}finally{const next=waiting.shift();if(next)next();else active--}
+  try{if(Date.now()<unavailableUntil)throw Error(connectionError);const data=await synthesize(text,voices[voice]);unavailableUntil=0;return data}catch(e){unavailableUntil=Date.now()+60000;throw e}finally{const next=waiting.shift();if(next)next();else active--}
  })();inflight.set(key,job);try{return await job}finally{inflight.delete(key)}
 };

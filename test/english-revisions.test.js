@@ -1,0 +1,21 @@
+// Revision identity and progress belong to the surviving sentence, not its old position.
+const assert=require('node:assert/strict'),crypto=require('node:crypto');
+const C=require('../features/english/english-core'),create=require('../features/english/english-service');
+const values=new Map(),api=create({getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,structuredClone(v))});
+const raw={title:'Revision fixture',domain:'methods',level:'★★★',sentences:['We compare the samples.','We validate the model.','We report the uncertainty.'].map((en,i)=>({en,zh:'句子 '+i}))};
+const first=api.save(raw),before=api.list().length;
+api.saveProgress(first.id,{seconds:90,results:{0:{notes:'A'},1:{notes:'B',favorite:true,modes:{dictation:{complete:true}}},2:{notes:'C'}}});
+assert(api.edit(first.id,api.get(first.id)).unchanged);assert.equal(api.list().length,before);
+const changed={...api.get(first.id),sentences:[raw.sentences[1],raw.sentences[2],{en:'We share the results.',zh:'我们分享结果。'}]},second=api.edit(first.id,changed);
+assert.equal(second.lesson.revision.number,2);assert.equal(second.lesson.revision.rootId,first.id);assert.equal(api.list().length,before);
+assert(api.trashList().find(x=>x.id===first.id&&x.supersededBy===second.id));
+const progress=api.progress(second.id);assert.equal(progress.results[0].notes,'B');assert(progress.results[0].favorite);assert.equal(progress.results[1].notes,'C');assert(!progress.results[2]);assert.equal(progress.seconds,90);assert.equal(api.progress(first.id).results[0].notes,'A');
+assert.throws(()=>api.edit(second.id,{...changed,sentences:[]}),/至少需要一句/);
+assert.equal(api.list().length,before);assert(api.edit(second.id,api.get(second.id)).unchanged);
+const third=api.edit(second.id,{...changed,title:'Edited title'});assert.equal(third.lesson.revision.number,3);assert(!('revision' in C.exportCourse(third.lesson)));
+const official=C.clean({...raw,title:'Downloaded fixture'}),officialId='english-'+crypto.createHash('sha256').update(JSON.stringify(official)).digest('hex').slice(0,24);
+const downloaded=api.save({...official,catalog:{id:'remote:fixture',origin:'remote',url:'https://example.com/course.json',sourceUrl:'https://example.com/catalog.json',lessonId:officialId}});
+const count=api.list().length;assert(api.get(downloaded.id).downloaded);assert(api.edit(downloaded.id,api.get(downloaded.id)).unchanged);assert.equal(api.list().length,count,'unchanged original never creates a copy');
+const revised=api.edit(downloaded.id,{...official,sentences:official.sentences.slice(1)});assert.equal(revised.lesson.revision.kind,'derived');assert.equal(revised.lesson.revision.number,1);assert.equal(revised.lesson.revision.sourceId,downloaded.id);assert.equal(api.list().length,count+1);assert(api.list().some(c=>c.id===downloaded.id));
+const revisedAgain=api.edit(revised.id,{...api.get(revised.id),title:'My revision'});assert.equal(revisedAgain.lesson.revision.number,2);assert.equal(api.list().length,count+1);
+console.log('PASS no-op saves, insert/delete progress mapping, retained originals, revision numbers, recoverable history and clean exports.');

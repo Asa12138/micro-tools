@@ -1,14 +1,18 @@
 {
   "format": "research-english-wordbook-v1",
-  "id": "monash-biomedical-cn",
   "title": "Monash 生物医学词表 · 中英",
   "description": "保留原表中文释义与英美音标，支持顺序和随机打字练习。",
+  "domain": "biomedical",
+  "level": null,
+  "tags": [
+    "生物医学",
+    "中英词表"
+  ],
   "source": {
+    "note": "用户提供的双语整理词表；名称沿用原文件，释义与音标未另行修订。",
     "file": "monash_biomedical_glossary2_cn.xls",
-    "sha256": "900c38cabe15742a30ddd6fffafa267dadcc556b17744730b6ca6067d90d71d7",
-    "note": "用户提供的双语整理词表；名称沿用原文件，释义与音标未另行修订。"
+    "sha256": "900c38cabe15742a30ddd6fffafa267dadcc556b17744730b6ca6067d90d71d7"
   },
-  "duplicatesRemoved": 17,
   "words": [
     {
       "term": "A band",

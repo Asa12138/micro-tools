@@ -2,12 +2,12 @@
 (function(root){
  'use strict';
  function create(){
-  let context,master,config={enabled:true,typing:true,feedback:true,volume:30,keySound:'soft'},epoch=0;
+  let context,master,config={enabled:true,typing:true,feedback:true,duringSpeech:true,volume:30,keySound:'soft'},epoch=0;
   const buffers=new Map(),sources=new Set(),last={};
   function stop(){epoch++;for(const source of sources){try{source.stop()}catch{}source.disconnect()}sources.clear()}
   function configure(value={}){
    if(!value||typeof value!=='object')value={};
-   config={keySound:['soft','mechanical','typewriter','bubble'].includes(value.keySound)?value.keySound:'soft',enabled:value.enabled!==false,typing:value.typing!==false,feedback:value.feedback!==false,volume:Number.isFinite(Number(value.volume))?Math.max(0,Math.min(100,Number(value.volume))):30};
+   config={keySound:['soft','mechanical','typewriter','bubble'].includes(value.keySound)?value.keySound:'soft',enabled:value.enabled!==false,typing:value.typing!==false,feedback:value.feedback!==false,duringSpeech:value.duringSpeech!==false,volume:Number.isFinite(Number(value.volume))?Math.max(0,Math.min(100,Number(value.volume))):30};
    if(master)master.gain.setValueAtTime(config.volume/100,context.currentTime);
    if(!config.enabled||!config.volume)stop();return {...config};
   }

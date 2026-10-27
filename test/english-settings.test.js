@@ -15,8 +15,8 @@ const wait=()=>new Promise(r=>setTimeout(r,40));
  w.englishApi=api;w.addEventListener('error',e=>errors.push(e.message));w.HTMLMediaElement.prototype.pause=function(){};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};
  w.LessonAudioCache=class{set(){}prioritize(){}async get(){throw Error('No audio')}};
  for(const f of ['english-core.js','english-wordbook-ui.js','english-extras.js','english-ui.js'])w.eval(fs.readFileSync(root+'/features/english/'+f,'utf8'));
- api.trash(saved.id,true);await w.EnglishUI.onView('english');$('enCustomTab').click();await wait();[...$('enCourses').querySelectorAll('button')].find(b=>b.dataset.lessonId===saved.id).click();await wait();$('enPracticeBack').click();await wait();api.trash(saved.id);$('enSettingsTab').click();await wait();
- const tabs=[...$('enPreferences').querySelectorAll('[role="tab"]')];assert.equal(tabs.length,7);assert.equal($('enPreferences').querySelectorAll('[role="tabpanel"]:not([hidden])').length,1);
+ api.trash(saved.id,true);await w.EnglishUI.onView('english');$('enLibraryTab').click();await wait();[...$('enCourses').querySelectorAll('button')].find(b=>b.dataset.lessonId===saved.id).click();await wait();$('enPracticeBack').click();await wait();api.trash(saved.id);$('enSettingsTab').click();await wait();
+ const tabs=[...$('enPreferences').querySelectorAll('[role="tab"]')];assert.equal(tabs.length,8);assert.equal($('enPreferences').querySelectorAll('[role="tabpanel"]:not([hidden])').length,1);
  for(const tab of tabs){tab.click();assert.equal(tab.getAttribute('aria-selected'),'true');assert(!$(tab.getAttribute('aria-controls')).hidden);assert.equal($('enPreferences').querySelectorAll('[role="tabpanel"]:not([hidden])').length,1)}
  tabs[0].dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));assert.equal(w.document.activeElement,tabs[1]);assert.equal(tabs[1].tabIndex,0);assert.equal(tabs[0].tabIndex,-1);
  $('enActivityDetails').click();await wait();assert(!$('enPrefPane-activity').hidden);
@@ -29,5 +29,5 @@ const wait=()=>new Promise(r=>setTimeout(r,40));
  $('enLibraryTab').click();await wait();$('enSettingsTab').click();await wait();assert.equal(db.get('english-progress:'+saved.id),null,'later navigation does not resurrect records');
  // The same content can be imported afresh after permanent deletion.
  saved=api.save(raw);assert.equal(Object.keys(api.progress(saved.id).results).length,0);
- assert.deepEqual(errors,[]);dom.window.close();console.log('PASS all 24 starter structures, seven settings categories/keyboard navigation, cancel/confirm purge, source/record removal, unrelated data preservation and clean reimport.');
+ assert.deepEqual(errors,[]);dom.window.close();console.log('PASS all 24 starter structures, eight settings categories/keyboard navigation, cancel/confirm purge, source/record removal, unrelated data preservation and clean reimport.');
 })().catch(e=>{console.error(e);process.exitCode=1});
