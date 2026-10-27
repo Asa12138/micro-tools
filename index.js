@@ -314,6 +314,12 @@ els.dSearch.addEventListener('keydown', (e) => {
 })
 
 /* ================= 导航事件 ================= */
+$('#homeStar').addEventListener('click', (e) => {
+  if (window.ztools && typeof window.ztools.shellOpenExternal === 'function') {
+    e.preventDefault()
+    openExternal(e.currentTarget.href)
+  }
+})
 els.backBtn.addEventListener('click', () => { if (currentView === 'english' && window.EnglishUI?.back()) return; showView('home') })
 els.home.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-open]')
@@ -355,4 +361,8 @@ if (window.ztools && window.ztools.onPluginEnter) {
 showView('home');
 
 // Installed version comes from the same manifest as the package.
-(async()=>{try{const version=window.microToolsVersion||(await fetch('plugin.json').then(r=>r.json())).version;document.getElementById('appVersion').textContent='v'+version}catch{document.getElementById('appVersion').textContent='开发预览'}})();
+(async()=>{
+ let version;
+ try{version=window.microToolsVersion||(await fetch('plugin.json',{cache:'no-store'}).then(r=>r.json())).version;document.getElementById('appVersion').textContent='v'+version}catch{document.getElementById('appVersion').textContent='开发预览';return}
+ try{const changelog=window.microToolsChangelog??await fetch('CHANGELOG.md',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()});const sections=changelog.split(/^## /m),section=sections.find(s=>s.startsWith('v'+version+'（'));if(!section)throw Error();document.getElementById('appReleaseTitle').textContent=section.split('\n')[0];const list=document.getElementById('appReleaseNotes');for(const line of section.split('\n').filter(l=>l.startsWith('- '))){const li=document.createElement('li');li.textContent=line.slice(2);list.append(li)}}catch{document.getElementById('appReleaseTitle').textContent='v'+version+' · 暂无对应更新记录'}
+})();

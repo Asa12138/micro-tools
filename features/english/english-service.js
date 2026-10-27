@@ -8,9 +8,17 @@ const officialById=new Map(officialCourses.map(item=>[item.lessonId,item]));
 const clone=x=>JSON.parse(JSON.stringify(x));
 module.exports=function createEnglishService(storage,options={}){
  const sessions=new Map(),STORE='research-english-library-v1';
- const translation=require('./english-translation')(storage,{credentials:options.credentials}),catalog=createCatalog({storage,request:options.catalogRequest});
- const dictionary=require('./english-dictionary')({settings:()=>translation.config().googleNetwork});
- const activity=require('./english-activity')({directory:options.activityDirectory,baseline:()=>[...seeds,...read()].reduce((n,c)=>n+(Number(storage.getItem('english-progress:'+c.id)?.seconds)||0),0)});
+ const translation=options.translation||require('./english-translation')(storage,{credentials:options.credentials}),catalog=createCatalog({storage,request:options.catalogRequest});
+ const dictionary=options.dictionary||require('./english-dictionary')({settings:()=>translation.config().googleNetwork});
+ const wordbooks=require('./english-wordbooks')(storage,vocabulary,catalog);
+ const communityURL='https://asa-english-community.netlify.app/';
+ const communityCatalog=createCatalog({storage:{getItem:k=>storage.getItem('community:'+k),setItem:(k,v)=>storage.setItem('community:'+k,v)},request:options.catalogRequest});
+ communityCatalog.settings({url:communityURL+'catalog.json'});
+ const community=require('./english-community-service')({storage,request:options.communityRequest||options.catalogRequest});
+ const activity=require('./english-activity')({directory:options.activityDirectory,storage:options.activityStorage,baseline:()=>[...seeds,...read()].reduce((n,c)=>n+(Number(storage.getItem('english-progress:'+c.id)?.seconds)||0),0),learned:()=>{
+  const sentences=[],words=[];for(const c of [...seeds,...read()])for(const [index,result]of Object.entries(storage.getItem('english-progress:'+c.id)?.results||{}))if(Object.values(result.modes||{}).some(m=>m.complete))sentences.push(c.id+':'+index);
+  for(const b of wordbooks('list',{includeTrashed:true})){const complete=new Set(b.progress.completed||[]);for(const w of wordbooks('get',{id:b.id}).words)if(complete.has(w.id))words.push(w.term)}return {sentences,words};
+ }});
  const prepared=options.audio||require('./english-prepared-audio')();
  const hidden=()=>storage.getItem('english-trash-v1')||{};
  function read(){const saved=storage.getItem(STORE);if(saved==null)return [];if(!Array.isArray(saved))throw Error('题库存储格式异常，请先备份本地数据');return clone(saved)}
@@ -80,11 +88,23 @@ module.exports=function createEnglishService(storage,options={}){
   storage.setItem('english-progress:'+id,null);storage.setItem(STORE,all.filter(x=>x.id!==id));delete h[id];storage.setItem('english-trash-v1',h);return {id,deleted:true,permanent:true};
  }
  function edit(id,raw){const old=get(id);if(old.builtin)throw Error('内置课程不可编辑');const next=save(raw,true);if(next.id!==id){const prev=C.progress(storage.getItem('english-progress:'+id)||{}),results={};const used=new Set();next.lesson.sentences.forEach((s,i)=>{const j=old.sentences.findIndex((v,k)=>!used.has(k)&&JSON.stringify(v)===JSON.stringify(s));if(j>=0){used.add(j);if(prev.results[j])results[i]=prev.results[j]}});const existing=C.progress(storage.getItem('english-progress:'+next.id)||{});storage.setItem('english-progress:'+next.id,C.mergeProgress(existing,{...prev,index:0,results}));if(!old.downloaded)trash(id);trash(next.id,true)}return next}
- function vocabulary(action='list',value={}){const key='english-vocabulary-v1',all=storage.getItem(key)||[];if(action==='list')return clone(all);if(action==='save'){const term=String(value.term||'').trim();if(!term||term.length>120)throw Error('请选择 120 字符以内的单词或短语');let item=all.find(x=>x.term.toLowerCase()===term.toLowerCase());if(!item){if(all.length>=5000)throw Error('单词本最多保存 5000 项，请先导出');item={id:crypto.randomUUID(),term,createdAt:new Date().toISOString(),mastered:false};all.unshift(item)}for(const k of ['meaning','context','source'])if(typeof value[k]==='string'&&value[k])item[k]=value[k].slice(0,2000);storage.setItem(key,all);return clone(item)}const item=all.find(x=>x.id===value.id);if(!item)throw Error('单词不存在');if(action==='toggle')item.mastered=!item.mastered;else if(action==='remove')all.splice(all.indexOf(item),1);else throw Error('不支持的单词操作');storage.setItem(key,all);return clone(item)}
- return {wordbooks:require('./english-wordbooks')(storage,vocabulary,catalog),activity,dictionary,list,get,save,edit,trash,purge,trashList:()=>read().filter(x=>hidden()[x.id]).map(x=>({id:x.id,title:x.title})),vocabulary,prepare,validateSession,tools,
+ function vocabulary(action='list',value={}){const key='english-vocabulary-v1',all=storage.getItem(key)||[];if(action==='list')return clone(all);if(action==='save'){const hidden=storage.getItem('english-wordbooks-trash-v1')||{};if(hidden.favorites){delete hidden.favorites;storage.setItem('english-wordbooks-trash-v1',hidden)}const term=String(value.term||'').trim();if(!term||term.length>120)throw Error('请选择 120 字符以内的单词或短语');let item=all.find(x=>x.term.toLowerCase()===term.toLowerCase());if(!item){if(all.length>=5000)throw Error('单词本最多保存 5000 项，请先导出');item={id:crypto.randomUUID(),term,createdAt:new Date().toISOString(),mastered:false};all.unshift(item)}for(const k of ['meaning','context','source'])if(typeof value[k]==='string'&&value[k])item[k]=value[k].slice(0,2000);storage.setItem(key,all);return clone(item)}const item=all.find(x=>x.id===value.id);if(!item)throw Error('单词不存在');if(action==='toggle')item.mastered=!item.mastered;else if(action==='remove')all.splice(all.indexOf(item),1);else throw Error('不支持的单词操作');storage.setItem(key,all);return clone(item)}
+ function communityImport({content,manifest}={}){
+  if(!content||Buffer.byteLength(JSON.stringify(content))>2*1024*1024)throw Error('素材 JSON 最大 2 MB');
+  if(Array.isArray(content.words)){
+   if(manifest?.type&&manifest.type!=='wordbook')throw Error('素材类型与内容不一致');
+   const result=wordbooks('import',{title:content.title,rows:content.words.map(w=>[w.term,w.meaning,w.usphone||'',w.ukphone||'']),preview:false});return {...result,type:'wordbook'};
+  }
+  if(manifest?.type&&manifest.type!=='course')throw Error('素材类型与内容不一致');
+  const lesson=C.clean(content),id=lessonId(lesson),digest=crypto.createHash('sha256').update(JSON.stringify(lesson)).digest('hex');
+  const result=save({...lesson,catalog:{id:'remote:community-'+digest.slice(0,24),origin:'remote',url:communityURL,sourceUrl:communityURL+'catalog.json',sha256:digest,lessonId:id}});return {...result,type:'course'};
+ }
+ async function communityList(input){const result=await community.list(input),installed=storage.getItem('english-community-installed-v1')||{},courses=list(),books=wordbooks();return {...result,packs:result.packs.map(p=>{const saved=installed[p.id+':'+p.sha256],valid=saved&&(saved.type==='wordbook'?books:courses).some(x=>x.id===saved.id);return {...p,installed:!!valid,installedId:valid?saved.id:null}})}}
+ async function communityDownload(input){const data=await community.get(input),result=communityImport(data),installed=storage.getItem('english-community-installed-v1')||{};installed[data.manifest.id+':'+data.manifest.sha256]={type:result.type,id:result.id};storage.setItem('english-community-installed-v1',installed);let stats=null;try{stats=await community.recordDownload(data.manifest.id)}catch{}return {...result,stats}}
+ return {wordbooks,communityImport,communityList,communityGet:community.get,communityDownload,communityCatalog:()=>communityCatalog.list({refresh:true}),communityCatalogDownload:async input=>{const data=await communityCatalog.download(input);return save({...data.lesson,catalog:data.catalog})},activity,dictionary,list,get,save,edit,trash,purge,trashList:()=>read().filter(x=>hidden()[x.id]).map(x=>({id:x.id,title:x.title})),vocabulary,prepare,validateSession,tools,
  preparedAudio:prepared.get,preparedAudioAvailable:prepared.available,importURL:catalog.importURL,
  translationProviders:()=>clone(translation.providers),translationConfig:translation.config,translate:translation.translate,pronounce:translation.pronounce,
- catalogSettings:catalog.settings,catalogList,catalogDownload:async input=>{const downloaded=await catalog.download(input);if(downloaded.audio)prepared.install(downloaded.audio,downloaded.lesson.sentences);const result=save({...downloaded.lesson,catalog:downloaded.catalog});if(hidden()[result.id])trash(result.id,true);return result},
+ catalogSettings:catalog.settings,catalogList,catalogDownload:async input=>{const downloaded=await catalog.download(input);if(downloaded.audio)await prepared.install(downloaded.audio,downloaded.lesson.sentences);const result=save({...downloaded.lesson,catalog:downloaded.catalog});if(hidden()[result.id])trash(result.id,true);return result},
   progress(id){return C.progress(storage.getItem('english-progress:'+id)||{})},
   saveProgress(id,value){if(typeof id!=='string'||!/^english-[a-z0-9-]+$/.test(id)||!value||typeof value!=='object'||JSON.stringify(value).length>1000000)throw Error('学习记录格式无效');storage.setItem('english-progress:'+id,C.progress(value))},
   settings(value){const key='english-settings-v1';if(value!==undefined)storage.setItem(key,clone(value));return clone({voice:'andrew',preload:true,rate:1,autoPlay:true,autoAnalysis:true,allowOnline:true,revealAfter:3,showPhonetics:true,showChinese:true,showImages:false,nextPreview:true,celebrate:true,showWave:true,toolbarStyle:'normal',shortcutHints:true,...storage.getItem(key)})}

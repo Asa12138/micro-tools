@@ -319,6 +319,7 @@ window.journalApi = {
 const journalTools = require('./features/journals/journal-tools.js')(window.journalApi, __dirname)
 window.researchAgent = require('./features/research/research-tools.js')(window.journalApi, journalTools, __dirname)
 window.microToolsVersion = require('./plugin.json').version
+try { window.microToolsChangelog = fs.readFileSync(path.join(__dirname, 'CHANGELOG.md'), 'utf8') } catch { window.microToolsChangelog = '' }
 const preparedEnglishAudio = require('./features/english/english-prepared-audio')({directory(){const dir=window.ztools?.getPath?.('userData');return dir?require('path').join(dir,'micro-tools-local','english-audio'):null}})
 window.englishApi = require('./features/english/english-service.js')({
   getItem(key) { if (!window.ztools?.dbStorage) throw new Error('请在 ZTools 中使用持久题库'); return window.ztools.dbStorage.getItem(key) },

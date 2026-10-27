@@ -3,7 +3,8 @@
 const fs=require('fs'),path=require('path'),https=require('https'),dns=require('dns'),net=require('net'),crypto=require('crypto');
 const C=require('./english-core');
 const MAX_BYTES=2*1024*1024,TIMEOUT=20000,SETTINGS='english-catalog-settings-v1',CACHE='english-catalog-cache-v1';
-const DEFAULT_URL='https://asa12138.github.io/research-english/catalog.json';
+const LEGACY_URLS=new Set(['https://asa12138.github.io/research-english/catalog.json','https://asa12138.github.io/resources/research-english/catalog.json']);
+const DEFAULT_URL='https://asa12138.github.io/apps/research-english/materials/catalog.json';
 const SAMPLE_DIR=path.join(__dirname,'../../assets/data/english-catalog-samples');
 const bundledCatalog=require('../../assets/data/english-catalog-default.json');
 const clone=value=>JSON.parse(JSON.stringify(value));
@@ -19,17 +20,19 @@ function publicURL(value,base){
  if([...url.searchParams.keys()].some(k=>/^(?:token|access_token|api[_-]?key|key|password|secret|authorization|auth)$/i.test(k)))throw Error('请使用公开素材地址，不要在链接中填写密钥');
  return url.href;
 }
-function requestBytes(value,{maxBytes=MAX_BYTES,timeoutMs=TIMEOUT}={}){
+function requestBytes(value,{maxBytes=MAX_BYTES,timeoutMs=TIMEOUT,headers={},method='GET',body}={}){
+ let headerOrigin;try{headerOrigin=new URL(publicURL(value)).origin}catch(error){return Promise.reject(error)}
  const deadline=Date.now()+Math.min(60000,timeoutMs);
  function follow(value,redirects){return new Promise((resolve,reject)=>{
   let url;try{url=publicURL(value)}catch(error){reject(error);return}
   const remaining=deadline-Date.now();if(remaining<=0){reject(Error('素材请求超时，请稍后刷新'));return}
   let finished=false,req;const finish=(error,value)=>{if(finished)return;finished=true;clearTimeout(timer);error?reject(error):resolve(value)};
   const timer=setTimeout(()=>{finish(Error('素材请求超时，请稍后刷新'));req?.destroy()},remaining);
-  req=https.get(url,{headers:{Accept:'application/json,text/plain','User-Agent':'Research-English-Catalog/1.0','Accept-Encoding':'identity'},lookup(host,options,callback){
+  req=(method==='POST'?https.request:https.get)(url,{method,headers:{Accept:'application/json,text/plain','User-Agent':'Research-English-Catalog/1.0','Accept-Encoding':'identity',...(new URL(url).origin===headerOrigin?headers:{})},lookup(host,options,callback){
    dns.lookup(host,{all:true},(error,addresses)=>{if(error){callback(error);return}if(!addresses.length||addresses.some(a=>!isPublicAddress(a.address))){callback(Error('素材域名不能指向本机或内网地址'));return}if(options?.all)callback(null,addresses);else callback(null,addresses[0].address,addresses[0].family)})
   }},res=>{
    if([301,302,303,307,308].includes(res.statusCode)){
+    if(method!=='GET'){res.resume();finish(Error('统计请求不接受重定向'));return}
     res.resume();if(redirects>=3||!res.headers.location){finish(Error('素材地址重定向次数过多或缺少跳转地址'));return}
     let next;try{next=publicURL(res.headers.location,url)}catch(error){finish(error);return}
     clearTimeout(timer);follow(next,redirects+1).then(v=>finish(null,v),finish);return;
@@ -40,6 +43,7 @@ function requestBytes(value,{maxBytes=MAX_BYTES,timeoutMs=TIMEOUT}={}){
    res.on('end',()=>finish(null,Buffer.concat(chunks)));res.on('error',finish);res.on('aborted',()=>finish(Error('素材下载中断，请重试')));
   });
   req.on('error',error=>finish(Error('无法获取素材：'+error.message)));
+  if(method==='POST')req.end(body);
  })}return follow(value,0);
 }
 function parseBytes(value){const bytes=Buffer.isBuffer(value)?value:Buffer.from(value);if(bytes.length>MAX_BYTES)throw Error('素材文件超过 2 MB');try{return JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''))}catch{throw Error('素材网站未返回有效 JSON，请使用文件的原始内容地址')} }
@@ -65,7 +69,7 @@ module.exports=function createCatalog({storage,request=requestBytes}={}){
  const bundled=catalog(bundledCatalog,DEFAULT_URL,'remote');
  function settings(value){
   if(value!==undefined){const url=publicURL(string(value.url,'素材目录地址',2000)||DEFAULT_URL);if(url!==settings().url)storage.setItem(CACHE,null);storage.setItem(SETTINGS,{url})}
-  const saved=storage.getItem(SETTINGS)||{};return {url:publicURL(saved.url||DEFAULT_URL)};
+  const saved=storage.getItem(SETTINGS)||{};return {url:publicURL(!saved.url||LEGACY_URLS.has(saved.url)?DEFAULT_URL:saved.url)};
  }
  function cached(){const saved=storage.getItem(CACHE);if(!saved||saved.url!==settings().url)return null;try{return {courses:catalog(saved.raw,saved.url,'remote'),wordbooks:wordbookEntries(saved.raw.wordbooks===undefined&&saved.url===DEFAULT_URL?bundledCatalog:saved.raw,saved.url),updatedAt:saved.updatedAt}}catch{return null}}
  async function list({refresh=false}={}){

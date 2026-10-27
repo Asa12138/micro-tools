@@ -3,11 +3,14 @@ const assert=require('assert/strict'),fs=require('fs'),path=require('path'),cryp
 const create=require('../features/english/english-catalog'),C=require('../features/english/english-core');
 function memory(){const values=new Map();return {getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v)}}
 async function transportChecks(){
- const https=require('https'),{EventEmitter}=require('events'),original=https.get;let handler,calls=[];
- https.get=(url,options,callback)=>{calls.push(url);const req=new EventEmitter();req.destroy=()=>{};process.nextTick(()=>{const config=handler(url),res=new EventEmitter();res.statusCode=config.status||200;res.headers=config.headers||{};res.resume=()=>{};res.destroy=()=>{};callback(res);if(config.body!==undefined){res.emit('data',Buffer.from(config.body));res.emit('end')}});return req};
+ const https=require('https'),{EventEmitter}=require('events'),original=https.get;let handler,calls=[],requestHeaders=[];
+ https.get=(url,options,callback)=>{calls.push(url);requestHeaders.push(options.headers);const req=new EventEmitter();req.destroy=()=>{};process.nextTick(()=>{const config=handler(url),res=new EventEmitter();res.statusCode=config.status||200;res.headers=config.headers||{};res.resume=()=>{};res.destroy=()=>{};callback(res);if(config.body!==undefined){res.emit('data',Buffer.from(config.body));res.emit('end')}});return req};
  try{
   handler=url=>url.endsWith('start')?{status:302,headers:{location:'/final'}}:{body:'{"version":1}'};
   assert.equal((await create.requestBytes('https://example.com/start')).toString(),'{"version":1}');assert.deepEqual(calls,['https://example.com/start','https://example.com/final']);
+  requestHeaders=[];await create.requestBytes('https://example.com/start',{headers:{apikey:'public-fixture'}});assert(requestHeaders.every(h=>h.apikey==='public-fixture'));
+  requestHeaders=[];handler=url=>url.endsWith('start')?{status:302,headers:{location:'https://other.example/final'}}:{body:'{}'};await create.requestBytes('https://example.com/start',{headers:{apikey:'public-fixture'}});assert.equal(requestHeaders[0].apikey,'public-fixture');assert.equal(requestHeaders[1].apikey,undefined);
+  await assert.rejects(create.requestBytes('http://example.com/plain'),/HTTPS/);
   handler=()=>({status:302,headers:{location:'http://example.com/plain'}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/HTTPS/);
   handler=()=>({status:302,headers:{location:'https://127.0.0.1/private'}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/公开网站/);
   handler=()=>({status:302,headers:{location:'/loop'}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/重定向次数/);
@@ -20,6 +23,12 @@ async function main(){
  const storage=memory(),calls=[],responses=new Map(),api=create({storage,request:async url=>{calls.push(url);const answer=responses.get(url);if(answer instanceof Error)throw answer;if(answer===undefined)throw Error('unexpected URL '+url);return answer}});
  assert.equal(api.settings().url,create.DEFAULT_URL);
  storage.setItem('english-catalog-settings-v1',{url:''});assert.equal(api.settings().url,create.DEFAULT_URL,'legacy empty settings use the default source');
+ for(const url of ['https://asa12138.github.io/research-english/catalog.json','https://asa12138.github.io/resources/research-english/catalog.json']){
+  storage.setItem('english-catalog-settings-v1',{url});
+  storage.setItem('english-catalog-cache-v1',{url,raw:{version:1,courses:[]},updatedAt:'2026-10-26T00:00:00Z'});
+  assert.equal(api.settings().url,create.DEFAULT_URL,'both old official URLs migrate');
+  assert.equal((await api.list()).courses.length,4,'old cached URLs must not hide the new bundled catalog');
+ }
  const local=await api.list();assert.equal(local.courses.length,4);assert.equal(local.fallback,false);assert.equal(local.bundled,true);assert.equal(local.cached,false);assert.equal(calls.length,0);
  assert(local.courses.every(item=>item.origin==='remote'&&item.count===60));
  assert.deepEqual(local.courses.map(item=>item.id),require('../assets/data/english-catalog-default.json').courses.map(item=>'remote:'+item.id));
@@ -46,7 +55,7 @@ async function main(){
  api.settings({url:'https://example.com/second/catalog.json'});assert.equal((await api.list()).courses.length,3,'changed source clears previous catalog');
  const beforeReset=calls.length;api.settings({url:'  '});assert.equal(api.settings().url,create.DEFAULT_URL);assert.equal((await api.list()).courses.length,4);assert.equal((await api.list()).bundled,true);assert.equal(calls.length,beforeReset,'restoring the default source does not fetch');await assert.rejects(()=>api.download({id:'remote:test'}),/找不到素材/);
  responses.set(create.DEFAULT_URL,JSON.stringify({version:1,courses:Array.from({length:4},(_,i)=>({...entry,id:'pack-'+i,url:'v1/courses/pack-'+i+'.json'}))}));
- const official=await api.list({refresh:true});assert.equal(official.courses.length,4);assert(official.courses.every(c=>c.origin==='remote'),'remote catalogs replace local examples');assert.equal(calls.at(-1),create.DEFAULT_URL);assert.equal(official.courses[0].url,'https://asa12138.github.io/research-english/v1/courses/pack-0.json');
+ const official=await api.list({refresh:true});assert.equal(official.courses.length,4);assert(official.courses.every(c=>c.origin==='remote'),'remote catalogs replace local examples');assert.equal(calls.at(-1),create.DEFAULT_URL);assert.equal(official.courses[0].url,'https://asa12138.github.io/apps/research-english/materials/v1/courses/pack-0.json');
  api.settings({url:''});assert.equal((await api.list()).courses.length,4,'saving the same effective default preserves its cache');
  await transportChecks();
  console.log('PASS English catalog: bundled four-pack default on first launch, default-source migration and reset, preserved custom sources, custom-source sample fallback, remote-only catalogs, explicit refresh/download, metadata and hashes, persisted cache, URL and size validation. Network calls are stubs.');
