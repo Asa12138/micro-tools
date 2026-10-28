@@ -35,6 +35,16 @@ module.exports=function createWordbooks(storage,vocabulary,catalog){
   if(action==='preferences'){const key='english-wordbook-preferences-v1',old=storage.getItem(key)||{};const next={layout:old.layout==='grid'?'grid':'list',autoMaster:old.autoMaster===true};if(input.value){if(['list','grid'].includes(input.value.layout))next.layout=input.value.layout;if(typeof input.value.autoMaster==='boolean')next.autoMaster=input.value.autoMaster;storage.setItem(key,next)}return next}
   if(action==='trashList')return [get('favorites'),...all()].filter(b=>hidden()[b.id]).map(b=>({id:b.id,title:b.title}));
   const book=get(input.id);
+  if(action==='fillMeaning'){
+   const meaning=typeof input.meaning==='string'?input.meaning.trim():'';if(!meaning||meaning.length>2000)throw Error('释义须为 1–2000 字符');
+   const word=book.words.find(w=>w.id===input.wordId);
+   // Merge into the current record; never restore removed words or replace user edits.
+   if(hidden()[book.id]||!word||word.term!==input.term||String(word.meaning||'').trim())return {updated:false,word:word?copy(word):null};
+   word.meaning=meaning;
+   if(book.id==='favorites')storage.setItem('english-vocabulary-v1',book.words);
+   else{const books=read(),i=books.findIndex(b=>b.id===book.id);if(i<0)books.unshift(book);else books[i]=book;storage.setItem(key,books)}
+   return {updated:true,word:copy(word)};
+  }
   if(action==='trash'){if(input.restore){restore(book.id)}else{const x=hidden();x[book.id]=new Date().toISOString();storage.setItem('english-wordbooks-trash-v1',x)}return {id:book.id}}
   if(action==='studyTime'){const key='english-wordbook-cardtime:'+book.id,old=storage.getItem(key)||{seconds:0,sessions:{}};if(input.session){if(!/^[\w-]{1,80}$/.test(input.session)||!Number.isFinite(input.seconds)||input.seconds<0||input.seconds>86400)throw Error('学习时长无效');const previous=old.sessions[input.session]||0,next=Math.max(previous,input.seconds);old.seconds+=next-previous;old.sessions[input.session]=next;storage.setItem(key,old)}return old.seconds}
   if(action==='edit'){

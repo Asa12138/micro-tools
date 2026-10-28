@@ -6,6 +6,12 @@ const {Bytes}=require('./platform');
 const clientToken='6A5AA1D4EAFF4E9FB37E23D68491D6F4';
 const escape=text=>text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g,'').replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
 const connectionError='微软在线语音连接失败。可自动使用本机英语声音，或在设置选择 Google 兼容发音。';
+// Browser WebSocket cannot supply the headers used by the Node transport.
+// Current Read Aloud direct access requires Chromium Edge; EdgiOS is WebKit.
+function capabilities(ua=globalThis.navigator?.userAgent||''){
+ const direct=/\bEdg(?:A)?\//.test(ua)&&!/\b(?:EdgiOS|iPhone|iPad|iPod)\b/.test(ua);
+ return {direct,message:direct?'':'当前浏览器无法直连微软在线语音。可用 Edge 在线生成，或播放已有音频、选择本机英语声音。'};
+}
 function synthesize(text,voice){
  return new Promise((resolve,reject)=>{
   const id=crypto.randomUUID().replaceAll('-',''),url=new URL('wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1');
@@ -47,8 +53,10 @@ const inflight=new Map(),waiting=[];let active=0,unavailableUntil=0;
 module.exports=async function speech(text,voice='andrew'){
  if(typeof text!=='string'||!text.trim()||text.length>1000)throw Error('语音句子需为 1–1000 字符');
  if(!Object.hasOwn(voices,voice))throw Error('不支持的微软语音');
+ const support=capabilities();if(!support.direct)throw Error(support.message);
  if(Date.now()<unavailableUntil)throw Error(connectionError);const key=voice+'|'+text;if(inflight.has(key))return inflight.get(key);
  const job=(async()=>{if(active>=2)await new Promise(resolve=>waiting.push(resolve));else active++;
   try{if(Date.now()<unavailableUntil)throw Error(connectionError);const data=await synthesize(text,voices[voice]);unavailableUntil=0;return data}catch(e){unavailableUntil=Date.now()+60000;throw e}finally{const next=waiting.shift();if(next)next();else active--}
  })();inflight.set(key,job);try{return await job}finally{inflight.delete(key)}
 };
+module.exports.capabilities=capabilities;

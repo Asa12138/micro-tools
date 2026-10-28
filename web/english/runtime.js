@@ -1,8 +1,33 @@
-const createStore=require('./storage'),createServices=require('./services'),createAudio=require('./audio');
+const createStore=require('./storage'),createServices=require('./services'),createAudio=require('./audio'),createRelay=require('./relay');
 const {catalogRequest,request}=require('./network'),C=require('../../features/english/english-core');
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;if(cls)n.className=cls;return n};
 const download=(name,value)=>{const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)};
 const allowedKey=key=>/^(research-english-library-v1|english-(settings-v1|trash-v1|vocabulary-v1|activity-v1|wordbooks-v1|wordbooks-trash-v1|wordbook-preferences-v1|catalog-settings-v1)|english-progress:english-[a-z0-9-]+|english-wordbook-(progress|cardtime):[a-z0-9-]+)$/.test(key);
+async function installRelaySettings(api,$){
+ const section=$('enPrefPane-sound'),box=el('fieldset',null,'form-stack');box.id='enSpeechRelay';box.hidden=true;box.append(el('legend','跨浏览器语音服务'));
+ const address=el('input'),token=el('input');address.id='enSpeechRelayURL';address.type='url';address.placeholder='https://你的语音服务/api/speech';token.id='enSpeechRelayToken';token.type='password';token.autocomplete='off';
+ for(const [label,input]of [['服务地址',address],['访问口令（如服务要求）',token]]){const wrap=el('label',label);wrap.append(input);box.append(wrap);}
+ box.append(el('p','配置后，未缓存的句子会发送给此服务，再由 Microsoft 或 Google 生成音频。地址保存在此浏览器，口令仅保存在当前标签页。','help-text'));
+ const row=el('div',null,'action-row'),save=el('button','保存语音服务','secondary'),test=el('button','测试微软连接','secondary'),clear=el('button','停用语音服务','text-button'),status=el('p',null,'help-text');status.id='enSpeechRelayStatus';status.setAttribute('role','status');row.append(save,test,clear);box.append(row,status);section.insertBefore(box,$('enSoundOptionsHome'));
+ async function refresh(){const c=await api.speechRelayConfig();address.value=c.endpoint;token.value='';token.placeholder=c.hasToken?'口令已保存；留空保持':'可选';$('enVoice').dispatchEvent(new Event('change'));}
+ async function apply(){await api.speechRelayConfig({endpoint:address.value,...(token.value?{token:token.value}:{})});await refresh();}
+ save.onclick=async()=>{try{await apply();status.textContent='语音服务配置已保存。'}catch(e){status.textContent=e.message;}};
+ clear.onclick=async()=>{try{await api.speechRelayConfig({endpoint:'',token:''});await refresh();status.textContent='已停用语音服务。'}catch(e){status.textContent=e.message;}};
+ test.onclick=async()=>{test.disabled=true;try{if((await api.settings()).allowOnline===false)throw Error('请先开启在线语音再测试。');await apply();status.textContent='正在生成测试句音频…';await api.speech('We compare different samples.','andrew');status.textContent='Microsoft Andrew 音频生成成功，可进入课程播放。';}catch(e){status.textContent=e.message;}finally{test.disabled=false;}};
+ await refresh();
+}
+function installVoiceGuide($){
+ const section=$('enPrefPane-sound'),note=section.querySelector(':scope > p.help-text'),guide=el('div',null,'en-voice-guide');guide.id='enWebVoiceGuide';
+ const link=(label,url)=>{const a=el('a',label);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;};
+ const recommendation=el('p');recommendation.append(el('strong','最简单的方式：使用电脑上的 Microsoft Edge，或使用 '),link('ZTools 插件版 ↗','https://github.com/Asa12138/micro-tools'),'。');guide.append(recommendation);
+ const list=el('ol');
+ const microsoft=el('li');microsoft.append(el('strong','Microsoft 音色：'),'受微软服务限制，网页版在线生成需要使用电脑上的 Edge 浏览器；ZTools 插件版无需安装 Edge。');
+ const google=el('li');google.append(el('strong','Google 发音：'),'需要能正常访问 Google。如果无法直连，请确认网络代理可用；先打开 ',link('Google 翻译 ↗','https://translate.google.com/'),' 检查能否访问，再点击「试听声音」。');
+ const local=el('li');local.append(el('strong','本机语音：'),'以上在线语音都不可用时，选择「本机浏览器英语声音」。使用电脑已安装的英语声音，不需要联网，自然度可能较低。');
+ list.append(microsoft,google,local);guide.append(list);section.insertBefore(guide,note);
+ note.textContent='已有缓存和课程配套音频仍可在其他浏览器播放。Microsoft 音色的「试听声音」使用预录音频，试听成功不代表当前浏览器支持在线生成。';
+ const practice=$('enSound').querySelector('p');practice.replaceChildren('在线朗读优先使用电脑上的 Edge，或 ',link('ZTools 插件版 ↗','https://github.com/Asa12138/micro-tools'),'。Google 发音需能访问 Google；在线语音不可用时可选本机声音。声音选择与设置页同步。');
+}
 function validateBackup(raw){
  if(raw?.format!=='research-english-web-backup-v1'||!raw.data||Array.isArray(raw.data)||typeof raw.data!=='object')throw Error('请选择网页版完整备份');
  const entries=Object.entries(raw.data);if(entries.length>2000)throw Error('备份条目过多');for(const [key,value]of entries){if(!allowedKey(key))throw Error('备份包含不支持的数据键：'+key);if(JSON.stringify(value).length>12*1024*1024)throw Error('备份条目过大');if(value==null)continue;
@@ -17,11 +42,16 @@ function validateBackup(raw){
 async function boot(){
  const $=id=>document.getElementById(id);
  try{
-  const store=await createStore(),services=createServices(store.storage),audio=await createAudio();
+  const store=await createStore(),relay=createRelay(store.storage),services=createServices(store.storage,{relay}),audio=await createAudio();
+  if(window.RESEARCH_ENGLISH_LOCAL_RELAY)await store.run(()=>relay.config(window.RESEARCH_ENGLISH_LOCAL_RELAY));
+  else if(!store.storage.getItem('web-speech-relay')&&window.RESEARCH_ENGLISH_BUILD.speechRelayEndpoint)await store.run(()=>relay.config({endpoint:window.RESEARCH_ENGLISH_BUILD.speechRelayEndpoint}));
   const dictionary=require('../../features/english/english-dictionary')({request:(req)=>request(req.url,req)});
   let service;await store.run(()=>{service=require('../../features/english/english-service')(store.storage,{translation:services.translation,dictionary,audio,activityStorage:store.storage,catalogRequest,communityRequest:catalogRequest})});
   const api={platform:'browser'};for(const [name,fn]of Object.entries(service))if(typeof fn==='function')api[name]=(...args)=>store.run(()=>fn(...args));
-  api.speech=require('./speech');
+  const directSpeech=require('./speech');
+  api.speech=(text,voice)=>relay.config().endpoint?relay.synthesize(text,voice):directSpeech(text,voice);
+  api.speechRelayConfig=patch=>store.run(()=>relay.config(patch));
+  Object.defineProperty(api,'speechCapabilities',{get:()=>({...directSpeech.capabilities(),available:!!relay.config().endpoint||directSpeech.capabilities().direct})});
   window.englishApi=api;window.microToolsVersion=window.RESEARCH_ENGLISH_BUILD.version;window.ResearchEnglishWeb={api,store,validateBackup};
   window.researchApi={...services.research,config:(patch)=>store.run(()=>services.research.config(patch)),checkAvailability:()=>store.run(()=>services.research.checkAvailability()),call:services.research.call,cancel:services.research.cancel};
   window.openExternal=url=>{const u=new URL(url);if(['https:','http:'].includes(u.protocol))window.open(u.href,'_blank','noopener,noreferrer')};
@@ -34,9 +64,9 @@ async function boot(){
   $('webAbout').onclick=()=>{$('enSettingsTab').click();$('enPrefTab-backup').click()};
   const guideImage=document.querySelector('#enPrefPane-agent img[src$="agent-guide-prompt.png"]');if(guideImage){guideImage.src='assets/images/agent-guide-prompt-web.png';guideImage.closest('a').href=guideImage.src}document.querySelector('#enPrefPane-agent .en-mcp-help').hidden=true;
   $('enRefresh').textContent='↻ 刷新题库';document.querySelector('#view-english .ai-check-note').textContent='自动检查仅核对已保存配置，不发送请求；点击「测试连接」才调用一次模型。';document.querySelector('#enCreate .privacy-note').textContent='PDF 在本机提取；点击「AI 整理」才将正文发送给已配置的模型。';
-  const note=$('enVoice').closest('section').querySelector(':scope > p.help-text');if(note)note.textContent='优先使用缓存和配套音频；微软直连失败时可自动改用本机英语声音。若浏览器没有英语声音，选择 Google 兼容发音（所选句子会发送给 Google，在线播放，不生成本地音频文件）。';
-  $('enSound').querySelector('p').textContent='微软声音将未缓存的句子发送给微软；Google 兼容发音将本句发送给 Google。本机声音不需要微软连接。关闭在线语音后，仅播放本地音频与本机声音。';
-  $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音将句子发送给 Microsoft 并缓存；选择 Google 兼容发音会将句子发送给 Google 在线播放。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';
+  await installRelaySettings(api,$);
+  installVoiceGuide($);
+  $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音将句子发送给 Microsoft 并缓存；选择 Google 兼容发音会将句子发送给 Google 在线播放。配置语音服务后会先经该服务转发。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';
   const panel=$('enPrefPane-backup'),section=el('section',null,'en-mcp en-settings-section');section.append(el('h4','浏览器数据与同步'));
   section.append(el('p','课程、单词本、掌握状态、学习足迹和设置保存在此浏览器的 IndexedDB。不会自动同步到 ZTools、其他设备或其他浏览器。清除网站数据会删除它们；隐私模式中的数据通常随窗口关闭而清除。','help-text'));
   section.append(el('p','完整备份包含课程、练习记录、单词本、设置与学习足迹；不含密钥、录音、下载音频和网络缓存。录音请在口语练习中单独下载。','help-text'));

@@ -197,3 +197,6 @@ module.exports=function createTranslation(storage,options={}){
  return {providers:clone(PROVIDERS),config,translate,pronounce};
 };
 module.exports.providers=clone(PROVIDERS);
+// The web adapter shares provider schemas, signing and response parsing with the plugin.
+module.exports.buildRequest=buildRequest;
+module.exports.readResult=readResult;

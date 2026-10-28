@@ -1,0 +1,8 @@
+[build]
+  publish = "public"
+[functions]
+  directory = "server/netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["vendor/proxy/**"]
+[build.environment]
+  NODE_VERSION = "22"

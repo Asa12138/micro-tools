@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict'),create=require('../features/english/english-service');
+const data=new Map(),storage={getItem:k=>structuredClone(data.get(k)),setItem:(k,v)=>data.set(k,structuredClone(v))},api=create(storage);
+const one=api.vocabulary('save',{term:'population',context:'Original context',source:'Original source'}),two=api.vocabulary('save',{term:'research',meaning:'原有释义'});
+api.vocabulary('toggle',{id:one.id});
+const input={id:'favorites',wordId:one.id,term:one.term,meaning:'种群'};
+assert.equal(api.wordbooks('fillMeaning',input).updated,true);
+let word=api.vocabulary().find(w=>w.id===one.id);assert.equal(word.meaning,'种群');assert.equal(word.mastered,true);assert.equal(word.source,one.source);assert.equal(word.context,one.context);
+assert.equal(api.wordbooks('fillMeaning',{...input,meaning:'不覆盖'}).updated,false);
+assert.equal(api.wordbooks('fillMeaning',{...input,wordId:two.id,term:two.term}).updated,false);
+api.vocabulary('remove',{id:one.id});assert.equal(api.wordbooks('fillMeaning',input).updated,false);assert.equal(api.vocabulary().length,1);
+const added=api.vocabulary('save',{term:'study'});api.wordbooks('trash',{id:'favorites'});assert.equal(api.wordbooks('fillMeaning',{id:'favorites',wordId:added.id,term:added.term,meaning:'研究'}).updated,false);
+const imported=api.wordbooks('import',{title:'Fixture',rows:[['protein','蛋白质']],preview:false}),book=api.wordbooks('get',{id:imported.id});book.words[0].meaning='';api.wordbooks('edit',{id:book.id,title:book.title,words:book.words});
+const fill={id:book.id,wordId:book.words[0].id,term:'protein',meaning:'术语'};
+assert.equal(api.wordbooks('fillMeaning',{...fill,term:'renamed'}).updated,false);
+assert.equal(api.wordbooks('fillMeaning',fill).updated,true);assert.equal(create(storage).wordbooks('get',{id:book.id}).words[0].meaning,'术语');
+assert.throws(()=>api.wordbooks('fillMeaning',{...fill,meaning:''}),/释义/);assert.throws(()=>api.wordbooks('fillMeaning',{...fill,meaning:'x'.repeat(2001)}),/释义/);
+console.log('PASS meaning fill: saved favorites/imported words, preserved existing meanings/context/mastery, removed/renamed/trashed items skipped, validation and restart persistence.');

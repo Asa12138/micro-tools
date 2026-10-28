@@ -30,14 +30,42 @@ window.EnglishWordbookUI=function({api,host,container,message,query,pronunciatio
   const [b,prefs]=await Promise.all([api.wordbooks('get',{id}),api.wordbooks('preferences')]);if(token!==renderToken)return;preferences=prefs;container.replaceChildren();
   const head=el('div',null,'list-heading'),title=el('div'),summary=el('p',null,'help-text'),actions=el('div',null,'action-row');title.append(button('‹ 全部单词本',()=>{bookId=null;render()},'text-button'),el('h3',b.title),summary);
   const start=button('开始打字练习',()=>startPractice(b),'primary'),cards=button('卡片速记',()=>startCards(b));start.disabled=cards.disabled=!b.words.length;actions.append(start,cards,button('导出单词本',()=>download(b.title,C.exportWordbook(b))));head.append(title,actions);
+  let filling=false,stopped=false;
+  const missing=()=>b.words.filter(w=>!String(w.meaning||'').trim());
+  const fillArea=el('div',null,'en-wordbook-fill'),fillActions=el('div',null,'action-row'),fillStatus=el('p',null,'help-text'),fillHint=el('p','仅将缺少释义的词条发送给当前翻译服务，逐条保存；已有释义保持不变。','help-text');fillStatus.setAttribute('role','status');
+  const fillAll=button('一键补全释义',()=>fillMeanings(missing())),stopFill=button('停止后续查询',()=>{stopped=true;stopFill.disabled=true;fillStatus.textContent='正在完成当前词条，随后停止。'},'text-button');stopFill.hidden=true;fillActions.append(fillAll,stopFill);fillArea.append(fillActions,fillHint,fillStatus);
+  async function fillMeanings(words){
+   if(filling||!words.length)return;filling=true;stopped=false;let done=0,failed=0,skipped=0,consecutiveFailures=0,lastError='';stopFill.hidden=false;stopFill.disabled=false;draw();
+   const active=()=>token===renderToken&&container.isConnected&&!container.parentElement.hidden;
+   try{
+    const [configuration,providers]=await Promise.all([api.translationConfig(),api.translationProviders()]);const provider=providers.find(p=>p.id===configuration.engine),service=provider?.name||configuration.engine;
+    for(const [index,w]of words.entries()){
+     if(stopped||!active())break;
+     fillStatus.textContent=service+' · 正在补全 '+(index+1)+' / '+words.length+'：'+w.term;
+     try{
+      if((await api.translationConfig()).engine!==configuration.engine){stopped=true;lastError='翻译服务已切换，请重新开始补全。';break}
+      const result=await api.translate({text:w.term}),saved=await api.wordbooks('fillMeaning',{id:b.id,wordId:w.id,term:w.term,meaning:result.translation});
+      if(saved.updated)done++;else skipped++;
+      if(saved.word)Object.assign(w,saved.word);else b.words=b.words.filter(x=>x.id!==w.id);
+      consecutiveFailures=0;
+     }catch(e){failed++;consecutiveFailures++;lastError=e.message;if(consecutiveFailures>=3){stopped=true;lastError='连续 3 次失败，已暂停。'+lastError}}
+     if(active())draw();
+     if(!stopped&&index<words.length-1)await new Promise(resolve=>setTimeout(resolve,350));
+    }
+   }catch(e){lastError=e.message}
+   finally{
+    filling=false;stopFill.hidden=true;
+    if(active()){fillStatus.textContent='已补全 '+done+' 个'+(failed?' · 失败 '+failed+' 个':'')+(skipped?' · 跳过 '+skipped+' 个':'')+(stopped?' · 已停止':'')+'。'+(lastError?' '+lastError+' 可在「主页与设置 → 翻译与网络」检查翻译服务后重试。':'');draw()}
+   }
+  }
   const filters=el('div',null,'en-wordbook-filters'),search=el('input'),filter=el('select'),layout=el('div',null,'en-wordbook-layout');search.placeholder='搜索单词、释义';search.setAttribute('aria-label','搜索单词');for(const [v,t]of [['all','全部词条'],['new','未掌握'],['mastered','已掌握']])filter.append(new Option(t,v));filter.setAttribute('aria-label','词条熟悉程度');
   const layouts=[];for(const [v,t]of [['list','列表'],['grid','分块']]){const control=button(t,async()=>{preferences={...preferences,layout:v};draw();await api.wordbooks('preferences',{value:{layout:v}})},'secondary');control.dataset.layout=v;layouts.push(control);layout.append(control)}filters.append(search,filter,layout);const list=el('div',null,'en-wordbook-list');let limit=80;
-  function draw(){list.replaceChildren();list.classList.toggle('is-grid',preferences.layout==='grid');layouts.forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.layout===preferences.layout)));const mastered=b.words.filter(w=>w.mastered).length;summary.textContent=b.words.length+' 个词条 · '+mastered+' 已掌握 · '+(b.words.length-mastered)+' 未掌握';const q=search.value.trim().toLowerCase(),items=b.words.filter(w=>(w.term+' '+(w.meaning||'')).toLowerCase().includes(q)&&(filter.value==='all'||!!w.mastered===(filter.value==='mastered')));
+  function draw(){const count=missing().length;fillArea.hidden=!count&&!fillStatus.textContent&&!filling;fillAll.textContent=filling?'正在补全…':'一键补全释义'+(count?'（'+count+'）':'');fillAll.disabled=filling||!count;start.disabled=cards.disabled=filling||!b.words.length;list.replaceChildren();list.classList.toggle('is-grid',preferences.layout==='grid');layouts.forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.layout===preferences.layout)));const mastered=b.words.filter(w=>w.mastered).length;summary.textContent=b.words.length+' 个词条 · '+mastered+' 已掌握 · '+(b.words.length-mastered)+' 未掌握';const q=search.value.trim().toLowerCase(),items=b.words.filter(w=>(w.term+' '+(w.meaning||'')).toLowerCase().includes(q)&&(filter.value==='all'||!!w.mastered===(filter.value==='mastered')));
    for(const w of items.slice(0,limit)){const row=el('article',null,'en-wordbook-entry'+(w.mastered?' is-mastered':'')),text=el('div'),controls=el('div',null,'action-row');text.append(el('span',w.mastered?'✓ 已掌握':'未掌握','en-mastery-badge'),el('strong',w.term),el('p',w.meaning||'尚未添加释义'));if(w.usphone||w.ukphone)text.append(el('small',[w.usphone?'美 /'+w.usphone+'/':'',w.ukphone?'英 /'+w.ukphone+'/':''].filter(Boolean).join(' · ')));
-    const mastery=button(w.mastered?'标记未掌握':'标记掌握',async()=>{mastery.disabled=true;try{await setMastery(b,w,!w.mastered);draw()}finally{mastery.disabled=false}},'text-button');controls.append(button('查询',()=>query(w.term,{en:w.context,title:b.title,vocabulary:[{term:w.term,meaning:w.meaning,ipa:w.usphone||w.ukphone}]}),'text-button'),mastery);if(b.id==='favorites')controls.append(button('移出收藏',async()=>{await api.vocabulary('remove',{id:w.id});b.words=b.words.filter(x=>x.id!==w.id);start.disabled=cards.disabled=!b.words.length;draw()},'text-button'));row.append(text,controls);list.append(row)
+    const mastery=button(w.mastered?'标记未掌握':'标记掌握',async()=>{mastery.disabled=true;try{await setMastery(b,w,!w.mastered);draw()}finally{mastery.disabled=false}},'text-button');controls.append(button('查询',()=>query(w.term,{en:w.context,title:b.title,vocabulary:[{term:w.term,meaning:w.meaning,ipa:w.usphone||w.ukphone}]}),'text-button'),mastery);if(!String(w.meaning||'').trim()){const fillOne=button('补全释义',()=>fillMeanings([w]),'text-button');fillOne.disabled=filling;controls.prepend(fillOne)}if(b.id==='favorites')controls.append(button('移出收藏',async()=>{await api.vocabulary('remove',{id:w.id});b.words=b.words.filter(x=>x.id!==w.id);start.disabled=cards.disabled=!b.words.length;draw()},'text-button'));row.append(text,controls);list.append(row)
    }if(items.length>limit)list.append(button('再显示 80 个',()=>{limit+=80;draw()},'text-button'));if(!items.length)list.append(el('p',b.words.length?'没有符合筛选条件的词条。':'还没有词条。在答案与解析中点击单词，查询后收藏。','en-empty'));
   }
-  search.oninput=filter.onchange=()=>{limit=80;draw()};container.append(head,filters,list);draw();
+  search.oninput=filter.onchange=()=>{limit=80;draw()};container.append(head,fillArea,filters,list);draw();
  }
  // Flashcards share the practice surface and mastery records, but never overwrite typing progress.
  async function startCards(book){
