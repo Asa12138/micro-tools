@@ -34,7 +34,6 @@ async function boot(){
   $('webAbout').onclick=()=>{$('enSettingsTab').click();$('enPrefTab-backup').click()};
   const guideImage=document.querySelector('#enPrefPane-agent img[src$="agent-guide-prompt.png"]');if(guideImage){guideImage.src='assets/images/agent-guide-prompt-web.png';guideImage.closest('a').href=guideImage.src}document.querySelector('#enPrefPane-agent .en-mcp-help').hidden=true;
   $('enRefresh').textContent='↻ 刷新题库';document.querySelector('#view-english .ai-check-note').textContent='自动检查仅核对已保存配置，不发送请求；点击「测试连接」才调用一次模型。';document.querySelector('#enCreate .privacy-note').textContent='PDF 在本机提取；点击「AI 整理」才将正文发送给已配置的模型。';
-  document.querySelector('.en-translation-network').hidden=true;
   const note=$('enVoice').closest('section').querySelector(':scope > p.help-text');if(note)note.textContent='优先使用缓存和配套音频；微软直连失败时可自动改用本机英语声音。若浏览器没有英语声音，选择 Google 兼容发音（所选句子会发送给 Google，在线播放，不生成本地音频文件）。';
   $('enSound').querySelector('p').textContent='微软声音将未缓存的句子发送给微软；Google 兼容发音将本句发送给 Google。本机声音不需要微软连接。关闭在线语音后，仅播放本地音频与本机声音。';
   $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音将句子发送给 Microsoft 并缓存；选择 Google 兼容发音会将句子发送给 Google 在线播放。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';

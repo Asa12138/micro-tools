@@ -1,0 +1,38 @@
+// Actual PDF upload, local filtering, clipboard and download in isolated local previews.
+const assert=require('node:assert/strict'),fs=require('node:fs'),{chromium}=require('playwright');
+const sample=process.env.ENGLISH_PDF_SAMPLE,output='/Users/asa/WorkBuddy/Ztools/reports/translation-settings-preview';
+if(!sample)throw Error('Set ENGLISH_PDF_SAMPLE to a local PDF; no external upload is performed.');
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'/Users/asa/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell'});
+ try{for(const [name,url]of [['desktop','http://127.0.0.1:8791/'],['web','http://127.0.0.1:8792/research-english/']].filter(([name])=>!process.env.ENGLISH_ATTACHMENT_TARGET||process.env.ENGLISH_ATTACHMENT_TARGET===name)){
+  const context=await browser.newContext({viewport:{width:1440,height:1100},acceptDownloads:true}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(url);await page.waitForFunction(()=>window.englishApi&&window.EnglishUI);await page.evaluate(()=>window.showView?.('english'));
+  await page.locator('#enCustomTab').click();await page.locator('#enHubNav [data-pane=custom]').click();await page.locator('#enCreateTab').click();
+  await page.evaluate(()=>{window.copyToClipboard=text=>{window.testCopied=text}});
+  await page.locator('#enCount').fill('17');await page.locator('#enFile').setInputFiles(sample);await page.waitForFunction(()=>!document.getElementById('enMaterialScreening').hidden&&!document.getElementById('enFile').disabled);
+  await page.locator('#enPdfDialog').waitFor({state:'visible'});const initialRaw=await page.locator('#enMaterial').inputValue();await page.locator('#enPdfKeep').click();assert.equal(await page.locator('#enMaterial').inputValue(),initialRaw);assert.equal(await page.locator('#enCount').inputValue(),'17');
+  await page.locator('#enPrefilterMaterial').click();await page.locator('#enPdfDialog').screenshot({path:output+'/'+name+'-pdf-question.png'});await page.locator('#enPdfScreen').click();
+  const body=await page.locator('#enMaterial').inputValue();assert(body.length<initialRaw.length);assert.equal(await page.locator('#enMaterialReader').isVisible(),true);assert.equal(await page.locator('#enMaterial').isVisible(),false);assert(await page.locator('#enMaterialReader>p').count()>1);assert.equal(await page.locator('#enMaterialReader details').count(),0);assert.equal(await page.locator('#enMaterialScreening #enMaterialMetrics').count(),1);assert.match(await page.locator('#enMaterialCharacters').innerText(),/原始.*预筛选后/);
+  assert.equal(await page.locator('#enCount').inputValue(),'17');const suggestion=await page.locator('#enUseSuggestedCount').innerText();await page.locator('#enUseSuggestedCount').click();assert.equal(await page.locator('#enCount').inputValue(),suggestion.match(/\d+/)[0]);
+  assert(body.length>50000);assert.doesNotMatch(body,/\nReferences\s*\n/i);
+  const applyLabel=await page.locator('#enUseSuggestedCount').innerText();const selectedSizes={body:body.length};
+  for(const mode of ['results','methods']){await page.locator('#enMaterialFilter').selectOption(mode);const value=await page.locator('#enMaterial').inputValue();selectedSizes[mode]=value.length;assert(value.length>1000&&value.length<body.length);assert((await page.locator('#enMaterialCharacters').innerText()).includes(value.length.toLocaleString('en-US')));assert.notEqual(await page.locator('#enUseSuggestedCount').innerText(),applyLabel);const n=(await page.locator('#enUseSuggestedCount').innerText()).match(/\d+/)[0];await page.locator('#enUseSuggestedCount').click();assert.equal(await page.locator('#enCount').inputValue(),n)}
+  await page.locator('#enMaterialFilter').selectOption('body');assert.equal(await page.locator('#enMaterial').inputValue(),body);
+
+  await page.locator('#enMaterialFilter').selectOption('focus');const focus=await page.locator('#enMaterial').inputValue();assert(focus.length<body.length);
+  await page.locator('#enMaterialFilter').selectOption('raw');const raw=await page.locator('#enMaterial').inputValue();assert(raw.length>body.length);assert.match(raw,/\nReferences\s*\n/i);
+  await page.locator('#enMaterialFilter').selectOption('body');assert.equal(await page.locator('#enMaterial').inputValue(),body);await page.locator('#enMaterialScreening').screenshot({path:output+'/'+name+'-pdf-screening-card.png'});
+  // Switching presets preserves user edits in each preset, including the raw source view.
+  await page.locator('#enMaterialEdit').click();const edited=body+'\nLearning note for the selected material.';await page.locator('#enMaterial').fill(edited);await page.locator('#enMaterialFilter').selectOption('focus');assert.equal(await page.locator('#enMaterial').inputValue(),focus);await page.locator('#enMaterialFilter').selectOption('body');assert.equal(await page.locator('#enMaterial').inputValue(),edited);
+  await page.locator('#enCount').fill('12');await page.locator('#enAgentToggle').click();
+  assert.equal(await page.locator('#enCopyAgent').innerText(),'复制完整提示词（无需 MCP）');
+  await page.locator('#enCopyAgent').click();const prompt=await page.evaluate(()=>window.testCopied);assert(prompt.length<4500);assert(!prompt.includes(edited.slice(0,250)));assert(prompt.includes('-学习素材.txt'));assert.match(await page.locator('#enAgentMaterialHint').innerText(),/不带正文/);
+  if(name==='desktop'){assert.equal(await page.locator('#enCopyMCP').innerText(),'给 Agent 的建库指令（需连接 MCP）');await page.locator('#enCopyMCP').click();const mcp=await page.evaluate(()=>window.testCopied);assert(mcp.length<3000);assert(!mcp.includes(edited.slice(0,250)));assert.match(mcp,/prepare_english_material/)}
+  const event=page.waitForEvent('download');await page.locator('#enDownloadMaterial').click();const download=await event;assert(download.suggestedFilename().endsWith('-学习素材.txt'));assert.equal(fs.readFileSync(await download.path(),'utf8'),edited);
+  await page.locator('#enAgentGuide').screenshot({path:output+'/'+name+'-attachment-guide.png'});await page.locator('#enMaterialScreening').screenshot({path:output+'/'+name+'-pdf-filter.png'});
+  const selectBox=await page.locator('#enMaterialFilter').boundingBox(),metricsBox=await page.locator('#enMaterialMetrics').boundingBox();assert(metricsBox.x>selectBox.x+selectBox.width,'desktop stats sit to the right of the filter');await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),true,'mobile form fits');const narrowSelect=await page.locator('#enMaterialFilter').boundingBox(),narrowMetrics=await page.locator('#enMaterialMetrics').boundingBox();assert(narrowMetrics.y>narrowSelect.y,'mobile stats stack below the filter');
+  // A new form clears the PDF source, choice and preview; short text stays inline.
+  await page.locator('#enCreateBack').click();await page.locator('#enCreateTab').click();assert.equal(await page.locator('#enPrefilterMaterial').isEnabled(),false);await page.locator('#enCount').fill('1');await page.locator('#enMaterial').fill('We compare soil communities.');await page.locator('#enAgentToggle').click();await page.locator('#enCopyAgent').click();assert((await page.evaluate(()=>window.testCopied)).includes('We compare soil communities.'));
+  assert.deepEqual(errors,[]);console.log('PASS '+name+': PDF choice/reopen, local filter/raw restore, unfolded preview, two-column card, section selection, linked suggestions, edited preset preservation, short copy commands, exact TXT download and narrow layout.');await context.close();
+ }}finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});

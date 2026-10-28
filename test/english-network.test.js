@@ -18,7 +18,7 @@ const create=require('../features/english/english-translation');
  const data={},storage={getItem:k=>data[k],setItem:(k,v)=>data[k]=v};
  let calls=0,finish;
  const service=create(storage,{audioTransport:(req,settings)=>{calls++;assert.equal(settings.mode,'manual');assert.equal(new URL(req.url).searchParams.get('q'),'research');return new Promise(resolve=>finish=resolve)}});
- service.config({googleNetwork:{mode:'manual',proxy:'http://localhost:7897'}});
+ service.config({pronunciation:'google',googleNetwork:{mode:'manual',proxy:'http://localhost:7897'}});
  assert.deepEqual(create(storage).config().googleNetwork,{mode:'manual',proxy:'http://localhost:7897'});
  const a=service.pronounce({text:'research'}),b=service.pronounce({text:'research'});assert.equal(calls,1);
  finish({status:200,body:Buffer.alloc(200,1),contentType:'audio/mpeg'});
@@ -30,6 +30,14 @@ const create=require('../features/english/english-translation');
  const failed=create(storage,{audioTransport:async()=>({status:200,body:Buffer.alloc(200),contentType:'text/html'})});
  await assert.rejects(()=>failed.pronounce({text:'research'}),/有效发音/);
  await assert.rejects(()=>failed.pronounce({text:'research'}),/有效发音/);
+ // The default provider is Youdao; its requests bypass Google proxy preferences and caches.
+ const routes=[],audio=create(null,{audioTransport:async(req,settings)=>{routes.push({url:new URL(req.url),settings});return {status:200,body:Buffer.alloc(200),contentType:'audio/mpeg'}}});
+ assert.equal(audio.config().pronunciation,'youdao');audio.config({googleNetwork:{mode:'manual',proxy:'http://localhost:7897'}});
+ assert.equal((await audio.pronounce({text:'research & development',accent:'en-GB'})).source,'有道在线发音');
+ assert.equal(routes[0].url.hostname,'dict.youdao.com');assert.equal(routes[0].url.searchParams.get('audio'),'research & development');assert.equal(routes[0].url.searchParams.get('type'),'1');assert.equal(routes[0].settings.mode,'direct');
+ audio.config({pronunciation:'google'});assert.equal((await audio.pronounce({text:'research & development',accent:'en-GB'})).source,'Google 在线发音');assert.equal(routes[1].url.hostname,'translate.google.com');assert.equal(routes[1].settings.mode,'manual');
+ audio.config({pronunciation:'youdao'});await audio.pronounce({text:'research',accent:'en-US'});assert.equal(routes[2].url.searchParams.get('type'),'2');
+ assert.throws(()=>audio.config({pronunciation:'unknown'}));assert.equal(create(storage).config().pronunciation,'google');
  // A Google 429 backs off new queries, retains cached answers, and does not block audio or other engines.
  let clock=1000000,queries=0,rateLimited=false;
  const limited=create(null,{now:()=>clock,transport:async req=>{queries++;return req.url.includes('transmart')?{status:200,body:{auto_translation:['研究']}}:rateLimited?{status:429,body:'',retryAfter:'120',route:'HTTP 代理 localhost:7897'}:{status:200,body:[[['研究']]]}},audioTransport:async()=>({status:200,body:Buffer.alloc(200),contentType:'audio/mpeg'})});

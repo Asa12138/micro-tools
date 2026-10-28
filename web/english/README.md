@@ -27,9 +27,9 @@ node scripts/build-english-web.cjs /绝对路径/网站仓库/apps/research-engl
 
 ## Agent 建库
 
-进入「我的素材库 → 自建题库」，填写正文或导入 PDF/TXT/Markdown、题库名和句数，打开「通过 AI Agent 建题库」，复制完整提示词。任意 Agent 均可按内嵌 Schema 返回完整 JSON，无需 MCP、网页 API key 或注册新账号。
+进入「我的素材库 → 自建题库」，填写正文或导入 PDF/TXT/Markdown、题库名和句数，打开「通过 AI 或 Agent 建题库」，复制完整提示词。长正文只复制建库要求，需同时下载当前素材 TXT 并上传到外部 AI。对话型 AI 受单次回复长度限制，建议每次生成 30 句以下；更多句数建议使用可生成 JSON 文件的 Agent。无需 MCP 或网页 API key 即可使用这条导入路径。
 
-把结果粘贴到「粘贴 Agent 返回的课程 JSON」进行校验与预览。有原文时同时校验句数及引用原文；没有原文时只校验结构与教学格式。也支持从「导入题库」选择 JSON 文件。GitHub Pages 自身不会运行 MCP Server，Agent 不能直接修改此浏览器的私有题库。
+将返回的完整 JSON 代码块粘贴回来，或选择生成的 JSON 文件，点击「校验并预览素材」。结构错误会阻止导入；有原文时同时核对目标句数及引用。句子偏长、词块格式、疑似专用标识等只提示警告，可逐句取消、批量剔除或恢复，至少保留一句再保存。没有原文时不能核实引用。完整规则见源码仓库的 [手动导入校验规则](https://github.com/Asa12138/micro-tools/blob/main/docs/english-import-validation.md)。GitHub Pages 自身不会运行 MCP Server，Agent 不能直接修改此浏览器的私有题库。
 
 ## 数据保存与备份
 
@@ -44,13 +44,14 @@ node scripts/build-english-web.cjs /绝对路径/网站仓库/apps/research-engl
 
 ## API、语音和兼容性
 
-- 自定义 AI 支持 OpenAI 兼容 `chat/completions` HTTPS 接口。翻译支持 Google 网页接口、Google Cloud、OpenAI 兼容接口和自建翻译中转（POST `{text,source,target}`，返回 `{translation}`）。
+- 自定义 AI 支持 OpenAI 兼容 `chat/completions` HTTPS 接口。「翻译与网络」先显示单词发音，再显示文本翻译。翻译默认 Google 网页接口，可切换免密钥 MyMemory、Google Cloud、OpenAI 兼容接口和自建翻译中转（POST `{text,source,target}`，返回 `{translation}`）。
 - 接口必须允许网页 Origin 的 CORS 请求。第三方 API 禁止跨域时，浏览器无法像 Electron 的 Node 层一样直连；可配置用户自己的 HTTPS 后端中转。网页不能读取系统代理配置、设置 HTTP CONNECT 代理或运行 localhost MCP Server。不提供公共密钥中转，不上传给维护者。素材广场沿用现有 Supabase 公共目录；`web/english/community-config.json` 仅含已公开的项目地址与 publishable key，不含用户会话或服务端密钥。社区迁移项目时同步这个公开配置。
 - 微软语音沿用 edge-tts v2 协议，优先播放缓存和配套音频。直连失败时默认回退到本机英语声音（可在设置关闭）；会等待浏览器加载声音列表，且停止/切句后不会播放过期请求。
 - 没有本机英语声音时，可主动选择「Google 兼容发音（联网）」，将句子按短段发送给 Google，通过浏览器播放器直接播放；不伪装成 Andrew，也不声称生成了可下载的 MP3。在线开关和本课许可继续有效；微软预加载不会为 Google 发起请求。
 - 本机回退只选设备上的英语声音；它不生成可导出的音频文件。跨浏览器生成相同 Andrew 音色的文件仍需要可用的微软服务连接或独立后端。
 
-- 单词美式/英式发音使用浏览器音频播放器直接加载 Google 音频，翻译接口仍通过 fetch 读取 JSON；媒体播放不要求接口允许脚本跨域读取音频字节。
+- 单词美式/英式发音默认使用有道，可切换 Google；浏览器音频播放器直接加载所选来源，避免通过 fetch 读取音频产生的跨域限制。Google 网络区说明浏览器 / 系统代理设置，不展示无法生效的页面代理输入框。该设置不改变课程朗读声音。
+- 翻译服务分为免密钥和 API / 自定义接口；需密钥服务提供官网入口与免费体验提示，具体额度以官网为准。MyMemory 只调用 get 查询接口，限制单次 500 UTF-8 字节，识别每日额度耗尽；不会调用 set 提交译文。桌面保留原有官方适配器；网页的其他服务可通过自有 HTTPS 中转接入，不能绕过服务端 CORS 限制。
 - 练习快捷键使用捕获阶段处理 Alt+A / Alt+P，并支持 F8 打开答案与解析（Mac 顶部按键为媒体控制时可用 Fn+F8）。浏览器或扩展若在网页收到事件前拦截 Alt+A，可使用 F8 或界面按钮。
 - 音频首次自动播放可能被拦截，点击播放后即可继续。录音需要 HTTPS 和用户麦克风授权；PDF 与 Excel 在本机解析，不上传文件。所有接口只在用户发起相应操作时接收必要文本。
 - 面向近期 Chrome、Edge、Firefox、Safari，需支持 IndexedDB、Web Crypto、Web Locks、Web Audio、dialog；旧浏览器会明确提示启动失败。手机可用，物理键盘操作体验更完整。

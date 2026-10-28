@@ -10,6 +10,7 @@ const credentials={
  deepl:{apiKey:'deepl-secret:fx',plan:'auto'},caiyun:{token:'caiyun-token',secretKey:'caiyun-secret'}
 };
 const fixtures={
+ mymemory:{responseStatus:200,responseData:{translatedText:'译文'}},
  google:[[ ['译文','research',null,null] ],null,'en'],
  'google-cloud':{data:{translations:[{translatedText:'译文 &amp; 验证'}]}},
  aliyun:{Code:'200',Data:{Translated:'译文'}},baidu:{trans_result:[{dst:'译文'}]},
@@ -21,7 +22,7 @@ const fixtures={
  const storage=memory(),requests=[];
  let engine='google';
  const service=create(storage,{now:()=>Date.UTC(2026,9,24,10,0,0),nonce:()=> '1435660288',transport:async req=>{requests.push(req);return {status:200,body:fixtures[engine]}}});
- assert.equal(service.providers.length,11);assert.equal(service.providers.filter(p=>p.unofficial).length,2);
+ assert.equal(service.providers.length,12);assert.equal(service.providers.filter(p=>p.unofficial).length,2);
  let state=service.config({providers:credentials});
  assert.equal(state.credentialStorage,'session');assert.equal(state.providers.deepl.has.apiKey,true);assert.equal(state.providers.deepl.apiKey,undefined);
  for(const[id,fields]of Object.entries(credentials))for(const f of service.providers.find(p=>p.id===id).fields.filter(f=>f.secret))assert.ok(!JSON.stringify(storage.data).includes(fields[f.key]),'Secret persisted: '+id+'.'+f.key);
@@ -73,5 +74,6 @@ const fixtures={
  // Persisted user data may not inject a credential into session state.
  const poison=memory();poison.setItem('english-translation-v1',{engine:'deepl',providers:{deepl:{apiKey:'from-disk',plan:'auto'}}});
  assert.equal(create(poison).config().providers.deepl.has.apiKey,false);
- console.log('PASS translation: 11 adapters, published Baidu signature vector, request/response contracts, session-only credentials, redaction, bounded input/responses, per-engine cache, rotation and in-flight deduplication. Network calls are fixtures.');
+ const quota=create(memory(),{transport:async()=>({status:200,body:{responseStatus:200,quotaFinished:true,responseData:{translatedText:'QUOTA EXCEEDED'}}})});quota.config({engine:'mymemory'});await assert.rejects(()=>quota.translate({text:'research'}),/额度/);await assert.rejects(()=>quota.translate({text:'é'.repeat(251)}),/500 UTF-8/);
+ console.log('PASS translation: 12 adapters, published Baidu signature vector, request/response contracts, session-only credentials, redaction, bounded input/responses, per-engine cache, rotation and in-flight deduplication. Network calls are fixtures.');
 })().catch(error=>{console.error(error);process.exitCode=1});

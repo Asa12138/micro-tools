@@ -15,6 +15,7 @@ const clone=x=>JSON.parse(JSON.stringify(x));
 const field=(key,label,secret=true,required=true,extra={})=>({key,label,secret,required,...extra});
 const PROVIDERS=[
  {id:'google',name:'谷歌翻译',fields:[],unofficial:true,note:'内置免密钥网页接口，非官方 API；可能受网络或频率限制。仅点击查询时发送选中文本。'},
+ {id:'mymemory',name:'MyMemory',fields:[],note:'匿名使用，无需密钥；有每日额度。仅发送所选文字，适合轻量查询。'},
  {id:'google-cloud',name:'Google Cloud Translation',fields:[field('apiKey','API key')],note:'官方 Cloud Translation Basic v2；需开通对应服务，使用自己的额度。'},
  {id:'aliyun',name:'阿里翻译',fields:[field('accessKeyId','AccessKey ID'),field('accessKeySecret','AccessKey Secret')],note:'官方机器翻译通用版（TranslateGeneral）；ACS3 请求签名。'},
  {id:'baidu',name:'百度翻译',fields:[field('appId','APP ID'),field('secretKey','密钥')],note:'官方通用翻译 API。'},
@@ -26,6 +27,8 @@ const PROVIDERS=[
  {id:'deepl',name:'DeepL',fields:[field('apiKey','API key'),field('plan','套餐',false,true,{default:'auto',options:[{value:'auto',label:'自动（按密钥识别）'},{value:'free',label:'API Free'},{value:'pro',label:'API Pro'}]})],note:'官方 DeepL API；Free 和 Pro 使用不同服务地址。'},
  {id:'caiyun',name:'彩云小译',fields:[field('token','Token'),field('secretKey','Secret key（旧版 Token 可留空）',true,false)],note:'官方彩云小译 API；有 Secret key 时启用签名，兼容旧版 Token。'}
 ];
+const providerLinks={google:'https://translate.google.com/',mymemory:'https://mymemory.translated.net/doc/usagelimits.php','google-cloud':'https://cloud.google.com/translate',aliyun:'https://www.aliyun.com/product/ai/alimt',baidu:'https://fanyi-api.baidu.com/',volcengine:'https://www.volcengine.com/product/machine-translation',tencent:'https://cloud.tencent.com/product/tmt',transmart:'https://transmart.qq.com/',niutrans:'https://niutrans.com/',youdao:'https://ai.youdao.com/',deepl:'https://www.deepl.com/pro-api',caiyun:'https://platform.caiyunapp.com/'};
+for(const p of PROVIDERS){p.website=providerLinks[p.id];p.group=p.fields.length?'key':'anonymous'}
 for(const p of PROVIDERS)for(const f of p.fields)if(['appId','appKey','accessKeyId','secretId'].includes(f.key))f.display=true;
 const sha=text=>crypto.createHash('sha256').update(text).digest('hex');
 const hmac=(key,text,encoding)=>crypto.createHmac('sha256',key).update(text).digest(encoding);
@@ -54,6 +57,7 @@ function buildRequest(engine,text,c,now,nonce){
  const iso=new Date(now).toISOString().replace(/\.\d{3}Z$/,'Z');
  const stamp=String(Math.floor(now/1000));
  if(engine==='google')return {url:'https://translate.googleapis.com/translate_a/single?'+form({client:'gtx',sl:'en',tl:'zh-CN',dt:'t',q:text}),method:'GET',headers:{}};
+ if(engine==='mymemory'){if(Buffer.byteLength(text,'utf8')>500)throw failure('MyMemory 单次最多 500 UTF-8 字节，请缩短选中文字。');return {url:'https://api.mymemory.translated.net/get?'+form({q:text,langpair:'en|zh-CN'}),method:'GET',headers:{}};}
  if(engine==='google-cloud')return jsonRequest('https://translation.googleapis.com/language/translate/v2',{q:text,source:'en',target:'zh-CN',format:'text'},{'x-goog-api-key':c.apiKey});
  if(engine==='baidu')return formRequest('https://fanyi-api.baidu.com/api/trans/vip/translate',{q:text,from:'en',to:'zh',appid:c.appId,salt:nonce,sign:crypto.createHash('md5').update(c.appId+text+nonce+c.secretKey).digest('hex')});
  if(engine==='youdao')return formRequest('https://openapi.youdao.com/api',{q:text,from:'en',to:'zh-CHS',appKey:c.appKey,salt:nonce,curtime:stamp,signType:'v3',sign:sha(c.appKey+compact(text)+nonce+stamp+c.appSecret)});
@@ -91,6 +95,7 @@ function buildRequest(engine,text,c,now,nonce){
 function readResult(engine,data){
  let value;
  if(engine==='google')value=Array.isArray(data?.[0])?data[0].map(x=>typeof x?.[0]==='string'?x[0]:'').join(''):undefined;
+ else if(engine==='mymemory'){if(Number(data?.responseStatus)!==200||data?.quotaFinished)throw failure('MyMemory 暂不可用或今日额度已用完，请切换翻译服务。');value=data?.responseData?.translatedText;}
  else if(engine==='google-cloud')value=data?.data?.translations?.map(x=>x.translatedText).join('\n');
  else if(engine==='aliyun')value=String(data?.Code)==='200'?data?.Data?.Translated:undefined;
  else if(engine==='baidu')value=(!data?.error_code||String(data.error_code)==='52000')?data?.trans_result?.map(x=>x.dst).join('\n'):undefined;
@@ -110,10 +115,11 @@ function readResult(engine,data){
 module.exports=function createTranslation(storage,options={}){
  const STORE='english-translation-v1',send=options.transport||transport,now=options.now||Date.now,random=options.nonce||(()=>crypto.randomUUID());
  const credentials=options.credentials||require('../../shared/local-credentials')();let persisted=false;
- const settings={engine:'google',providers:{},googleNetwork:{mode:'auto',proxy:''}},cache=new Map(),pending=new Map(),audioCache=new Map(),audioPending=new Map();let googleBackoffUntil=0,googleBackoffRoute='';
+ const settings={engine:'google',pronunciation:'youdao',providers:{},googleNetwork:{mode:'auto',proxy:''}},cache=new Map(),pending=new Map(),audioCache=new Map(),audioPending=new Map();let googleBackoffUntil=0,googleBackoffRoute='';
  for(const provider of PROVIDERS){settings.providers[provider.id]={};for(const f of provider.fields)settings.providers[provider.id][f.key]=f.default||''}
  const saved=storage?.getItem(STORE);
  if(saved&&typeof saved==='object'){
+  if(['youdao','google'].includes(saved.pronunciation))settings.pronunciation=saved.pronunciation;
   persisted=true;if(saved.googleNetwork){try{settings.googleNetwork=networkSettings(saved.googleNetwork)}catch{}}
   if(PROVIDERS.some(p=>p.id===saved.engine))settings.engine=saved.engine;
   for(const p of PROVIDERS)for(const f of p.fields)if(!f.secret&&typeof saved.providers?.[p.id]?.[f.key]==='string'){
@@ -123,12 +129,12 @@ module.exports=function createTranslation(storage,options={}){
  const savedCredentials=credentials.read('translation');
  for(const p of PROVIDERS)for(const f of p.fields)if(f.secret){const value=savedCredentials[p.id]?.[f.key];if(typeof value==='string'&&value.length<=2048&&!/[\r\n\0]/.test(value))settings.providers[p.id][f.key]=value}
  function secretValues(value){const result={};for(const p of PROVIDERS){const fields={};for(const f of p.fields)if(f.secret&&value.providers[p.id][f.key])fields[f.key]=value.providers[p.id][f.key];if(Object.keys(fields).length)result[p.id]=fields}return result}
- function view(){const result={engine:settings.engine,googleNetwork:clone(settings.googleNetwork),providers:{},credentialStorage:credentials.mode(),persisted};for(const p of PROVIDERS){const c=settings.providers[p.id],safe={has:{}};for(const f of p.fields){if(f.secret){safe.has[f.key]=Boolean(c[f.key]);if(f.display)safe[f.key]=c[f.key]}else safe[f.key]=c[f.key]}result.providers[p.id]=safe}return result}
+ function view(){const result={engine:settings.engine,pronunciation:settings.pronunciation,googleNetwork:clone(settings.googleNetwork),providers:{},credentialStorage:credentials.mode(),persisted};for(const p of PROVIDERS){const c=settings.providers[p.id],safe={has:{}};for(const f of p.fields){if(f.secret){safe.has[f.key]=Boolean(c[f.key]);if(f.display)safe[f.key]=c[f.key]}else safe[f.key]=c[f.key]}result.providers[p.id]=safe}return result}
  function networkSettings(value){const mode=value?.mode||'auto';if(!['auto','direct','manual'].includes(mode))throw failure('谷歌网络模式无效。');const proxy=value.proxy?network.normalizeProxy(value.proxy):'';if(mode==='manual'&&!proxy)throw failure('请填写代理地址。');return {mode,proxy}}
  function config(patch){
   if(patch===undefined)return view();
   if(!patch||typeof patch!=='object'||Array.isArray(patch))throw failure('翻译设置格式无效。');
-  const next=clone(settings);if(patch.googleNetwork!==undefined)next.googleNetwork=networkSettings(patch.googleNetwork);
+  const next=clone(settings);if(patch.pronunciation!==undefined){if(!['youdao','google'].includes(patch.pronunciation))throw failure('请选择有道或 Google 发音。');next.pronunciation=patch.pronunciation}if(patch.googleNetwork!==undefined)next.googleNetwork=networkSettings(patch.googleNetwork);
   if(patch.engine!==undefined){if(!PROVIDERS.some(p=>p.id===patch.engine))throw failure('请选择支持的翻译引擎。');next.engine=patch.engine}
   if(patch.clearCredentials!==undefined){if(!Array.isArray(patch.clearCredentials)||patch.clearCredentials.some(id=>!PROVIDERS.some(p=>p.id===id)))throw failure('清除凭据的引擎无效。');for(const p of PROVIDERS.filter(p=>patch.clearCredentials.includes(p.id)))for(const f of p.fields)if(f.secret)next.providers[p.id][f.key]=''}
   if(patch.providers!==undefined){
@@ -147,14 +153,14 @@ module.exports=function createTranslation(storage,options={}){
    }
   }
   // Persist only the allowlisted, non-secret fields. Never persist the has flags or caches.
-  const publicSettings={engine:next.engine,providers:{},googleNetwork:next.googleNetwork};
+  const publicSettings={engine:next.engine,pronunciation:next.pronunciation,providers:{},googleNetwork:next.googleNetwork};
   for(const p of PROVIDERS){publicSettings.providers[p.id]={};for(const f of p.fields)if(!f.secret)publicSettings.providers[p.id][f.key]=next.providers[p.id][f.key]}
   const before=secretValues(settings),after=secretValues(next),changed=JSON.stringify(before)!==JSON.stringify(after);
   if(changed)credentials.write('translation',after);
   let saved=false;
   try{if(typeof storage?.setItem==='function'){const result=storage.setItem(STORE,publicSettings);if(result===false||result?.error)throw Error('write failed');saved=true}}
   catch(_){if(changed){try{credentials.write('translation',before)}catch(_){throw failure('翻译设置保存失败，凭据回退也失败；请重新打开设置核对已保存状态。')}}throw failure('翻译设置保存失败，请检查本机存储后重试。')}
-  settings.engine=next.engine;settings.providers=next.providers;settings.googleNetwork=next.googleNetwork;persisted=saved;cache.clear();return view();
+  settings.engine=next.engine;settings.pronunciation=next.pronunciation;settings.providers=next.providers;settings.googleNetwork=next.googleNetwork;persisted=saved;cache.clear();return view();
  }
  function googleLimitError(){const seconds=Math.max(1,Math.ceil((googleBackoffUntil-now())/1000));return failure('谷歌翻译返回 HTTP 429（请求被限流）'+(googleBackoffRoute?' · '+googleBackoffRoute:'')+'。本地暂停新翻译请求 '+seconds+' 秒，之后可手动重试；服务可能仍未解除限制。此接口无需密钥，可在练习设置切换翻译引擎。单词发音是独立接口，也可能来自缓存。')}
  async function translate(input){
@@ -184,8 +190,9 @@ module.exports=function createTranslation(storage,options={}){
   })();pending.set(key,work);return work;
  }
  async function pronounce(input){
-  const text=typeof input?.text==='string'?input.text.trim():'';if(!text||text.length>200||!/[a-z]/i.test(text))throw failure('发音支持 1–200 个字符的英文单词或短语。');const accent=input.accent||'en-US';if(!['en-US','en-GB'].includes(accent))throw failure('请选择美式或英式发音。');const key=accent+'|'+text;if(audioCache.has(key))return {...audioCache.get(key),cached:true};if(audioPending.has(key))return audioPending.get(key);if(audioPending.size>=2)throw failure('发音正在准备，请稍后再试。');
-  const work=(async()=>{try{const res=await (options.audioTransport||network.request)({url:'https://translate.google.com/translate_tts?'+form({ie:'UTF-8',client:'tw-ob',tl:accent,q:text}),method:'GET',binary:true},settings.googleNetwork);if(res.status!==200||!/^audio\//i.test(res.contentType)||!Buffer.isBuffer(res.body)||res.body.length<100||res.body.length>1024*1024)throw failure('谷歌未返回有效发音音频，请稍后重试或使用本机朗读。');const result={text,accent,base64:res.body.toString('base64'),mime:'audio/mpeg',source:'Google 在线发音',cached:false};audioCache.set(key,result);if(audioCache.size>100)audioCache.delete(audioCache.keys().next().value);return result}finally{audioPending.delete(key)}})();audioPending.set(key,work);return work;
+  const text=typeof input?.text==='string'?input.text.trim():'';if(!text||text.length>200||!/[a-z]/i.test(text))throw failure('发音支持 1–200 个字符的英文单词或短语。');const accent=input.accent||'en-US';if(!['en-US','en-GB'].includes(accent))throw failure('请选择美式或英式发音。');const engine=settings.pronunciation,key=engine+'|'+accent+'|'+text;if(audioCache.has(key))return {...audioCache.get(key),cached:true};if(audioPending.has(key))return audioPending.get(key);if(audioPending.size>=2)throw failure('发音正在准备，请稍后再试。');
+  const url=engine==='youdao'?'https://dict.youdao.com/dictvoice?'+form({audio:text,type:accent==='en-GB'?'1':'2'}):'https://translate.google.com/translate_tts?'+form({ie:'UTF-8',client:'tw-ob',tl:accent,q:text});
+  const work=(async()=>{try{const res=await (options.audioTransport||network.request)({url,method:'GET',binary:true},engine==='google'?settings.googleNetwork:{mode:'direct',proxy:''});if(res.status!==200||!/^audio\//i.test(res.contentType)||!Buffer.isBuffer(res.body)||res.body.length<100||res.body.length>1024*1024)throw failure('未返回有效发音音频，请稍后重试、切换来源或使用本机朗读。');const result={text,accent,base64:res.body.toString('base64'),mime:'audio/mpeg',source:engine==='youdao'?'有道在线发音':'Google 在线发音',cached:false};audioCache.set(key,result);if(audioCache.size>100)audioCache.delete(audioCache.keys().next().value);return result}finally{audioPending.delete(key)}})();audioPending.set(key,work);return work;
  }
  return {providers:clone(PROVIDERS),config,translate,pronounce};
 };
