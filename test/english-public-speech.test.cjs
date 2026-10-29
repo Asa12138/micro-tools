@@ -1,0 +1,37 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const create=require('../web/english/public-speech'),Cache=require('../features/english/english-audio-loader');
+const bytes=fs.readFileSync(require('node:path').join(__dirname,'../assets/audio/english-voice-samples/andrew.mp3'));
+const direct=(fn,supported=true)=>Object.assign(fn,{capabilities:()=>({direct:supported})});
+const response=()=>new Response(bytes,{headers:{'Content-Type':'audio/mpeg','X-Quota-Limit':'30','X-Quota-Remaining':'29'}});
+(async()=>{
+ let requests=0,seen,status;
+ const fetchImpl=async(url,options)=>{requests++;seen={url,options};return response()};
+ let speech=create({direct:direct(async()=> 'DIRECT'),fetchImpl});
+ assert.equal(await speech('Hello.'),'DIRECT');assert.equal(requests,0);
+ speech=create({direct:direct(async()=>{throw Error('upstream')}),fetchImpl,onStatus:s=>status=s});
+ assert.equal(await speech('Hello.','emma'),bytes.toString('base64'));
+ assert.equal(requests,1);assert.deepEqual(JSON.parse(seen.options.body),{text:'Hello.',voice:'en-US-EmmaMultilingualNeural',speed:1});
+ assert.equal(seen.options.headers.Authorization,undefined);assert.equal(seen.options.credentials,'omit');assert.match(status.message,/29 \/ 30/);
+ speech=create({direct:direct(async()=>assert.fail('non-Edge cannot call direct'),false),fetchImpl});
+ await assert.rejects(speech('Hello.','andrew',{background:true}),e=>e.code==='foreground_required');assert.equal(requests,1);
+ await Promise.all([speech('Hello.'),speech('Hello.')]);assert.equal(requests,2);
+ const storage=new Map();let progress;
+ const cache=new Cache({read:async key=>storage.get(key),write:async(k,v)=>storage.set(k,v),request:speech,onProgress:s=>progress=s});
+ cache.set(['Background text.'],'andrew');
+ await new Promise(r=>setTimeout(r,10));assert.equal(requests,2);assert.equal(progress.failed,0);assert.equal(progress.enabled,false);
+ await cache.get('Background text.','andrew');assert.equal(requests,3);
+ await cache.get('Background text.','andrew');assert.equal(requests,3);
+ // A foreground click joining deferred background work retries in foreground once.
+ const race=new Cache({read:async()=>undefined,write:async()=>{},request:speech,onProgress:()=>{}});
+ const background=race.get('Race.','andrew',{background:true});const foreground=race.get('Race.','andrew');
+ await assert.rejects(background,e=>e.code==='foreground_required');assert.equal(await foreground,bytes.toString('base64'));assert.equal(requests,4);assert.equal(race.inflight.size,0);
+ let time=1000,limited=0;
+ speech=create({direct:direct(async()=>'',false),now:()=>time,fetchImpl:async()=>{limited++;return new Response(JSON.stringify({error:{code:'ip_daily_limit',message:'今日 30 次额度已用完'}}),{status:429,headers:{'Retry-After':'300'}})}});
+ await assert.rejects(speech('One.'),/30 次/);await assert.rejects(speech('Two.'),/30 次/);assert.equal(limited,1);
+ time+=301000;await assert.rejects(speech('Two.'),/30 次/);assert.equal(limited,2);
+ speech=create({direct:direct(async()=>assert.fail(),false),relay:{config:()=>({endpoint:'https://custom.example'}),synthesize:async()=> 'CUSTOM'},fetchImpl});
+ assert.equal(await speech('Hi.'),'CUSTOM');assert.equal(requests,4);
+ speech=create({direct:direct(async()=>'',false),fetchImpl:async()=>new Response('<html>no audio</html>')});
+ await assert.rejects(speech('Hi.'),/MP3/);await assert.rejects(speech('Hi.','invalid'),/不支持/);
+ console.log('PASS Edge-first routing, public voice mapping, anonymous payload, foreground-only fallback, coalescing, persistent-cache reuse, foreground promotion, 429 cooldown and custom relay.');
+})().catch(e=>{console.error(e);process.exitCode=1});

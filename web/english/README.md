@@ -61,3 +61,9 @@ node scripts/build-english-web.cjs /绝对路径/网站仓库/apps/research-engl
 参考：[GitHub Pages 静态托管](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)、[MDN 浏览器存储与清理](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria)、[Qwerty Learner](https://github.com/RealKai42/qwerty-learner)。采用相同静态部署思路，练习功能继续复用本项目已有代码。
 
 声音设置面向网页用户说明 Microsoft / Google / 本机声音的适用条件，并链接插件项目主页和 Google 翻译。练习页“本课声音”提供同一套朗读音色选项，与设置页双向同步并保存；桌面保留五种微软音色和本机声音，网页另有 Google 兼容发音。
+
+### 公共语音回退
+
+Microsoft 音色优先使用缓存/配套音频，再尝试 Edge 直连；失败或非 Edge 浏览器通过 `https://asa-voice-lab-beta.vercel.app/api/public/speech` 按需获取 MP3。无需公开访问口令。已配置自定义中转时保留该回退路径。后台预生成不会调用公共接口；在线开关与本课授权仍生效。
+
+公共服务需要部署者开启 Redis 共享限额：每 IP 每天 30 次、北京时间零点重置；受理失败也计次，本地缓存不计次。另受全站总预算约束。设置与练习声音面板显示最近一次请求的剩余额度/错误。部署步骤在独立 `asa-voice-lab/PUBLIC-SETUP.md`。

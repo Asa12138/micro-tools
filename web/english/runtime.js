@@ -19,14 +19,14 @@ async function installRelaySettings(api,$){
 function installVoiceGuide($){
  const section=$('enPrefPane-sound'),note=section.querySelector(':scope > p.help-text'),guide=el('div',null,'en-voice-guide');guide.id='enWebVoiceGuide';
  const link=(label,url)=>{const a=el('a',label);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;};
- const recommendation=el('p');recommendation.append(el('strong','最简单的方式：使用电脑上的 Microsoft Edge，或使用 '),link('ZTools 插件版 ↗','https://github.com/Asa12138/micro-tools'),'。');guide.append(recommendation);
+ const recommendation=el('p');recommendation.append(el('strong','推荐使用电脑上的 Microsoft Edge，或使用 '),link('ZTools 插件版 ↗','https://github.com/Asa12138/micro-tools'),'。');guide.append(recommendation);
  const list=el('ol');
- const microsoft=el('li');microsoft.append(el('strong','Microsoft 音色：'),'受微软服务限制，网页版在线生成需要使用电脑上的 Edge 浏览器；ZTools 插件版无需安装 Edge。');
+ const microsoft=el('li');microsoft.append(el('strong','Microsoft 音色：'),'优先尝试 Edge 直连；连接失败或使用其他浏览器时，自动通过本站 Vercel 服务生成。无需安装 Edge，也无需登录。公共服务每个 IP 每天最多 30 次，北京时间零点重置，同一网络可能共用额度；另受服务总额度限制。后台预生成只尝试直连，不使用公共额度。ZTools 插件版无需安装 Edge。');
  const google=el('li');google.append(el('strong','Google 发音：'),'需要能正常访问 Google。如果无法直连，请确认网络代理可用；先打开 ',link('Google 翻译 ↗','https://translate.google.com/'),' 检查能否访问，再点击「试听声音」。');
  const local=el('li');local.append(el('strong','本机语音：'),'以上在线语音都不可用时，选择「本机浏览器英语声音」。使用电脑已安装的英语声音，不需要联网，自然度可能较低。');
- list.append(microsoft,google,local);guide.append(list);section.insertBefore(guide,note);
+ list.append(microsoft,google,local);guide.append(list);const quota=el('p','Edge 直连和本地缓存播放不占公共额度；通过公共接口受理的请求计 1 次，生成失败或命中服务器缓存也计数。','help-text');quota.id='enPublicVoiceStatus';quota.setAttribute('role','status');guide.append(quota);section.insertBefore(guide,note);
  note.textContent='已有缓存和课程配套音频仍可在其他浏览器播放。Microsoft 音色的「试听声音」使用预录音频，试听成功不代表当前浏览器支持在线生成。';
- const practice=$('enSound').querySelector('p');practice.replaceChildren('在线朗读优先使用电脑上的 Edge，或 ',link('ZTools 插件版 ↗','https://github.com/Asa12138/micro-tools'),'。Google 发音需能访问 Google；在线语音不可用时可选本机声音。声音选择与设置页同步。');
+ const practice=$('enSound').querySelector('p');practice.replaceChildren('Microsoft 音色优先 Edge 直连，失败后使用公共语音（每 IP 每天 30 次，失败也计数；北京时间零点重置）。本地缓存不占额度，后台不会调用公共服务。无法在线生成时可使用本机声音。声音选择与设置页同步。');const status=el('p',null,'help-text');status.id='enPracticePublicVoiceStatus';status.setAttribute('role','status');practice.after(status);
 }
 function validateBackup(raw){
  if(raw?.format!=='research-english-web-backup-v1'||!raw.data||Array.isArray(raw.data)||typeof raw.data!=='object')throw Error('请选择网页版完整备份');
@@ -49,9 +49,9 @@ async function boot(){
   let service;await store.run(()=>{service=require('../../features/english/english-service')(store.storage,{translation:services.translation,dictionary,audio,activityStorage:store.storage,catalogRequest,communityRequest:catalogRequest})});
   const api={platform:'browser'};for(const [name,fn]of Object.entries(service))if(typeof fn==='function')api[name]=(...args)=>store.run(()=>fn(...args));
   const directSpeech=require('./speech');
-  api.speech=(text,voice)=>relay.config().endpoint?relay.synthesize(text,voice):directSpeech(text,voice);
+  api.speech=require('./public-speech')({direct:directSpeech,relay,onStatus:status=>{for(const id of ['enPublicVoiceStatus','enPracticePublicVoiceStatus'])if($(id))$(id).textContent=status.message;}});
   api.speechRelayConfig=patch=>store.run(()=>relay.config(patch));
-  Object.defineProperty(api,'speechCapabilities',{get:()=>({...directSpeech.capabilities(),available:!!relay.config().endpoint||directSpeech.capabilities().direct})});
+  Object.defineProperty(api,'speechCapabilities',{get:()=>api.speech.capabilities()});
   window.englishApi=api;window.microToolsVersion=window.RESEARCH_ENGLISH_BUILD.version;window.ResearchEnglishWeb={api,store,validateBackup};
   window.researchApi={...services.research,config:(patch)=>store.run(()=>services.research.config(patch)),checkAvailability:()=>store.run(()=>services.research.checkAvailability()),call:services.research.call,cancel:services.research.cancel};
   window.openExternal=url=>{const u=new URL(url);if(['https:','http:'].includes(u.protocol))window.open(u.href,'_blank','noopener,noreferrer')};
@@ -66,7 +66,7 @@ async function boot(){
   $('enRefresh').textContent='↻ 刷新题库';document.querySelector('#view-english .ai-check-note').textContent='自动检查仅核对已保存配置，不发送请求；点击「测试连接」才调用一次模型。';document.querySelector('#enCreate .privacy-note').textContent='PDF 在本机提取；点击「AI 整理」才将正文发送给已配置的模型。';
   await installRelaySettings(api,$);
   installVoiceGuide($);
-  $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音将句子发送给 Microsoft 并缓存；选择 Google 兼容发音会将句子发送给 Google 在线播放。配置语音服务后会先经该服务转发。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';
+  $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音优先直连 Microsoft，失败后将句子经本站 Vercel 公共服务转发并缓存；自定义服务已配置时优先使用该服务回退。Google 兼容发音将句子发送给 Google。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';
   const panel=$('enPrefPane-backup'),section=el('section',null,'en-mcp en-settings-section');section.append(el('h4','浏览器数据与同步'));
   section.append(el('p','课程、单词本、掌握状态、学习足迹和设置保存在此浏览器的 IndexedDB。不会自动同步到 ZTools、其他设备或其他浏览器。清除网站数据会删除它们；隐私模式中的数据通常随窗口关闭而清除。','help-text'));
   section.append(el('p','完整备份包含课程、练习记录、单词本、设置与学习足迹；不含密钥、录音、下载音频和网络缓存。录音请在口语练习中单独下载。','help-text'));
