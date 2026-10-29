@@ -38,13 +38,13 @@ node scripts/build-english-web.cjs /绝对路径/网站仓库/apps/research-engl
 - ZTools 与网页没有自动数据同步；更换浏览器、设备、协议或域名会使用另一份存储。仅改变同一域名的路径不会产生浏览器安全隔离，`asa12138.github.io` 下的页面共享同源权限。不要在公共电脑保留敏感 API key。
 - 从 `/research-english/` 迁到 `/apps/research-english/` 保持原数据库名称、数据键和课程 ID；同一浏览器、同一 HTTPS 域名下的已有记录继续使用，无需清空或重新导入。
 - 关闭普通标签页后学习数据保留；清除网站数据会删除全部本地内容。隐私模式通常在窗口关闭时清除数据。存储空间不足时保存会报错并回退本次数据库改动。
-- 「数据与同步」可申请持久存储、下载或合并恢复完整网页备份。备份含课程、进度、单词本、收藏、学习足迹和学习设置；不含密钥、AI/翻译接口配置、录音和下载音频。恢复优先保留现有设置与同 ID 的词表；课程进度按共享合并规则恢复。
-- 与桌面交换课程使用原有课程 JSON / `research-english-backup-v1`；词表单独导出再导入。网页完整备份是网页专用格式。录音从口语练习单独下载。
+- 「数据与同步」可申请持久存储，并使用双端共用的「下载完整备份 / 合并恢复完整备份」。备份含课程、进度、单词本、收藏、学习足迹和学习设置；不含密钥、AI/翻译接口配置、录音和下载音频；更换 AI / 自定义翻译接口时密钥不会跨地址沿用。恢复优先保留现有设置与同 ID 的词表；课程进度按共享合并规则恢复。
+- 与桌面交换课程使用原有课程 JSON / `research-english-backup-v1`；词表单独导出再导入。新的完整备份为 `research-english-full-backup-v1`，ZTools 与网页均可恢复，并兼容旧版 `research-english-web-backup-v1`。录音从口语练习单独下载。
 - 当前未注册 Service Worker；打开页面仍需要网络或浏览器自身 HTTP 缓存。已保存的题库与音频不会因代码更新被清除。
 
 ## API、语音和兼容性
 
-- 自定义 AI 支持 OpenAI 兼容 `chat/completions` HTTPS 接口。「翻译与网络」先显示单词发音，再显示文本翻译。翻译默认 Google 网页接口；网页共用插件的 12 个服务预设、凭据字段、请求签名与响应解析，包括百度、腾讯、阿里、有道、DeepL 等，并保留 OpenAI 兼容接口和自建翻译中转（POST `{text,source,target}`，返回 `{translation}`）。
+- 自定义 AI 与插件共用平台预设及 OpenAI Chat Completions、Anthropic Messages、Google Gemini 协议；远程接口使用 HTTPS，本机 Ollama 可填写 loopback HTTP，但仍需浏览器允许本机访问与 CORS。「翻译与网络」先显示单词发音，再显示文本翻译。翻译默认 Google 网页接口；网页共用插件的 14 个服务预设、凭据字段、请求签名与响应解析，包括百度、腾讯、阿里、有道、DeepL 等，并保留 OpenAI 兼容接口和自建翻译中转（POST `{text,source,target}`，返回 `{translation}`）。
 - 接口必须允许网页 Origin 的 CORS 请求。第三方 API 禁止跨域时，浏览器无法像 Electron 的 Node 层一样直连；可配置用户自己的 HTTPS 后端中转。网页不能读取系统代理配置、设置 HTTP CONNECT 代理或运行 localhost MCP Server。AI 与翻译不提供公共密钥中转。语音仅在配置语音服务后将对应句子发送给该服务。素材广场沿用现有 Supabase 公共目录；`web/english/community-config.json` 仅含已公开的项目地址与 publishable key，不含用户会话或服务端密钥。社区迁移项目时同步这个公开配置。
 - 微软语音沿用 edge-tts v2 协议。目前浏览器直连仅在 Chromium Edge 中尝试；HTTP 语音后端功能保留，“跨浏览器语音服务”配置区暂时隐藏；普通网页用户优先使用电脑上的 Edge 或 ZTools 插件版。其他浏览器未配置后端时不发起无效直连或后台重试，仍优先播放缓存和配套音频，无音频时默认回退到本机英语声音（可在设置关闭）。会等待浏览器加载声音列表，且停止/切句后不会播放过期请求。设置中的微软试听是预录文件，不能用来判断实时生成是否可用。
 - 该限制与 [edge-tts 的浏览器支持说明](https://github.com/andresayac/edge-tts#browser-support) 一致；网页 WebSocket 无法设置服务所需的自定义请求头。若要跨浏览器实时生成 Andrew 等微软音色，需要独立语音后端。源码已提供本机服务和独立 Netlify 部署目录生成器，见 `server/README.md`；当前公网网站尚未部署该服务。
@@ -67,3 +67,9 @@ node scripts/build-english-web.cjs /绝对路径/网站仓库/apps/research-engl
 Microsoft 音色优先使用缓存/配套音频，再尝试 Edge 直连；失败或非 Edge 浏览器通过 `https://asa-voice-lab-beta.vercel.app/api/public/speech` 按需获取 MP3。无需公开访问口令。已配置自定义中转时保留该回退路径。后台预生成不会调用公共接口；在线开关与本课授权仍生效。
 
 公共服务需要部署者开启 Redis 共享限额：每 IP 每天 30 次、北京时间零点重置；受理失败也计次，本地缓存不计次。另受全站总预算约束。设置与练习声音面板显示最近一次请求的剩余额度/错误。部署步骤在独立 `asa-voice-lab/PUBLIC-SETUP.md`。
+
+### Google 文本翻译中转
+
+可复用 `asa-voice-lab` 的新增 `/api/public/translate`，部署及配额配置见该项目 README。构建时设置 `ENGLISH_TRANSLATION_RELAY_URL=https://asa-voice-lab-beta.vercel.app/api/public/translate` 后，默认的 Google 文本翻译经此服务查询，测试结果会标明「Google 翻译中转」。每 IP 每天最多 100 次、北京时间零点重置，与公共语音额度分开。仅发送所选文字及固定的 en → zh-CN 方向，不发送 AI 密钥、其他翻译服务凭据或个人备份；前端复用译文缓存并合并重复请求。上游限流时保留错误和重试时间，不轮换代理。
+
+构建参数未设置时保留原有直连；Google 单词/句子发音仍沿用已有语音路径。此功能不会把其他 13 个翻译服务转发到公共中转，也不改变插件版的本机网络设置。后端和前端尚需分别部署，不能只更新网页就宣称已可用。

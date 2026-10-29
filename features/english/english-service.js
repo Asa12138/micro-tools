@@ -11,6 +11,12 @@ const officialById=new Map(officialCourses.flatMap(item=>[item.lessonId,item.con
 const clone=x=>JSON.parse(JSON.stringify(x));
 module.exports=function createEnglishService(storage,options={}){
  const sessions=new Map(),STORE='research-english-library-v1';
+ function materialAppearance(action='get',input={}){
+  const key='english-material-appearance-v1',saved=storage.getItem(key)||{};
+  if(action==='get')return clone(saved);
+  if(action!=='set'||! /^(english-[a-z0-9-]+|words-[a-z0-9-]+|favorites|review-(mistake-default|favorite-(default|folder-[a-z0-9-]+)))$/.test(input.id||''))throw Error('素材标识无效');
+  const value=require('./english-domains').cleanCardStyle(input);storage.setItem(key,{...saved,[input.id]:value});return value;
+ }
  const translation=options.translation||require('./english-translation')(storage,{credentials:options.credentials}),catalog=createCatalog({storage,request:options.catalogRequest});
  const dictionary=options.dictionary||require('./english-dictionary')({settings:()=>translation.config().googleNetwork});
  const wordbooks=require('./english-wordbooks')(storage,vocabulary,catalog);
@@ -22,6 +28,8 @@ module.exports=function createEnglishService(storage,options={}){
   const sentences=[],words=[];for(const c of [...seeds,...read()])for(const [index,result]of Object.entries(storage.getItem('english-progress:'+c.id)?.results||{}))if(Object.values(result.modes||{}).some(m=>m.complete))sentences.push(c.id+':'+index);
   for(const b of wordbooks('list',{includeTrashed:true})){const complete=new Set(b.progress.completed||[]);for(const w of wordbooks('get',{id:b.id}).words)if(complete.has(w.id))words.push(w.term)}return {sentences,words};
  }});
+ const achievements=require('./english-badges')({storage,courses:()=>[{id:'english-collection-builtin',title:'科研英语 · 基础表达',builtin:true,parts:seeds},...read().map(view)],progress:id=>C.progress(storage.getItem('english-progress:'+id)||{}),activity,now:options.now});
+ const courseBadges=()=>achievements().earned;
  const prepared=options.audio||require('./english-prepared-audio')();
  const hidden=()=>storage.getItem('english-trash-v1')||{};
  function read(){const saved=storage.getItem(STORE);if(saved==null)return [];if(!Array.isArray(saved))throw Error('题库存储格式异常，请先备份本地数据');return clone(saved)}
@@ -94,6 +102,7 @@ module.exports=function createEnglishService(storage,options={}){
   const old=get(id);if(old.builtin)throw Error('内置课程不可编辑');
   if(JSON.stringify(C.exportCourse(old))===JSON.stringify(C.exportCourse(raw)))return {id,existing:true,unchanged:true,lesson:old};
   const next=save(raw,true);if(next.id===id)return next;
+  const styles=materialAppearance();if(styles[id]&&!styles[next.id])materialAppearance('set',{id:next.id,...styles[id]});
   const prev=C.progress(storage.getItem('english-progress:'+id)||{}),results={},used=new Set();
   next.lesson.sentences.forEach((s,i)=>{const j=old.sentences.findIndex((v,k)=>!used.has(k)&&JSON.stringify(v)===JSON.stringify(s));if(j>=0){used.add(j);if(prev.results[j])results[i]=prev.results[j]}});
   const existing=C.progress(storage.getItem('english-progress:'+next.id)||{});storage.setItem('english-progress:'+next.id,C.mergeProgress(existing,{...prev,index:0,results}));
@@ -121,7 +130,8 @@ module.exports=function createEnglishService(storage,options={}){
  }
  async function communityList(input){const result=await community.list(input),installed=storage.getItem('english-community-installed-v1')||{},courses=list(),books=wordbooks();return {...result,packs:result.packs.map(p=>{const saved=installed[p.id+':'+p.sha256],valid=saved&&(saved.type==='wordbook'?books:courses).some(x=>x.id===saved.id);return {...p,installed:!!valid,installedId:valid?saved.id:null}})}}
  async function communityDownload(input){const data=await community.get(input),result=communityImport(data),installed=storage.getItem('english-community-installed-v1')||{};installed[data.manifest.id+':'+data.manifest.sha256]={type:result.type,id:result.id};storage.setItem('english-community-installed-v1',installed);let stats=null;try{stats=await community.recordDownload(data.manifest.id)}catch{}return {...result,stats}}
- return {wordbooks,communityImport,communityList,communityGet:community.get,communityDownload,communityCatalog:()=>communityCatalog.list({refresh:true}),communityCatalogDownload:async input=>{const data=await communityCatalog.download(input);return save({...data.lesson,catalog:data.catalog})},activity,dictionary,list,get,save,edit,trash,purge,trashList:()=>read().filter(x=>hidden()[x.id]).map(x=>({id:x.id,title:x.title,revision:x.revision||null,supersededBy:x.supersededBy||null})),vocabulary,prepare,validateSession,tools,
+ const fullBackup=require('./english-backup')(storage,{activity,lessonIds:()=>[...seeds,...read()].map(c=>c.id),wordbookIds:()=>wordbooks('list',{includeTrashed:true}).map(b=>b.id)});
+ return {materialAppearance,achievements,courseBadges,exportFullBackup:fullBackup.export,restoreFullBackup:fullBackup.restore,wordbooks,communityImport,communityList,communityGet:community.get,communityDownload,communityCatalog:()=>communityCatalog.list({refresh:true}),communityCatalogDownload:async input=>{const data=await communityCatalog.download(input);return save({...data.lesson,catalog:data.catalog})},activity,dictionary,list,get,save,edit,trash,purge,trashList:()=>read().filter(x=>hidden()[x.id]).map(x=>({id:x.id,title:x.title,revision:x.revision||null,supersededBy:x.supersededBy||null})),vocabulary,prepare,validateSession,tools,
  preparedAudio:prepared.get,preparedAudioAvailable:prepared.available,importURL:catalog.importURL,
  readLessonFile(value){
   if(typeof value!=='string'||value.length>4096)throw Error('请输入本机 JSON 文件地址');

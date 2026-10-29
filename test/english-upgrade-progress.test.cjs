@@ -1,0 +1,25 @@
+// Legacy records and independently earned badges across desktop/browser backups.
+const assert=require('node:assert/strict'),create=require('../features/english/english-service');
+const memory=()=>{const data=new Map();return {data,getItem:k=>structuredClone(data.get(k)),setItem:(k,v)=>data.set(k,structuredClone(v))}};
+const store=memory(),api=create(store,{activityStorage:store});
+const course=api.save({title:'Existing learning record',sentences:['We compare samples.','We preserve the original notes.']});
+const progress={seconds:123,index:1,mode:'typing',results:{0:{favorite:true,notes:'Original note',modes:{study:{complete:true,completedAt:'2026-10-20T12:00:00Z'}}},1:{modes:{speaking:{complete:true,completedAt:'2026-10-21T12:00:00Z'}}}}};
+store.setItem('english-progress:'+course.id,progress);
+store.setItem('english-activity-v1',{version:1,legacySeconds:25,days:{'2026-10-20':{sessions:{legacy:65}},'2026-10-21':{sessions:{legacy:0},checked:true}}});
+api.list();api.activity();const badges=api.courseBadges();
+assert.deepEqual(store.getItem('english-progress:'+course.id),progress,'opening the upgraded service preserves the stored progress exactly');
+assert.equal(api.activity().days,2);assert.equal(api.activity().totalSeconds,90);assert.equal(api.activity().goalMinutes,30);assert.equal(badges[0].courseId,course.id);
+api.activity('goal',{minutes:45});
+const backup=api.exportFullBackup(),fresh=memory(),restored=create(fresh,{activityStorage:fresh});
+restored.activity();restored.restoreFullBackup(backup);
+assert.equal(restored.activity().goalMinutes,45,'an unused destination adopts the saved goal');
+assert.equal(restored.progress(course.id).results[0].notes,'Original note');assert(restored.progress(course.id).results[0].favorite);assert.equal(restored.progress(course.id).seconds,123);
+assert.deepEqual(restored.courseBadges(),badges);
+const local=restored.save({title:'New local achievement',sentences:['We retain local achievements.']});restored.saveProgress(local.id,{results:{0:{modes:{typing:{complete:true}}}}});restored.courseBadges();
+const other=memory(),remote=create(other,{activityStorage:other}),remoteCourse=remote.save({title:'Other achievement',sentences:['We also learn on another device.']});remote.saveProgress(remoteCourse.id,{results:{0:{modes:{speaking:{complete:true}}}}});remote.courseBadges();
+restored.restoreFullBackup(remote.exportFullBackup());restored.restoreFullBackup(remote.exportFullBackup());
+const merged=restored.courseBadges();assert.equal(merged.length,1);assert.deepEqual(merged.map(b=>b.id),['panda']);assert.equal(merged[0].courseId,course.id);assert(restored.list().some(c=>c.id===local.id));assert(restored.list().some(c=>c.id===remoteCourse.id));assert.equal(merged[0].emoji,badges[0].emoji);
+const legacy={format:'research-english-web-backup-v1',data:{'english-activity-v1':{version:1,days:{'2026-10-22':{sessions:{old:61}}}}}};
+restored.restoreFullBackup(legacy);assert.equal(restored.activity().goalMinutes,45);assert(restored.activity().history.find(d=>d.date==='2026-10-22').checked,'legacy one-minute attendance survives importing into a goal-based record');
+assert.equal(restored.progress(course.id).results[0].notes,'Original note');assert.equal(restored.activity().totalSeconds,151);
+console.log('PASS legacy progress/notes/favorites/time preservation, historical attendance migration, saved goals, badge backup round trip, independent badge merge and idempotent restore.');

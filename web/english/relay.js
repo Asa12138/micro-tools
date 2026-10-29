@@ -8,6 +8,7 @@ module.exports=function createRelay(storage){
    let endpoint=String(patch.endpoint||'').trim();
    if(endpoint){const u=new URL(endpoint,location.href),local=['localhost','127.0.0.1','[::1]'].includes(u.hostname)&&u.origin===location.origin;
     if(u.protocol!=='https:'&&!(u.protocol==='http:'&&local)||u.username||u.password||u.search||u.hash)throw Error('语音服务需为 HTTPS 地址；本机预览可使用同源 HTTP。');endpoint=u.href;}
+   if(endpoint!==value.endpoint)sessionStorage.removeItem(secretKey);
    if(patch.token!==undefined){const token=String(patch.token).trim();if(token.length>512||/[\r\n]/.test(token))throw Error('访问口令格式无效');if(token)sessionStorage.setItem(secretKey,token);else sessionStorage.removeItem(secretKey);}
    value={endpoint};storage.setItem(key,value);
   }

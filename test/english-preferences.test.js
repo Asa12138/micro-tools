@@ -11,7 +11,7 @@ const wait=()=>new Promise(r=>setTimeout(r,30));
  const course=api.save({...plain,sentences:[{...plain.sentences[0],image:{url:'https://example.org/soil.png',alt:'土壤示意图'}},plain.sentences[1]]});
  for(const url of ['javascript:alert(1)','file:///tmp/a','https://user:pass@example.org/a'])assert.throws(()=>C.clean({...plain,sentences:[{en:'Test.',image:{url}}]}));
  assert.deepEqual(require('../plugin.json').tools.save_english_lesson.inputSchema.properties.lesson,C.schema);
- api.settings({voice:'andrew',autoPlay:false,preload:false,online:{[api.list()[0].id]:false}});
+ api.settings({voice:'andrew',autoPlay:false,preload:false,browserFallback:false,online:{[api.list()[0].id]:false}});
  let requests=0;api.speech=async()=>{requests++;return 'YQ=='};api.preparedAudio=async()=>null;
  const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'http://localhost/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window,$=id=>w.document.getElementById(id),errors=[];
  w.addEventListener('error',e=>errors.push(e.message));w.englishApi=api;w.HTMLMediaElement.prototype.pause=function(){};let plays=0;w.HTMLMediaElement.prototype.play=async function(){plays++};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};

@@ -1,8 +1,7 @@
-const createStore=require('./storage'),createServices=require('./services'),createAudio=require('./audio'),createRelay=require('./relay');
+const createStore=require('./storage'),createServices=require('./services'),createAudio=require('./audio'),createRelay=require('./relay'),createPublicTranslation=require('./public-translation');
 const {catalogRequest,request}=require('./network'),C=require('../../features/english/english-core');
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;if(cls)n.className=cls;return n};
 const download=(name,value)=>{const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)};
-const allowedKey=key=>/^(research-english-library-v1|english-(settings-v1|trash-v1|vocabulary-v1|activity-v1|wordbooks-v1|wordbooks-trash-v1|wordbook-preferences-v1|catalog-settings-v1)|english-progress:english-[a-z0-9-]+|english-wordbook-(progress|cardtime):[a-z0-9-]+)$/.test(key);
 async function installRelaySettings(api,$){
  const section=$('enPrefPane-sound'),box=el('fieldset',null,'form-stack');box.id='enSpeechRelay';box.hidden=true;box.append(el('legend','跨浏览器语音服务'));
  const address=el('input'),token=el('input');address.id='enSpeechRelayURL';address.type='url';address.placeholder='https://你的语音服务/api/speech';token.id='enSpeechRelayToken';token.type='password';token.autocomplete='off';
@@ -28,21 +27,11 @@ function installVoiceGuide($){
  note.textContent='「试听声音」会实时请求所选在线音色，不使用本地预录样音；通过公共服务试听也计入每日额度。下方会显示实际连接结果。课程缓存和配套音频仍照常使用。';
  const practice=$('enSound').querySelector('p');practice.replaceChildren('Microsoft 音色优先 Edge 直连，失败后使用公共语音（每 IP 每天 30 次，失败也计数；北京时间零点重置）。本地缓存不占额度，后台不会调用公共服务。无法在线生成时可使用本机声音。声音选择与设置页同步。');const status=el('p',null,'help-text');status.id='enPracticePublicVoiceStatus';status.setAttribute('role','status');practice.after(status);
 }
-function validateBackup(raw){
- if(raw?.format!=='research-english-web-backup-v1'||!raw.data||Array.isArray(raw.data)||typeof raw.data!=='object')throw Error('请选择网页版完整备份');
- const entries=Object.entries(raw.data);if(entries.length>2000)throw Error('备份条目过多');for(const [key,value]of entries){if(!allowedKey(key))throw Error('备份包含不支持的数据键：'+key);if(JSON.stringify(value).length>12*1024*1024)throw Error('备份条目过大');if(value==null)continue;
-  if(key==='research-english-library-v1'){if(!Array.isArray(value)||value.length>500)throw Error('课程备份格式无效');value.forEach(c=>{C.clean(c);if(!/^english-[a-z0-9-]+$/.test(c.id))throw Error('课程 ID 无效')})}
-  else if(key==='english-wordbooks-v1'){if(!Array.isArray(value)||value.length>100)throw Error('单词本备份无效');for(const book of value){if(!/^words-[a-z0-9-]+$/.test(book.id)||typeof book.title!=='string'||!Array.isArray(book.words))throw Error('单词本结构无效');if(book.words.length)require('../../features/english/english-wordbooks').cleanRows(book.words.map(w=>[w.term,w.meaning,w.usphone,w.ukphone]))}}
-  else if(key==='english-vocabulary-v1'){if(!Array.isArray(value)||value.length>5000||value.some(w=>typeof w.term!=='string'||typeof w.id!=='string'))throw Error('收藏词汇格式无效')}
-  else if(key==='english-activity-v1'){if(value.version!==1||!value.days||Array.isArray(value.days)||typeof value.days!=='object')throw Error('学习足迹格式无效')}
-  else if(key.startsWith('english-progress:'))C.progress(value);
-  else if(typeof value!=='object'||Array.isArray(value))throw Error('备份设置格式无效');
- }return Object.fromEntries(entries);
-}
+const validateBackup=require('../../features/english/english-backup').validate;
 async function boot(){
  const $=id=>document.getElementById(id);
  try{
-  const store=await createStore(),relay=createRelay(store.storage),services=createServices(store.storage,{relay}),audio=await createAudio();
+  const store=await createStore(),relay=createRelay(store.storage),translationEndpoint=window.RESEARCH_ENGLISH_BUILD.translationRelayEndpoint,googleTranslation=translationEndpoint?createPublicTranslation({endpoint:translationEndpoint}):null,services=createServices(store.storage,{relay,googleTranslation}),audio=await createAudio();
   if(window.RESEARCH_ENGLISH_LOCAL_RELAY)await store.run(()=>relay.config(window.RESEARCH_ENGLISH_LOCAL_RELAY));
   else if(!store.storage.getItem('web-speech-relay')&&window.RESEARCH_ENGLISH_BUILD.speechRelayEndpoint)await store.run(()=>relay.config({endpoint:window.RESEARCH_ENGLISH_BUILD.speechRelayEndpoint}));
   const dictionary=require('../../features/english/english-dictionary')({request:(req)=>request(req.url,req)});
@@ -56,7 +45,7 @@ async function boot(){
   api.speechRelayConfig=patch=>store.run(()=>relay.config(patch));
   Object.defineProperty(api,'speechCapabilities',{get:()=>api.speech.capabilities()});
   window.englishApi=api;window.microToolsVersion=window.RESEARCH_ENGLISH_BUILD.version;window.ResearchEnglishWeb={api,store,validateBackup};
-  window.researchApi={...services.research,config:(patch)=>store.run(()=>services.research.config(patch)),checkAvailability:()=>store.run(()=>services.research.checkAvailability()),call:services.research.call,cancel:services.research.cancel};
+  window.researchApi={...services.research,config:(patch)=>store.run(()=>services.research.config(patch)),checkAvailability:options=>store.run(()=>services.research.checkAvailability(options)),call:services.research.call,cancel:services.research.cancel};
   window.openExternal=url=>{const u=new URL(url);if(['https:','http:'].includes(u.protocol))window.open(u.href,'_blank','noopener,noreferrer')};
   window.copyToClipboard=async text=>{try{await navigator.clipboard.writeText(text)}catch{const box=el('textarea');box.value=text;document.body.append(box);box.select();const ok=document.execCommand('copy');box.remove();if(!ok)throw Error('复制失败，请允许浏览器访问剪贴板')}};
   window.showView=view=>{if(view==='settings')openAI();else window.EnglishUI?.onView('english')};
@@ -72,16 +61,35 @@ async function boot(){
   $('enGoogleNetwork').value='direct';$('enOnlineVoice').closest('label').querySelector('small').textContent='微软声音优先直连 Microsoft，失败后将句子经本站 Vercel 公共服务转发并缓存；自定义服务已配置时优先使用该服务回退。Google 兼容发音将句子发送给 Google。本机回退仅使用设备上的英语声音。关闭后仍可播放本地音频。';$('enCloud').parentElement.lastChild.textContent='为本课启用在线语音（按声音设置发送至 Microsoft 或 Google）';
   const panel=$('enPrefPane-backup'),section=el('section',null,'en-mcp en-settings-section');section.append(el('h4','浏览器数据与同步'));
   section.append(el('p','课程、单词本、掌握状态、学习足迹和设置保存在此浏览器的 IndexedDB。不会自动同步到 ZTools、其他设备或其他浏览器。清除网站数据会删除它们；隐私模式中的数据通常随窗口关闭而清除。','help-text'));
-  section.append(el('p','完整备份包含课程、练习记录、单词本、设置与学习足迹；不含密钥、录音、下载音频和网络缓存。录音请在口语练习中单独下载。','help-text'));
-  const actions=el('div',null,'action-row'),out=el('button','下载网页版完整备份','secondary'),restoreLabel=el('label','合并恢复网页版备份','secondary en-file'),file=el('input');file.type='file';file.accept='.json';file.hidden=true;restoreLabel.append(file);const persist=el('button','申请保留本地数据','secondary'),status=el('p',null,'help-text');status.setAttribute('role','status');actions.append(out,restoreLabel,persist);section.append(actions,status);panel.append(section);
+  section.append(el('p','上方双端完整备份包含课程、练习记录、单词本、设置与学习足迹；不含密钥、录音、下载音频和网络缓存。录音请在口语练习中单独下载。','help-text'));
+  const actions=el('div',null,'action-row'),persist=el('button','申请保留本地数据','secondary'),status=el('p',null,'help-text');status.setAttribute('role','status');actions.append(persist);section.append(actions,status);panel.append(section);
   const safe=fn=>async()=>{try{await fn()}catch(e){status.textContent=e.message}};
-  out.onclick=safe(async()=>{const data=await store.export();download('科研英语-网页版完整备份.json',{format:'research-english-web-backup-v1',version:window.microToolsVersion,exportedAt:new Date().toISOString(),data});status.textContent='已下载完整备份；密钥、录音和音频缓存不包含在内。'});
-  file.onchange=safe(async()=>{const f=file.files?.[0];if(!f)return;if(f.size>32*1024*1024)throw Error('完整备份最大 32 MB');const data=validateBackup(JSON.parse(await f.text()));await store.run(()=>{const current=store.storage;const oldLessons=current.getItem('research-english-library-v1')||[],incoming=data['research-english-library-v1']||[],ids=new Set(oldLessons.map(c=>c.id));current.setItem('research-english-library-v1',[...oldLessons,...incoming.filter(c=>!ids.has(c.id))]);for(const [key,value]of Object.entries(data)){if(key==='research-english-library-v1')continue;const old=current.getItem(key);if(key.startsWith('english-progress:'))current.setItem(key,C.mergeProgress(old||{},value||{}));else if(['english-wordbooks-v1','english-vocabulary-v1'].includes(key)){const list=old||[],known=new Set(list.map(x=>x.id));current.setItem(key,[...list,...(value||[]).filter(x=>!known.has(x.id))])}else if(key==='english-activity-v1'&&old){const next=structuredClone(old);for(const [day,d]of Object.entries(value.days)){const target=next.days[day]||={sessions:{}};target.checked=target.checked||d.checked;for(const [id,seconds]of Object.entries(d.sessions||{}))target.sessions[id]=Math.max(target.sessions[id]||0,seconds);target.words={...d.words,...target.words};target.sentences={...d.sentences,...target.sentences}}current.setItem(key,next)}else if(old==null)current.setItem(key,value)}});file.value='';status.textContent='完整备份已合并，已有设置与相同词条优先保留。刷新页面后查看恢复结果。'});
   persist.onclick=safe(async()=>{const ok=await navigator.storage?.persist?.();await storageStatus();status.textContent+=(ok?' 已获得持久存储许可。':' 浏览器未授予持久存储；请定期下载备份。')});
   async function storageStatus(){const estimate=await navigator.storage?.estimate?.(),persistent=await navigator.storage?.persisted?.();status.textContent=(persistent?'已申请持久存储':'浏览器默认存储策略')+(estimate?' · 此域名合计约 '+(estimate.usage/1024/1024).toFixed(1)+' MB / '+(estimate.quota/1024/1024/1024).toFixed(1)+' GB':'')+'。清除网站数据仍会删除本地内容。'}await storageStatus();
   const update=el('p','当前网页与 ZTools 版本同步为 v'+window.microToolsVersion+'，源码指纹 '+window.RESEARCH_ENGLISH_BUILD.sourceHash.slice(0,12)+'。','help-text');panel.prepend(update);
   let dialog;
-  async function openAI(){dialog?.remove();dialog=el('dialog',null,'en-editor panel web-ai-dialog');dialog.append(el('h3','AI 模型接口'));const c=await window.researchApi.config(),fields={};for(const [key,label,type]of [['endpoint','完整 chat/completions HTTPS 地址','url'],['model','模型 ID','text'],['apiKey','API key（仅当前标签页会话）','password']]){const wrap=el('label',label),input=el('input');input.type=type;input.autocomplete='off';input.value=c[key]||'';input.placeholder=key==='endpoint'?'https://你的服务/v1/chat/completions':key==='apiKey'&&c.hasKey?'已保存，留空保持':'';wrap.append(input);dialog.append(wrap);fields[key]=input}dialog.append(el('p','只发送你点击整理的素材。接口必须支持 CORS；不支持时请填写自己的 HTTPS 中转地址。密钥不进入题库备份，关闭标签页后清除。','help-text'));const row=el('div',null,'action-row'),save=el('button','保存接口','primary'),test=el('button','测试连接','secondary'),clear=el('button','清除会话密钥','text-button'),close=el('button','关闭','secondary'),message=el('p');message.setAttribute('role','status');const apply=async()=>window.researchApi.config(Object.fromEntries(Object.entries(fields).map(([k,n])=>[k,n.value.trim()])));save.onclick=async()=>{try{await apply();window.AIConnection?.invalidate();await window.AIConnection?.refresh();message.textContent='配置已保存，密钥仅当前标签页会话有效。';fields.apiKey.value=''}catch(e){message.textContent=e.message}};test.onclick=async()=>{test.disabled=true;try{await apply();message.textContent='正在测试（会调用一次你的模型）…';const result=await window.researchApi.call([{role:'user',content:'Reply with OK only.'}]);message.textContent='连接成功：'+result.slice(0,100)}catch(e){message.textContent=e.message}finally{test.disabled=false}};clear.onclick=()=>{services.secret.set('ai','');fields.apiKey.value='';fields.apiKey.placeholder='';message.textContent='会话密钥已清除。'};close.onclick=()=>dialog.close();row.append(save,test,clear,close);dialog.append(row,message);document.body.append(dialog);dialog.showModal()}
+  async function openAI(){
+   dialog?.remove();dialog=el('dialog',null,'en-editor panel web-ai-dialog');dialog.append(el('h3','AI 模型接口'));
+   const presets=services.research.presets,c=await window.researchApi.config(),fields={};
+   function field(key,label,options){const wrap=el('label',label),input=el(options?'select':'input');input.id='webAI'+key[0].toUpperCase()+key.slice(1);if(options)for(const [value,text]of options){const o=el('option',text);o.value=value;input.append(o)}else{input.type=key==='apiKey'?'password':'text';input.autocomplete='off'}input.value=c[key]||'';wrap.append(input);dialog.append(wrap);fields[key]=input;return input}
+   field('provider','模型平台',Object.entries(presets).map(([id,p])=>[id,p.label]));
+   field('protocol','API 协议',[['openai','OpenAI Chat Completions'],['anthropic','Anthropic Messages'],['gemini','Google Gemini']]);
+   field('baseUrl','API Base URL');field('model','模型 ID');field('apiKey','API key（当前标签页会话）');
+   const guide=el('p',null,'help-text'),message=el('p');message.setAttribute('role','status');dialog.append(guide);
+   function hint(){guide.replaceChildren(presets[fields.provider.value]?.guide||'');const url=presets[fields.provider.value]?.url;if(url){const a=el('a',' 官方配置文档 ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';guide.append(a)}}hint();
+   fields.apiKey.placeholder=c.hasKey?'此接口已保存，留空保持':'填写当前接口的 key';
+   fields.provider.onchange=()=>{const p=presets[fields.provider.value];fields.protocol.value=p.protocol;fields.baseUrl.value=p.baseUrl;fields.model.value='';fields.apiKey.value='';fields.apiKey.placeholder='填写此接口的 key';hint()};
+   for(const key of ['baseUrl','protocol'])fields[key].addEventListener('input',()=>{fields.apiKey.value='';fields.apiKey.placeholder='凭据按接口隔离，请填写当前接口的 key'});
+   dialog.append(el('p','与插件共用平台预设及协议。网页请求仍需接口允许 CORS；本机 Ollama 还需浏览器允许访问本机。接口地址和协议不同的密钥分别保存；密钥不进入备份。','help-text'));
+   const row=el('div',null,'action-row'),save=el('button','保存接口','primary'),test=el('button','测试连接','secondary'),clear=el('button','清除当前接口密钥','text-button'),close=el('button','关闭','secondary');
+   const values=()=>Object.fromEntries(Object.entries(fields).map(([k,n])=>[k,n.value.trim()]));
+   const apply=async()=>{const result=await window.researchApi.config(values());fields.apiKey.value='';fields.apiKey.placeholder=result.hasKey?'此接口已保存，留空保持':'填写当前接口的 key';window.AIConnection?.invalidate();return result};
+   save.onclick=async()=>{try{await apply();await window.AIConnection?.refresh();message.textContent='配置已保存，未发送模型请求。密钥仅当前标签页会话有效。'}catch(e){message.textContent=e.message}};
+   test.onclick=async()=>{test.disabled=true;try{await apply();message.textContent='正在测试（会调用一次你的模型）…';const r=await window.researchApi.checkAvailability({force:true});if(!r.ok)throw Error(r.message);message.textContent='连接成功，模型已返回文本。';await window.AIConnection?.refresh()}catch(e){message.textContent=e.message}finally{test.disabled=false}};
+   clear.onclick=async()=>{try{await window.researchApi.config({...values(),apiKey:'',clear:true});fields.apiKey.value='';fields.apiKey.placeholder='填写当前接口的 key';window.AIConnection?.invalidate();message.textContent='已清除当前接口密钥。'}catch(e){message.textContent=e.message}};
+   close.onclick=()=>dialog.close();row.append(save,test,clear,close);dialog.append(row,message);document.body.append(dialog);dialog.showModal();
+  }
+
  }catch(error){(document.getElementById('webLoading')||document.body.appendChild(el('p'))).textContent='启动失败：'+error.message+'。请刷新重试。';console.error(error)}
 }
 module.exports={boot,validateBackup};

@@ -26,7 +26,7 @@ const wait=()=>new Promise(r=>setTimeout(r,40));
  const values=new Map(),storage={getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,structuredClone(v))},api=create(storage);api.settings({voice:'system',preload:false,autoPlay:false});w.englishApi=api;
  w.HTMLMediaElement.prototype.pause=function(){};w.URL.createObjectURL=()=> 'blob:test';w.URL.revokeObjectURL=()=>{};
  for(const f of ['english-core.js','english-audio-loader.js','english-wordbook-ui.js','english-extras.js','english-ui.js'])w.eval(fs.readFileSync(root+'/features/english/'+f,'utf8'));
- await w.EnglishUI.onView('english');$('enCourses').firstChild.click();await wait();const inputs=[...$('enAnswer').querySelectorAll('input')];
+ await w.EnglishUI.onView('english');$('enCourses').querySelector('button.en-course').click();await wait();const inputs=[...$('enAnswer').querySelectorAll('input')];
  let start=played.length;inputs[0].dispatchEvent(new w.KeyboardEvent('keydown',{key:'a',bubbles:true}));assert.equal(played.length,start+1);assert.equal(played.at(-1).buffer.duration,.045);
  start=played.length;inputs[0].dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true}));inputs[0].dispatchEvent(new w.KeyboardEvent('keydown',{key:'v',ctrlKey:true,bubbles:true}));inputs[0].dispatchEvent(new w.KeyboardEvent('keydown',{key:'a',isComposing:true,bubbles:true}));assert.equal(played.length,start);
  inputs[0].value='wrong';inputs[0].dispatchEvent(new w.Event('input'));assert.equal(played.length,start,'typing never reveals correctness');$('enCheck').click();assert.equal(played.at(-1).buffer.duration,.30);

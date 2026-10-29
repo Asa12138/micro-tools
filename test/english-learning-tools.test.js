@@ -3,10 +3,10 @@ const root=path.join(__dirname,'..'),activityFactory=require('../features/englis
 const pause=()=>new Promise(r=>setTimeout(r,50));
 (async()=>{
  const directory=fs.mkdtempSync(path.join(os.tmpdir(),'english-activity-test-'));let date=new Date(2026,9,24,23,59,59);let activity=activityFactory({directory,baseline:()=>125,now:()=>date});
- assert.equal(activity().totalSeconds,125);assert.equal(activity().days,0);
+ assert.equal(activity().totalSeconds,125);assert.equal(activity().days,0);activity('goal',{minutes:1});
  activity('record',{session:'one',totals:{'2026-10-24':61}});activity('record',{session:'one',totals:{'2026-10-24':61}});activity('record',{session:'one',totals:{'2026-10-24':20}});assert.equal(activity().totalSeconds,186);assert.equal(activity().days,1);
- date=new Date(2026,9,25,0,0,2);activity('record',{session:'one',totals:{'2026-10-24':61,'2026-10-25':2}});activity('checkin');activity('checkin');assert.equal(activity().days,2);assert.equal(activity().streak,2);
- activity=activityFactory({directory,baseline:()=>999,now:()=>date});assert.equal(activity().totalSeconds,188);assert.equal(activity().legacySeconds,125);
+ date=new Date(2026,9,25,0,0,2);activity('record',{session:'one',totals:{'2026-10-24':61,'2026-10-25':2}});assert.throws(()=>activity('checkin'),/尚未达到/);activity('record',{session:'two',totals:{'2026-10-25':58}});activity('checkin');activity('checkin');assert.equal(activity().days,2);assert.equal(activity().streak,2);
+ activity=activityFactory({directory,baseline:()=>999,now:()=>date});assert.equal(activity().totalSeconds,246);assert.equal(activity().legacySeconds,125);
  assert.throws(()=>activity('record',{session:'one',totals:{'2026-02-30':1}}));
  const createDict=require('../features/english/english-dictionary');let calls=0;const dictionary=createDict({request:async req=>{calls++;const word=decodeURIComponent(new URL(req.url).pathname.split('/').pop());return {status:200,body:{word,entries:[{partOfSpeech:'noun',pronunciations:[],forms:[],senses:[{definition:word==='plots'?'plural of plot':'A diagram.',examples:['A plot shows the trend.']}]}]}}}});
  assert.equal((await dictionary({text:'plots'})).base.word,'plot');await dictionary({text:'plots'});assert.equal(calls,2);
@@ -15,8 +15,8 @@ const pause=()=>new Promise(r=>setTimeout(r,50));
  w.englishApi=api;w.addEventListener('error',e=>errors.push(e.message));w.HTMLMediaElement.prototype.pause=function(){};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};const nativeTimeout=w.setTimeout.bind(w);w.setTimeout=(fn,ms,...args)=>nativeTimeout(fn,ms===3500?15:ms,...args);
  w.LessonAudioCache=class{set(){}prioritize(){}async get(){throw Error('no audio')}};
  for(const f of ['english-core.js','english-wordbook-ui.js','english-extras.js','english-ui.js'])w.eval(fs.readFileSync(root+'/features/english/'+f,'utf8'));
- await w.EnglishUI.onView('english');$('enCheckIn').click();await pause();assert.equal($('enCheckIn').textContent,'✓ 今日已打卡');assert.equal($('enNotice').textContent,'','success notice expires');
- $('enCourses').firstChild.click();await pause();$('enReveal').click();await pause();
+ await w.EnglishUI.onView('english');$('enCheckIn').click();await pause();assert.equal($('enCheckIn').textContent,'尚未达标');assert.equal(api.activity().checkedToday,false,'manual clicks cannot bypass the goal');assert.equal($('enNotice').textContent,'','success notice expires');
+ $('enCourses').querySelector('button.en-course').click();await pause();$('enReveal').click();await pause();
  const outside=$('enChinese');outside.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));assert.equal(w.document.querySelector('.en-lookup'),null,'outside answer must not query');
  const answer=w.document.querySelector('.en-answer-sentence');const terms=answer.querySelectorAll('.en-lookup-word');terms[0].click();await pause();assert(w.document.querySelector('.en-lookup').textContent.includes('Translation fixture HTTP 429'));
  w.document.querySelector('[aria-label="关闭翻译"]').click();const range=w.document.createRange();range.setStart(terms[0].firstChild,0);range.setEnd(terms[1].firstChild,terms[1].textContent.length);const selection=w.getSelection();selection.removeAllRanges();selection.addRange(range);answer.dispatchEvent(new w.MouseEvent('mouseup',{bubbles:true,button:0}));await pause();const term=selection.toString();assert.equal(w.document.querySelector('.en-lookup strong').textContent,term);

@@ -1,0 +1,27 @@
+'use strict';
+const assert=require('node:assert/strict'),createActivity=require('../features/english/english-activity'),createService=require('../features/english/english-service');
+const store=()=>{const m=new Map();return {m,getItem:k=>m.get(k),setItem:(k,v)=>m.set(k,structuredClone(v))}};
+const s=store();let date=new Date(2026,9,29,23,59,59);let activity=createActivity({storage:s,now:()=>date});
+assert.equal(activity().goalMinutes,30);assert.throws(()=>activity('checkin'),/尚未达到/);
+activity('record',{session:'a',totals:{'2026-10-29':1799}});assert.equal(activity().checkedToday,false);
+activity('record',{session:'a',totals:{'2026-10-29':1799}});assert.equal(activity().todaySeconds,1799);
+activity('record',{session:'b',totals:{'2026-10-29':1}});assert.equal(activity().checkedToday,true);assert.equal(activity().todaySeconds,1800);
+activity('goal',{minutes:45});assert.equal(activity().checkedToday,true,'raising goal never revokes earned attendance');assert.equal(activity().checkedGoalMinutes,30,'card retains the goal actually achieved');
+activity=createActivity({storage:s,now:()=>date});assert.equal(activity().goalMinutes,45,'goal survives reopening');
+date=new Date(2026,9,30,0,0,2);activity('record',{session:'a',totals:{'2026-10-29':1799,'2026-10-30':2}});assert.equal(activity().checkedToday,false);assert.equal(activity().todaySeconds,2);assert.equal(activity().streak,1);
+activity('goal',{minutes:1});activity('record',{session:'b',totals:{'2026-10-30':58}});assert.equal(activity().checkedToday,true);assert.equal(activity().streak,2);
+for(const minutes of [0,1.5,1441,'30',NaN])assert.throws(()=>activity('goal',{minutes}),/整数/);
+const before=JSON.stringify(s.m.get('english-activity-v1'));assert.throws(()=>activity('record',{session:'a',totals:{'2026-02-30':50}}));assert.equal(JSON.stringify(s.m.get('english-activity-v1')),before);
+const old=store();old.setItem('english-activity-v1',{version:1,legacySeconds:89,days:{'2026-10-27':{sessions:{old:65}},'2026-10-28':{checked:true,sessions:{old:0}}}});
+const migrated=createActivity({storage:old,now:()=>date});assert.equal(migrated().days,2);assert.equal(migrated().goalMinutes,30);assert.equal(migrated().totalSeconds,154);assert.equal(migrated().checkedToday,false);
+const db=store(),api=createService(db);
+const lesson=api.save({title:'New badge system',sentences:['We compare soil communities.']},true);
+db.setItem('english-course-badges-v1',[{courseId:lesson.id,title:'Old sequential badge',count:1,date:date.toISOString(),number:1}]);
+assert.equal(api.courseBadges().length,0,'old sequential badges are retired');assert.equal(db.getItem('english-course-badges-v1'),null);
+api.saveProgress(lesson.id,{results:{0:{notes:'keep',modes:{speaking:{complete:true}}}}});
+assert.deepEqual(api.courseBadges().map(b=>b.id),['panda']);assert.equal(api.courseBadges()[0].courseId,lesson.id);
+api.trash(lesson.id);assert.equal(createService(db).courseBadges()[0].id,'panda','earned achievements persist');
+const starter=store(),builtin=createService(starter),seed=builtin.list().filter(c=>c.builtin);
+for(const c of seed){const full=builtin.get(c.id);builtin.saveProgress(c.id,{results:Object.fromEntries(full.sentences.map((_,i)=>[i,{modes:{speaking:{complete:true}}}]))});}
+assert.equal(builtin.courseBadges().find(b=>b.id==='panda').courseId,'english-collection-builtin');assert.equal(builtin.achievements().catalog.length,24);
+console.log('PASS configurable threshold, no bypass, dedupe, midnight, persistence, legacy attendance migration, atomic errors, old-badge retirement and grouped-course achievement.');

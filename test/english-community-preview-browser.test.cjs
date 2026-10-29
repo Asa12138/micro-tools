@@ -34,7 +34,7 @@ const rows=['科研写作 · 精简示例','学术交流 · 会议讨论','论�
   const checks=process.env.ENGLISH_CHECKS_DIR;if(checks){fs.mkdirSync(checks,{recursive:true});await page.locator('.en-community-grid').screenshot({path:path.join(checks,'cards-desktop.png')})}
   await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2));
   if(checks)await page.locator('.en-community-grid').screenshot({path:path.join(checks,'cards-mobile.png')});
-  await page.reload();await page.evaluate(()=>ResearchEnglishReady);await page.locator('#enCommunityTab').click();await page.locator('.en-community-card').first().waitFor();assert.equal(catalogCalls,1,'fresh cache should survive reload');assert.equal(await page.locator('.is-installed').count(),1);
+  await page.reload();await page.waitForFunction(()=>window.ResearchEnglishReady);await page.evaluate(()=>ResearchEnglishReady);await page.locator('#enCommunityTab').click();await page.locator('.en-community-card').first().waitFor();assert.equal(catalogCalls,1,'fresh cache should survive reload');assert.equal(await page.locator('.is-installed').count(),1);
   await page.locator('#enSettingsTab').click();await page.locator('#enPrefTab-sound').click();
   assert.equal(await page.locator('#enWebVoiceGuide a').filter({hasText:'本站 Vercel'}).getAttribute('href'),'https://asa-voice-lab-beta.vercel.app/');
   for(let i=1;i<=2;i++){await page.locator('#enVoicePreview').click();await page.waitForFunction(()=>document.querySelector('#enVoiceStatus').textContent.includes('实时连接成功'));assert.equal(speechCalls,i)}

@@ -1,0 +1,41 @@
+// State grouping is a view over existing records, never a separate progress model.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
+const create=require('../features/english/english-service');
+const root=path.resolve(__dirname,'..'),wait=()=>new Promise(r=>setTimeout(r,40));let w;
+(async()=>{
+ const data=new Map(),api=create({getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,structuredClone(v))});
+ api.settings({autoPlay:false,preload:false,voice:'system',celebrate:true});
+ const make=title=>api.save({title,domain:'微生物组',level:'B2',sentences:['We compare soil communities.','We explain the observed differences.']},true);
+ const active=make('Learning fixture'),done=make('Completed fixture'),fresh=make('New fixture');
+ api.saveProgress(active.id,{index:1,mode:'speaking',results:{0:{notes:'Keep this note',favorite:true,modes:{typing:{complete:true}}}}});
+ api.saveProgress(done.id,{results:{0:{modes:{typing:{complete:true}}},1:{modes:{speaking:{complete:true}}}}});
+ api.settings({...api.settings(),materialOpenedAt:{[active.id]:100,[done.id]:200}});
+ const baseline=JSON.stringify(api.progress(active.id));
+ const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'http://localhost/',runScripts:'outside-only',pretendToBeVisual:true});w=dom.window;w.englishApi=api;
+ w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};w.HTMLMediaElement.prototype.pause=function(){};w.HTMLMediaElement.prototype.load=function(){};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};
+ w.LessonAudioCache=class{set(){}prioritize(){}async get(){throw Error('fixture')}};
+ for(const file of ['english-core.js','english-ui.js'])w.eval(fs.readFileSync(root+'/features/english/'+file,'utf8'));
+ const $=id=>w.document.getElementById(id),state=s=>$('enMaterialStates').querySelector('[data-state="'+s+'"]'),cards=()=>[...$('enCourses').querySelectorAll('button.en-course')];
+ await w.EnglishUI.onView('english');
+ assert.equal(w.document.querySelectorAll('.en-tabs>button').length,5);
+ assert.deepEqual([...$('enCourses').querySelectorAll('.en-material-group')].map(n=>n.dataset.state),['learning','new','done']);
+ assert.equal(cards().length,4,'starter lessons remain a single course');
+ assert.match(state('all').textContent,/4$/);assert.match(state('learning').textContent,/1$/);assert.match(state('new').textContent,/2$/);assert.match(state('done').textContent,/1$/);
+ assert.equal($('enCourses').querySelectorAll('.en-completion-seal').length,1);
+ assert($('enMaterialResume').hidden);assert($('enHubNav').hidden);assert(!$('enCatalog').hidden);
+ state('done').click();assert($('enCatalog').hidden);assert.equal(cards().length,1);assert.equal(cards()[0].dataset.lessonId,done.id);assert($('enMaterialResume').hidden);
+ $('enSearch').value='not present';$('enSearch').dispatchEvent(new w.Event('input'));assert.equal(cards().length,0);$('enCourses').querySelector('button').click();assert.equal(cards().length,4);assert.equal($('enSearch').value,'');
+ $('enKindFilter').value='custom';$('enKindFilter').dispatchEvent(new w.Event('change'));assert.match(state('all').textContent,/3$/);assert($('enCatalog').hidden);
+ $('enKindFilter').value='';$('enKindFilter').dispatchEvent(new w.Event('change'));assert(!$('enCatalog').hidden);
+ for(const id of ['enDomain','enLevelFilter']){const el=$(id);el.value=el.options[1].value;el.dispatchEvent(new w.Event('change'));assert($('enCatalog').hidden);el.value='';el.dispatchEvent(new w.Event('change'));assert(!$('enCatalog').hidden)}
+ $('enSort').value='title';$('enSort').dispatchEvent(new w.Event('change'));assert(!$('enCatalog').hidden,'sorting alone does not hide downloads');
+ assert.equal(JSON.stringify(api.progress(active.id)),baseline,'state/search/source controls do not write study records');
+ $('enCustomTab').click();await wait();assert($('enMaterialStates').hidden);assert($('enMaterialResume').hidden);assert.equal($('enCourses').querySelectorAll('.en-learning-badge').length,0,'custom library retains its existing cards');
+ $('enLibraryTab').click();await wait();$('enCourses').querySelector('button[data-lesson-id="'+active.id+'"]').click();await wait();assert.equal($('enCourseTitle').textContent,'Learning fixture');assert.match($('enPosition').textContent,/2 \/ 2/);
+ $('enSpoken').click();await wait();assert.equal(w.document.querySelectorAll('.en-course-reward-card').length,1);assert.equal(api.progress(active.id).results[0].notes,'Keep this note');assert.equal(api.progress(active.id).results[0].favorite,true);
+ $('enRetry').click();$('enSpoken').click();await wait();assert.equal(w.document.querySelectorAll('.en-course-reward-card').length,0,'repeating an already complete course does not repeat reward');
+ $('enPracticeBack').click();await wait();state('done').click();assert.equal(cards().length,2);assert.equal($('enCourses').querySelectorAll('.en-completion-seal').length,2);
+ $('enCustomTab').click();await wait();assert($('enMaterialStates').hidden);assert($('enMaterialResume').hidden);
+ assert.equal(api.progress(done.id).results[1].modes.speaking.complete,true);
+ w.close();console.log('PASS state counts/grouping, combined filters/reset, catalog visibility, continue-learning routing, unchanged progress, custom/catalog isolation, mixed-mode completion badge and non-repeating reward.');
+})().catch(e=>{w?.close();console.error(e);process.exitCode=1});

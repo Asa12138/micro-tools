@@ -133,7 +133,7 @@ async function main() {
   const anchorClick = w.HTMLAnchorElement.prototype.click
   w.HTMLAnchorElement.prototype.click = function () { if (!this.download) anchorClick.call(this) }
   w.journalApi = journalApi
-  w.researchApi = { checkAvailability: async () => ({ok:true,state:'ready',message:'Fixture connected'}), reportAssets: () => assets, getSettings: () => ({ mode: 'host', protocol: 'openai', provider: 'custom', baseUrl: '', model: '', hostModel: '', hasKey: false, hostAvailable: true }), models: async () => [], saveSettings: () => ({ hasKey: false, persisted: true }), cancel() { if (cancelReject) cancelReject(new Error('已停止分析。')) }, async call(messages) {
+  w.researchApi = { presets: require('../shared/ai-protocols').presets, checkAvailability: async () => ({ok:true,state:'ready',message:'Fixture connected'}), reportAssets: () => assets, getSettings: () => ({ mode: 'host', protocol: 'openai', provider: 'custom', baseUrl: '', model: '', hostModel: '', hasKey: false, hostAvailable: true }), models: async () => [], saveSettings: () => ({ hasKey: false, persisted: true }), cancel() { if (cancelReject) cancelReject(new Error('已停止分析。')) }, async call(messages) {
     if (failureMode === 'cancel') return new Promise((_, reject) => { cancelReject = reject })
     if (failureMode === 'json') return 'not JSON'
     requests.push(messages); calls++; const input = JSON.parse(messages[1].content)

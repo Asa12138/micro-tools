@@ -9,7 +9,7 @@ const wait=()=>new Promise(r=>setTimeout(r,40));
  const originalActivity=api.activity;api.activity=(...args)=>({...originalActivity(...args),today:'2024-03-15'});api.settings({autoPlay:false,preload:false});const raw={title:'Delete fixture',sentences:[{en:'We study soil.',zh:'我们研究土壤。'}]};let saved=api.save(raw);
  api.saveProgress(saved.id,{seconds:50,results:{0:{favorite:true,notes:'private note',modes:{dictation:{errors:1}}}}});
  const keep=api.save({title:'Keep fixture',sentences:['We compare data.']});api.saveProgress(keep.id,{seconds:10});
- api.vocabulary('save',{term:'soil',meaning:'土壤'});api.activity('checkin');
+ api.vocabulary('save',{term:'soil',meaning:'土壤'});api.activity('record',{session:'fixture',totals:{[originalActivity().today]:1800}});api.activity('checkin');
  assert.throws(()=>api.purge(saved.id,{confirmed:true}),/最近删除/);api.trash(saved.id);assert.throws(()=>api.purge(saved.id),/确认/);assert.throws(()=>api.purge(seed[0].id,{confirmed:true}),/最近删除/);assert.equal(api.get(saved.id).title,raw.title);
  const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'http://localhost/',runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window,$=id=>w.document.getElementById(id),errors=[];
  w.englishApi=api;w.addEventListener('error',e=>errors.push(e.message));w.HTMLMediaElement.prototype.pause=function(){};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};
