@@ -21,11 +21,11 @@ function installVoiceGuide($){
  const link=(label,url)=>{const a=el('a',label);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;};
  const recommendation=el('p');recommendation.append(el('strong','推荐使用电脑上的 Microsoft Edge，或使用 '),link('ZTools 插件版 ↗','https://github.com/Asa12138/micro-tools'),'。');guide.append(recommendation);
  const list=el('ol');
- const microsoft=el('li');microsoft.append(el('strong','Microsoft 音色：'),'优先尝试 Edge 直连；连接失败或使用其他浏览器时，自动通过本站 Vercel 服务生成。无需安装 Edge，也无需登录。公共服务每个 IP 每天最多 30 次，北京时间零点重置，同一网络可能共用额度；另受服务总额度限制。后台预生成只尝试直连，不使用公共额度。ZTools 插件版无需安装 Edge。');
+ const microsoft=el('li');microsoft.append(el('strong','Microsoft 音色：'),'优先尝试 Edge 直连；连接失败或使用其他浏览器时，自动通过公共语音服务生成。无需安装 Edge，也无需登录。公共服务每个 IP 每天最多 30 次，北京时间零点重置，同一网络可能共用额度；另受服务总额度限制。后台预生成只尝试直连，不使用公共额度。ZTools 插件版无需安装 Edge。',link(' 打开本站 Vercel 语音服务 ↗','https://asa-voice-lab-beta.vercel.app/'));
  const google=el('li');google.append(el('strong','Google 发音：'),'需要能正常访问 Google。如果无法直连，请确认网络代理可用；先打开 ',link('Google 翻译 ↗','https://translate.google.com/'),' 检查能否访问，再点击「试听声音」。');
  const local=el('li');local.append(el('strong','本机语音：'),'以上在线语音都不可用时，选择「本机浏览器英语声音」。使用电脑已安装的英语声音，不需要联网，自然度可能较低。');
  list.append(microsoft,google,local);guide.append(list);const quota=el('p','Edge 直连和本地缓存播放不占公共额度；通过公共接口受理的请求计 1 次，生成失败或命中服务器缓存也计数。','help-text');quota.id='enPublicVoiceStatus';quota.setAttribute('role','status');guide.append(quota);section.insertBefore(guide,note);
- note.textContent='已有缓存和课程配套音频仍可在其他浏览器播放。Microsoft 音色的「试听声音」使用预录音频，试听成功不代表当前浏览器支持在线生成。';
+ note.textContent='「试听声音」会实时请求所选在线音色，不使用本地预录样音；通过公共服务试听也计入每日额度。下方会显示实际连接结果。课程缓存和配套音频仍照常使用。';
  const practice=$('enSound').querySelector('p');practice.replaceChildren('Microsoft 音色优先 Edge 直连，失败后使用公共语音（每 IP 每天 30 次，失败也计数；北京时间零点重置）。本地缓存不占额度，后台不会调用公共服务。无法在线生成时可使用本机声音。声音选择与设置页同步。');const status=el('p',null,'help-text');status.id='enPracticePublicVoiceStatus';status.setAttribute('role','status');practice.after(status);
 }
 function validateBackup(raw){
@@ -48,8 +48,11 @@ async function boot(){
   const dictionary=require('../../features/english/english-dictionary')({request:(req)=>request(req.url,req)});
   let service;await store.run(()=>{service=require('../../features/english/english-service')(store.storage,{translation:services.translation,dictionary,audio,activityStorage:store.storage,catalogRequest,communityRequest:catalogRequest})});
   const api={platform:'browser'};for(const [name,fn]of Object.entries(service))if(typeof fn==='function')api[name]=(...args)=>store.run(()=>fn(...args));
+  // Public metadata downloads must not hold the browser's global data-write lock.
+  const communityReader=require('../../features/english/english-community-service')({storage:{getItem:key=>store.storage.getItem(key),setItem:(key,value)=>store.run(()=>store.storage.setItem(key,value))},request:catalogRequest});
+  api.communityList=async input=>{const result=await communityReader.list(input);return store.run(()=>{const installed=store.storage.getItem('english-community-installed-v1')||{},courses=service.list(),books=service.wordbooks();return {...result,packs:result.packs.map(p=>{const saved=installed[p.id+':'+p.sha256],valid=saved&&(saved.type==='wordbook'?books:courses).some(x=>x.id===saved.id);return {...p,installed:!!valid,installedId:valid?saved.id:null}})}})};
   const directSpeech=require('./speech');
-  api.speech=require('./public-speech')({direct:directSpeech,relay,onStatus:status=>{for(const id of ['enPublicVoiceStatus','enPracticePublicVoiceStatus'])if($(id))$(id).textContent=status.message;}});
+  api.speech=require('./public-speech')({direct:directSpeech,relay,onStatus:status=>{api.speechLastStatus=status;for(const id of ['enPublicVoiceStatus','enPracticePublicVoiceStatus'])if($(id))$(id).textContent=status.message;}});
   api.speechRelayConfig=patch=>store.run(()=>relay.config(patch));
   Object.defineProperty(api,'speechCapabilities',{get:()=>api.speech.capabilities()});
   window.englishApi=api;window.microToolsVersion=window.RESEARCH_ENGLISH_BUILD.version;window.ResearchEnglishWeb={api,store,validateBackup};

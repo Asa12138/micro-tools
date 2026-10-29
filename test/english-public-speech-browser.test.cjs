@@ -1,7 +1,7 @@
 // Real browser storage/playback; controlled gateway responses (no production quota).
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
 const app=process.env.ENGLISH_WEB_TEST_URL||'http://127.0.0.1:53922/apps/research-english/';
-const bytes=fs.readFileSync(path.join(__dirname,'../assets/audio/english-voice-samples/andrew.mp3'));
+const bytes=fs.readFileSync(path.join(__dirname,'fixtures/speech.mp3'));
 (async()=>{
  const browser=await chromium.launch({executablePath:'/Users/asa/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell',headless:true});
  try{
@@ -25,7 +25,7 @@ const bytes=fs.readFileSync(path.join(__dirname,'../assets/audio/english-voice-s
    const boot=async()=>{await page.goto(app);await page.evaluate(()=>ResearchEnglishReady)};await boot();
    await page.evaluate(async()=>{await englishApi.settings({...await englishApi.settings(),voice:'andrew',autoPlay:false,preload:true});await englishApi.save({title:'Public gateway browser test',sentences:[{en:'A unique sentence for the public gateway test.',zh:'公共语音测试。'},{en:'Another unique sentence for quota fallback.',zh:'限额回退测试。'}]})});
    await boot();const open=async()=>{await page.locator('#enCustomTab').click();await page.locator('#enCourses .en-course').filter({hasText:'Public gateway browser test'}).click();await page.locator('#enPlay').waitFor()};await open();
-   await page.waitForFunction(()=>document.querySelector('#enCacheText').textContent.includes('公共语音按需生成'));
+   await page.waitForFunction(()=>document.querySelector('#enCacheText').textContent.includes('公共语音在播放时生成'));
    assert.equal(calls,0,'background must not consume public quota');
    await page.locator('#enPlay').click();await page.waitForFunction(()=>document.querySelector('#enPlay').getAttribute('aria-pressed')==='true');
    assert.equal(calls,1);assert.match(await page.locator('#enPracticePublicVoiceStatus').textContent(),/29 \/ 30/);

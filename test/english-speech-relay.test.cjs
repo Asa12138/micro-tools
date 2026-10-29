@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const createHandler=require('../server/speech-relay.cjs'),speech=require('../web/english/speech');
-const origin='https://example.test',bytes=fs.readFileSync(require('node:path').join(__dirname,'../assets/audio/english-voice-samples/andrew.mp3'));
+const origin='https://example.test',bytes=fs.readFileSync(require('node:path').join(__dirname,'fixtures/speech.mp3'));
 const payload={text:'We compare different samples.',voice:'andrew',engine:'microsoft'};
 const request=(body=payload,headers={})=>new Request(origin+'/api/speech',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json',Authorization:'Bearer test-token',...headers},body:JSON.stringify(body)});
 (async()=>{

@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const create=require('../web/english/public-speech'),Cache=require('../features/english/english-audio-loader');
-const bytes=fs.readFileSync(require('node:path').join(__dirname,'../assets/audio/english-voice-samples/andrew.mp3'));
+const bytes=fs.readFileSync(require('node:path').join(__dirname,'fixtures/speech.mp3'));
 const direct=(fn,supported=true)=>Object.assign(fn,{capabilities:()=>({direct:supported})});
 const response=()=>new Response(bytes,{headers:{'Content-Type':'audio/mpeg','X-Quota-Limit':'30','X-Quota-Remaining':'29'}});
 (async()=>{
@@ -33,5 +33,6 @@ const response=()=>new Response(bytes,{headers:{'Content-Type':'audio/mpeg','X-Q
  assert.equal(await speech('Hi.'),'CUSTOM');assert.equal(requests,4);
  speech=create({direct:direct(async()=>'',false),fetchImpl:async()=>new Response('<html>no audio</html>')});
  await assert.rejects(speech('Hi.'),/MP3/);await assert.rejects(speech('Hi.','invalid'),/不支持/);
+ let directOptions,probeBody;const probe=create({direct:direct(async(t,v,o)=>{directOptions=o;throw Error('offline')}),fetchImpl:async(u,o)=>{probeBody=JSON.parse(o.body);return response()}});await probe('Probe.','andrew',{fresh:true});assert.equal(directOptions.fresh,true);assert.equal(probeBody.fresh,true);
  console.log('PASS Edge-first routing, public voice mapping, anonymous payload, foreground-only fallback, coalescing, persistent-cache reuse, foreground promotion, 429 cooldown and custom relay.');
 })().catch(e=>{console.error(e);process.exitCode=1});

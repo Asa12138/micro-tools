@@ -50,13 +50,13 @@ function synthesize(text,voice){
  });
 }
 const inflight=new Map(),waiting=[];let active=0,unavailableUntil=0;
-module.exports=async function speech(text,voice='andrew'){
+module.exports=async function speech(text,voice='andrew',{fresh=false}={}){
  if(typeof text!=='string'||!text.trim()||text.length>1000)throw Error('语音句子需为 1–1000 字符');
  if(!Object.hasOwn(voices,voice))throw Error('不支持的微软语音');
  const support=capabilities();if(!support.direct)throw Error(support.message);
- if(Date.now()<unavailableUntil)throw Error(connectionError);const key=voice+'|'+text;if(inflight.has(key))return inflight.get(key);
+ if(!fresh&&Date.now()<unavailableUntil)throw Error(connectionError);const key=voice+'|'+text;if(inflight.has(key))return inflight.get(key);
  const job=(async()=>{if(active>=2)await new Promise(resolve=>waiting.push(resolve));else active++;
-  try{if(Date.now()<unavailableUntil)throw Error(connectionError);const data=await synthesize(text,voices[voice]);unavailableUntil=0;return data}catch(e){unavailableUntil=Date.now()+60000;throw e}finally{const next=waiting.shift();if(next)next();else active--}
+  try{if(!fresh&&Date.now()<unavailableUntil)throw Error(connectionError);const data=await synthesize(text,voices[voice]);unavailableUntil=0;return data}catch(e){unavailableUntil=Date.now()+60000;throw e}finally{const next=waiting.shift();if(next)next();else active--}
  })();inflight.set(key,job);try{return await job}finally{inflight.delete(key)}
 };
 module.exports.capabilities=capabilities;

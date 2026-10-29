@@ -97,7 +97,22 @@
  function warm(){if(!lesson)return;const indices=lesson.sentences.map((_,i)=>i);const texts=[...indices.slice(p.index),...indices.slice(0,p.index)].filter(i=>hasPrepared(lesson.sentences[i].en)||!microsoftUnavailable()&&allowCloud(collection?collection.parts.get(collection.refs[i].id).lesson:lesson)).map(i=>lesson.sentences[i].en);cache.set(texts,settings.voice,active&&uiScreen==='practice'&&Object.hasOwn(C.voices,settings.voice)&&settings.preload)}
  function playbackState(state){playState=state;$('enWave').hidden=state!=='playing'||!settings.showWave;$('enPlay').setAttribute('aria-busy',String(state==='loading'));$('enPlay').setAttribute('aria-pressed',String(state==='playing'))}
  function stopAudio(){autoPlaying=false;extras?.stopPronunciation();sounds?.stop();playbackState('idle');audioToken++;waiting=false;audio.pause();audio.onended=null;audio.onerror=null;audio.onpause=null;clearTimeout(loopTimer);window.speechSynthesis?.cancel();$('enPlay').textContent='▶ 听一句';$('enVoicePreview').textContent='▶ 试听声音'}
- async function previewVoice(){stopAudio();const token=audioToken,voice=settings.voice,text='We compare microbial communities across different environments.';$('enVoicePreview').textContent='准备声音…';$('enVoiceStatus').textContent='';try{if(voice==='system'){if(!window.speechSynthesis)throw Error('当前浏览器没有系统语音支持');const v=await systemVoice();if(token!==audioToken)return;const u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.onend=()=>{if(token===audioToken)$('enVoicePreview').textContent='▶ 试听声音'};window.speechSynthesis.speak(u);$('enVoicePreview').textContent='播放中…';return}if(token!==audioToken)return;const online=voice==='google'&&api.platform==='browser';if(online&&settings.allowOnline===false)throw Error('在线语音已关闭，请先开启再试听。');const previewSource=online?pronunciationSource(await api.pronounce({text,accent:'en-US',engine:'google'})):'assets/audio/english-voice-samples/'+voice+'.mp3';if(token!==audioToken)return;audio.src=previewSource;audio.playbackRate=1;audio.onended=()=>{if(token===audioToken)$('enVoicePreview').textContent='▶ 试听声音'};audio.onerror=()=>{if(token===audioToken){$('enVoicePreview').textContent='▶ 试听声音';$('enVoiceStatus').textContent=online?'在线试听未返回可播放的音频，请检查网络或语音服务。':'本地试听文件无法播放，请重新导入完整安装包。'}};await audio.play();if(token!==audioToken)return;$('enVoicePreview').textContent='播放中…';$('enVoiceStatus').textContent=voice==='google'?'Google 兼容发音 · 在线试听':C.voices[voice].label+' · 本地试听'}catch(e){if(token!==audioToken)return;$('enVoicePreview').textContent='▶ 试听声音';$('enVoiceStatus').textContent=playbackError(e)}}
+ async function previewVoice(){
+  stopAudio();const token=audioToken,voice=settings.voice,text='We compare microbial communities across different environments.';
+  $('enVoicePreview').textContent='正在测试连接…';$('enVoiceStatus').textContent='';
+  try{
+   if(voice==='system'){if(!window.speechSynthesis)throw Error('当前浏览器没有系统语音支持');const v=await systemVoice(true);if(token!==audioToken)return;const u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.onend=()=>{if(token===audioToken)$('enVoicePreview').textContent='▶ 试听声音'};window.speechSynthesis.speak(u);$('enVoicePreview').textContent='播放中…';$('enVoiceStatus').textContent='本机英语声音 · 不使用网络';return}
+   if(settings.allowOnline===false)throw Error('在线语音已关闭，请先开启再试听。');
+   let source;
+   if(voice==='google')source=pronunciationSource(await api.pronounce({text,accent:'en-US',engine:'google'}));
+   else{if(!api.speech)throw Error('当前环境没有在线语音服务');const base64=await api.speech(text,voice,{fresh:true});if(token!==audioToken)return;if(playerURL)URL.revokeObjectURL(playerURL);playerURL=URL.createObjectURL(new Blob([Uint8Array.from(atob(base64),c=>c.charCodeAt(0))],{type:'audio/mpeg'}));source=playerURL}
+   if(token!==audioToken)return;audio.src=source;audio.playbackRate=1;
+   audio.onended=()=>{if(token===audioToken)$('enVoicePreview').textContent='▶ 试听声音'};
+   audio.onerror=()=>{if(token===audioToken){$('enVoicePreview').textContent='▶ 试听声音';$('enVoiceStatus').textContent='在线试听未返回可播放的音频，请检查网络或语音服务。'}};
+   await audio.play();if(token!==audioToken)return;$('enVoicePreview').textContent='播放中…';
+   $('enVoiceStatus').textContent=voice==='google'?'Google 兼容发音 · 在线试听':C.voices[voice].label+' · 实时连接成功'+(api.speechLastStatus?.message?' · '+api.speechLastStatus.message:'');
+  }catch(e){if(token!==audioToken)return;$('enVoicePreview').textContent='▶ 试听声音';$('enVoiceStatus').textContent=playbackError(e)}
+ }
  async function systemVoice(localOnly=false){
   const synth=window.speechSynthesis;if(!synth)throw Error('当前浏览器不支持系统朗读，请选择 Google 兼容发音或配套音频。');
   const available=()=>synth.getVoices().filter(v=>/^en[-_]/i.test(v.lang)&&(!localOnly||v.localService===true));

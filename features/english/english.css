@@ -512,3 +512,25 @@ body:has(#view-english:not([hidden]).is-practicing) .app{padding-top:0}
 .en-wordbook-fill{margin:0 0 18px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
 .en-wordbook-fill .help-text{margin:8px 0 0}
 .en-wordbook-fill [role="status"]:empty{display:none}
+
+/* Compact public catalog; full descriptions and attribution remain in the preview. */
+.en-community-cover{min-height:60px;padding:12px 16px;gap:10px}
+.en-community-cover-topic{font-size:11px;letter-spacing:.8px}
+.en-community-cover-topic small{margin-top:2px;font-size:7px}
+.en-community-cover-icon{width:32px;height:32px;flex-basis:32px}
+.en-community-card-body{padding:14px 16px;gap:0}
+.english button.en-community-card-title{margin:8px 0;font-size:16px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.en-community-card .en-community-tags{margin:0 0 4px;gap:4px}
+.en-community-card .en-community-tags:empty{display:none}
+.en-community-card .en-community-byline{margin:4px 0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.en-community-card .en-community-social{gap:8px;margin:0 0 10px;font-size:11px}
+.en-community-card .en-community-social a{padding:0;font-size:10px}
+.en-community-card-foot{align-items:center;padding-top:10px;margin-top:auto}
+.en-community-card-foot>.text-button{padding:7px 0}
+.en-community-card-foot .en-community-install>button{font-size:12px;padding:8px 12px}
+.en-community-install small:empty{display:none}
+.en-community-install.is-installed{flex-direction:row;align-items:center;gap:10px}
+.en-community-install.is-installed small{order:-1;white-space:nowrap;padding:4px 7px;border-radius:6px;background:var(--en-soft);color:var(--en-accent);font-weight:600}
+.english .en-community-install.is-installed>button{background:var(--en-surface);border:1px solid var(--en-line);color:var(--en-text);box-shadow:none}
+.en-community-card:has(.is-installed){border-color:var(--en-accent)}
+@media(max-width:620px){.en-community-cover{min-height:56px;padding:10px 14px}.en-community-cover-icon{width:30px;height:30px;flex-basis:30px}.en-community-card-body{padding:12px 14px}.en-community-install.is-installed{gap:6px}}
