@@ -61,7 +61,7 @@ module.exports=function createBackup(storage,{lessonIds,wordbookIds,activity}){
    else if(k.startsWith('english-progress:'))next=C.mergeProgress(old||{},v);
    else if(['research-english-library-v1','english-wordbooks-v1','english-vocabulary-v1'].includes(k)){
     const all=old||[],ids=new Set(all.map(x=>x.id));next=[...all,...v.filter(x=>!ids.has(x.id))];
-   }else if(k.startsWith('english-wordbook-progress:'))next={...v,...old,completed:[...new Set([...(old?.completed||[]),...(v.completed||[])])],seconds:Math.max(old?.seconds||0,v.seconds||0)};
+   }else if(k.startsWith('english-wordbook-progress:')){const timestamp=x=>Number.isFinite(x)?x:Date.parse(x)||0;next={...v,...old,completed:[...new Set([...(old?.completed||[]),...(v.completed||[])])],cardCompleted:[...new Set([...(old?.cardCompleted||[]),...(v.cardCompleted||[])])],seconds:Math.max(old?.seconds||0,v.seconds||0),lastOpenedAt:Math.max(timestamp(old?.lastOpenedAt),timestamp(v.lastOpenedAt))}}
    else if(k.startsWith('english-wordbook-cardtime:')){const sessions={...v.sessions};for(const [id,s]of Object.entries(old?.sessions||{}))sessions[id]=Math.max(sessions[id]||0,s);next={...v,...old,sessions,seconds:Math.max(old?.seconds||0,v.seconds||0,Object.values(sessions).reduce((n,s)=>n+(Number(s)||0),0))}}
    else next=old??v;
    writes.set(k,next);before.set(k,old??null);

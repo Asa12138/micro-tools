@@ -3,8 +3,9 @@ const assert=require('assert/strict'),fs=require('fs'),path=require('path'),cryp
 const create=require('../features/english/english-catalog'),C=require('../features/english/english-core');
 function memory(){const values=new Map();return {getItem:k=>values.get(k),setItem:(k,v)=>values.set(k,v)}}
 async function transportChecks(){
- const https=require('https'),{EventEmitter}=require('events'),original=https.get;let handler,calls=[],requestHeaders=[];
- https.get=(url,options,callback)=>{calls.push(url);requestHeaders.push(options.headers);const req=new EventEmitter();req.destroy=()=>{};process.nextTick(()=>{const config=handler(url),res=new EventEmitter();res.statusCode=config.status||200;res.headers=config.headers||{};res.resume=()=>{};res.destroy=()=>{};callback(res);if(config.body!==undefined){res.emit('data',Buffer.from(config.body));res.emit('end')}});return req};
+ const https=require('https'),{EventEmitter}=require('events'),network=require('../features/english/english-network'),originalGet=https.get,originalRequest=https.request,originalRoute=network.route;let handler,calls=[],requestHeaders=[];
+ const transport=(url,options,callback)=>{calls.push(url);requestHeaders.push(options.headers);const req=new EventEmitter();req.destroy=()=>{};req.end=()=>{};process.nextTick(()=>{const config=handler(url);if(config.error){req.emit('error',config.error);return}const res=new EventEmitter();res.statusCode=config.status||200;res.headers=config.headers||{};res.resume=()=>{};res.destroy=()=>{};callback(res);if(config.body!==undefined)res.emit('data',Buffer.from(config.body));if(config.aborted)res.emit('aborted');else if(config.body!==undefined)res.emit('end')});return req};
+ https.get=https.request=transport;
  try{
   handler=url=>url.endsWith('start')?{status:302,headers:{location:'/final'}}:{body:'{"version":1}'};
   assert.equal((await create.requestBytes('https://example.com/start')).toString(),'{"version":1}');assert.deepEqual(calls,['https://example.com/start','https://example.com/final']);
@@ -14,10 +15,19 @@ async function transportChecks(){
   handler=()=>({status:302,headers:{location:'http://example.com/plain'}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/HTTPS/);
   handler=()=>({status:302,headers:{location:'https://127.0.0.1/private'}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/公开网站/);
   handler=()=>({status:302,headers:{location:'/loop'}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/重定向次数/);
-  handler=()=>({status:503});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/HTTP 503/);
+  calls=[];handler=()=>({status:503});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/HTTP 503/);assert.equal(calls.length,1,'HTTP rejection is not a transport retry');
   handler=()=>({headers:{'content-length':2*1024*1024+1}});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/2 MB/);
   handler=()=>({body:Buffer.alloc(2*1024*1024+1)});await assert.rejects(()=>create.requestBytes('https://example.com/start'),/2 MB/);
- }finally{https.get=original}
+  const reset=()=>Object.assign(Error('read ECONNRESET'),{code:'ECONNRESET'}),complete='{"download":"complete"}';let attempt=0;
+  calls=[];handler=()=>++attempt===1?{error:reset()}:{body:complete};assert.equal((await create.requestBytes('https://example.com/download')).toString(),complete);assert.equal(calls.length,2,'GET restarts after a connection reset');
+  calls=[];attempt=0;handler=()=>++attempt===1?{body:'{"discarded":',aborted:true}:{body:complete};assert.equal((await create.requestBytes('https://example.com/download')).toString(),complete,'a partial response must not be appended to the fresh response');assert.equal(calls.length,2);
+  calls=[];handler=()=>({error:reset()});await assert.rejects(()=>create.requestBytes('https://example.com/download'),error=>error.code==='ECONNRESET'&&/ECONNRESET/.test(error.message));assert.equal(calls.length,3,'GET has at most two retries');
+  calls=[];await assert.rejects(()=>create.requestBytes('https://example.com/statistics',{method:'POST',body:'{}'}),error=>error.code==='ECONNRESET');assert.equal(calls.length,1,'POST is not retried after an ambiguous connection failure');
+  const routes=[];network.route=async settings=>{routes.push(settings);return {proxy:''}};
+  handler=url=>url==='https://example.com/start'?{status:302,headers:{location:'https://other.example/final'}}:{body:'{}'};
+  await create.requestBytes('https://custom.example/material.json',{proxyOrigins:['https://example.com']});assert.equal(routes.length,0,'custom origins do not consult the system proxy');
+  await create.requestBytes('https://example.com/start',{proxyOrigins:['https://example.com']});assert.deepEqual(routes,[{mode:'auto'}],'redirects outside the allowlist do not consult the system proxy');
+ }finally{https.get=originalGet;https.request=originalRequest;network.route=originalRoute}
 }
 async function main(){
  const storage=memory(),calls=[],responses=new Map(),api=create({storage,request:async url=>{calls.push(url);const answer=responses.get(url);if(answer instanceof Error)throw answer;if(answer===undefined)throw Error('unexpected URL '+url);return answer}});

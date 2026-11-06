@@ -238,7 +238,6 @@ body.en-theme-active[data-en-theme="dark"][data-en-accent="amber"]{--en-accent:#
 .english .en-attendance{background:var(--en-surface);border-color:var(--en-line)}.english .en-attendance-stats{padding:0 0 6px;gap:20px}.english .en-attendance-stats strong{color:var(--en-text);font-size:22px}.english .en-attendance-stats small{color:var(--en-muted)}
 .en-activity-charts{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin:18px 0}.en-activity-charts>section{min-width:0;border:1px solid var(--en-line);border-radius:12px;padding:14px;background:var(--en-surface)}.en-activity-charts header{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;color:var(--en-muted)}.en-activity-charts header strong{font-size:11px;color:var(--en-accent);white-space:nowrap}
 .en-weekly-chart{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-top:18px}.english .en-chart-column{padding:0;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;color:var(--en-muted);cursor:pointer}.en-chart-column b,.en-chart-column small{font-size:9px;font-weight:400}.en-chart-track{height:70px;width:100%;max-width:24px;display:flex;align-items:flex-end;border-radius:4px;background:var(--en-subtle)}.en-chart-bar{display:block;width:100%;border-radius:4px;background:var(--en-accent);opacity:.7}.en-chart-column:hover .en-chart-bar{opacity:1}.en-chart-column:hover{color:var(--en-accent)}
-.en-mix-bar{height:16px;border-radius:8px;overflow:hidden;display:flex;margin:34px 0 16px;background:var(--en-subtle)}.en-mix-bar .sentences{background:var(--en-accent)}.en-mix-bar .words{background:#ac9acb}.en-mix-legend{font-size:11px;line-height:1.8;color:var(--en-muted)}.en-mix-legend::before{content:'●';color:var(--en-accent);margin-right:6px}.en-practice-mix .help-text{font-size:10px}
 .english .en-activity-week>button.is-checked{background:var(--en-soft);color:var(--en-accent)}.english .en-activity-week>button[aria-pressed="true"]{background:var(--en-accent);border-color:var(--en-accent);color:var(--en-surface)}.english .en-activity-week>button:hover{border-color:var(--en-accent)}
 .en-theme-colors button[data-en-accent="cyan"]::before{background:#0e7490}
 .en-theme-colors button[data-en-accent="rose"]::before{background:#be185d}
@@ -464,6 +463,8 @@ body:has(#view-english:not([hidden]).is-practicing) .app{padding-top:0}
 .english[data-theme] :is(.en-inputs input.good,.en-tile.good){color:#15803d;border-color:#16a34a}
 .english[data-theme] :is(.en-inputs input.bad,.en-tile.bad){color:#b91c1c;border-color:#dc2626}
 .english[data-theme="dark"] :is(.en-inputs input.good,.en-tile.good){color:#86efac}
+.english #enHelp .en-completion-hint{color:#15803d;font-weight:500}
+.english[data-theme="dark"] #enHelp .en-completion-hint{color:#86efac}
 .english[data-theme="dark"] :is(.en-inputs input.bad,.en-tile.bad){color:#fca5a5}
 
 .english .en-record-status{display:flex;align-items:center;justify-content:center;gap:8px;min-height:18px;margin:4px 0}.english .en-record-status meter{width:72px;height:8px}.english .en-record-status .help-text{font-size:11px;margin:0}
@@ -632,13 +633,20 @@ body:has(#view-english:not([hidden]).is-practicing) .app{padding-top:0}
 .english .en-activity-calendar{padding-left:26px;border-left:1px solid var(--en-line)}
 .english .en-activity-calendar .en-calendar-heading{padding:0;margin:0 0 10px}
 .english .en-activity-calendar .en-activity-week{gap:5px;margin:0}
-.english .en-activity-week>button{height:32px;display:flex;justify-content:center;align-items:center;gap:3px;background:transparent;color:var(--en-text)}
-.english .en-activity-week>button small{font-size:9px;color:inherit}
-.english .en-activity-week>button.is-checked{background:var(--en-accent);color:#fff}
-.english .en-activity-week>button[aria-pressed="true"]{outline:1px solid var(--en-accent);outline-offset:2px;border-color:transparent;background:transparent;color:var(--en-text)}
-.english .en-activity-week>button.is-checked[aria-pressed="true"]{background:var(--en-accent);color:#fff}
+/* Attendance, hover and the selected date use distinct visual states. */
+.english #enActivityWeek>button{height:32px;display:flex;justify-content:center;align-items:center;gap:3px;background:var(--en-subtle);color:var(--en-text);border:1px solid var(--en-line);cursor:pointer;outline:none;box-shadow:none}
+.english #enActivityWeek>button small{font-size:9px;color:inherit}
+.english[data-theme] #enActivityWeek>button.is-checked{background:var(--en-soft);border-color:color-mix(in srgb,var(--en-accent) 30%,var(--en-line));color:var(--en-accent)}
+.english[data-theme] #enActivityWeek>button:not(:disabled):not([aria-pressed="true"]):hover{background:color-mix(in srgb,var(--en-soft) 50%,var(--en-surface));border-color:var(--en-accent);color:var(--en-text)}
+.english[data-theme] #enActivityWeek>button[aria-pressed="true"]{background:var(--en-accent);border:2px solid var(--en-accent);color:var(--en-surface);font-weight:700;box-shadow:0 0 0 2px var(--en-surface),0 0 0 3px var(--en-accent);outline:none}
+.english #enActivityWeek>button[aria-pressed="true"]:before{content:"";position:absolute;bottom:3px;width:14px;height:2px;border-radius:1px;background:currentColor}
+.english #enActivityWeek>button[aria-current="date"]:after{top:4px;right:4px;bottom:auto}
+.english #enActivityWeek>button:focus-visible{outline:2px dashed var(--en-accent);outline-offset:3px}
+.english[data-theme] #enActivityWeek>button:disabled,.english[data-theme] #enActivityWeek>button:disabled:hover{background:transparent;color:var(--en-muted);border-color:transparent;box-shadow:none;outline:none;opacity:.55;cursor:default!important}
+.english .en-activity-calendar button:disabled{cursor:default!important}
 .english #enActivityHistory.en-activity-detail{background:transparent;border-top:1px solid var(--en-line);border-radius:0;margin:14px 0 0;padding:12px 0 0;min-height:0}
 .english .en-activity-detail :is(b,small){color:var(--en-text)}
+.english #enActivityHistory[data-empty="true"]{min-height:40px;justify-content:center}
 .english .en-activity-detail>strong{color:var(--en-accent);font-size:19px;white-space:nowrap}
 .english :is(.en-badge-collection,.en-goal-settings){border:1px solid var(--en-line);border-radius:12px;padding:22px;background:var(--en-surface)}
 .english :is(.en-badge-collection,.en-goal-settings) h3{margin:0;font-size:18px;color:var(--en-text)}
@@ -851,3 +859,58 @@ body:has(#view-english:not([hidden]).is-practicing) .app{padding-top:0}
 @media(max-width:360px){.english .en-wordbook-list.is-grid{grid-template-columns:minmax(0,1fr)}}
 
 @media(max-width:650px){.english .en-badge-gallery .en-badge-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Wordbook home shares course progress and state controls on one page. */
+.english .en-wordbook-home-filters{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.english .en-wordbook-home-filters input{flex:1 1 190px;min-width:140px}
+.english .en-wordbook-home-filters :is(input,select){width:auto;min-height:34px;padding:7px 10px;font-size:12px}
+.english .en-wordbook-home-count{margin-left:auto;color:var(--en-muted);font-size:11px;white-space:nowrap}
+.english .en-wordbook-home-states{margin-top:12px;margin-bottom:14px;gap:6px}
+.english .en-wordbook-groups{display:grid;gap:18px}
+.english .en-wordbook-groups .en-material-group+.en-material-group{margin-top:0}
+.english .en-wordbook-groups .en-wordbook-cards{margin-top:0}
+.english[data-theme] .en-wordbook-home-card{gap:7px;min-height:280px!important}
+.english .en-wordbook-home-card .en-learning-badge{font-size:10px;padding:2px 6px}
+.english .en-wordbook-home-card[data-learning-state="new"] .en-learning-badge{background:var(--en-subtle);color:var(--en-muted)}
+.english .en-wordbook-home-card .en-card-progress{margin-top:auto;padding-top:10px;gap:6px;font-size:11px}
+.english .en-wordbook-home-card .en-card-status{font-size:11px;color:var(--en-text)}
+.english .en-wordbook-home-mastery{font-size:10px;color:var(--en-muted)}
+.english .en-wordbook-home-card .en-card-cta{margin-top:0;padding-top:4px}
+.english .en-wordbook-home-card[data-learning-state="learning"] .en-card-cta{color:var(--en-accent)}
+.english .en-wordbook-home-card[data-learning-state="done"] .en-learning-badge{background:var(--en-soft);color:var(--en-accent)}
+@media(max-width:650px){.english .en-wordbook-home-filters input{flex-basis:100%}.english .en-wordbook-home-filters select{flex:1;min-width:0;max-width:100%}.english .en-wordbook-home-count{width:100%;margin-left:0}.english .en-wordbook-home-states{gap:4px}.english .en-wordbook-home-states .en-state-filter{padding:7px 6px;font-size:11px}.english .en-wordbook-home-states .en-state-count{padding:1px 4px}.english[data-theme] .en-wordbook-home-card{min-height:260px!important}}
+/* Word pronunciation preferences stay within reach in either practice mode. */
+.english .en-word-pronunciation-settings{position:relative;flex:0 0 auto;font-size:12px;color:var(--en-text)}
+.english .en-word-pronunciation-settings>summary{cursor:pointer;list-style:none;padding:9px 13px;border:1px solid var(--en-line);border-radius:9px;background:var(--en-surface);font-weight:600}
+.english .en-word-pronunciation-settings>summary::-webkit-details-marker{display:none}
+.english .en-word-pronunciation-settings[open]>summary{color:var(--en-accent);border-color:var(--en-accent)}
+.english .en-word-pronunciation-options{position:absolute;right:0;top:calc(100% + 7px);z-index:12;display:grid;gap:14px;width:244px;max-width:calc(100vw - 48px);box-sizing:border-box;padding:15px;background:var(--en-surface);border:1px solid var(--en-line);border-radius:12px;box-shadow:0 8px 28px #0f172a18}
+.english .en-word-pronunciation-options>label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0;color:var(--en-text);font-size:12px}
+.english .en-word-pronunciation-options>.en-check{justify-content:flex-start}
+.english .en-word-pronunciation-options select{width:94px;min-height:32px;padding:5px 8px;font-size:12px}
+.english .en-word-pronunciation-options input[type=checkbox]{width:16px;height:16px;flex:none;margin:0}
+.english #enWordPronunciationAccent{width:104px;flex:none}
+
+/* Daily practice counts use separate scales for sentence and word practice. */
+.english #enPracticeMix{display:grid;gap:12px;margin-top:12px}
+.english .en-month-practice{position:relative;min-width:0;--practice-color:var(--en-accent)}
+.english .en-month-practice[data-kind=words]{--practice-color:#a795c4}
+.english .en-month-practice>header{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--en-text)}
+.english .en-month-practice>header strong{font-size:12px;font-weight:600;color:var(--en-text)}
+.english .en-month-practice-total{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--practice-color)}
+.english .en-month-practice-scale{display:block;margin:4px 0 7px;font-size:10px;color:var(--en-muted)}
+.english .en-month-practice-bars{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:3px;height:32px;border-bottom:1px solid var(--en-line)}
+.english button.en-month-day{display:flex;align-items:flex-end;justify-content:center;min-width:0;min-height:0;height:100%;padding:0;border:0;border-radius:3px 3px 0 0;background:var(--en-subtle);box-shadow:none}
+.english .en-month-day>span{display:block;width:100%;min-height:0;border-radius:3px 3px 0 0;background:var(--practice-color);opacity:.85}
+.english .en-month-day:hover:not(:disabled)>span,.english .en-month-day:focus-visible>span{opacity:1}
+.english .en-month-day:focus-visible{outline:2px solid var(--practice-color);outline-offset:2px}
+.english .en-month-day:disabled{opacity:.35;cursor:default}
+.english .en-month-practice-dates{display:flex;justify-content:space-between;margin-top:5px;color:var(--en-muted);font-size:9px;font-variant-numeric:tabular-nums}
+.english .en-month-practice-empty{position:absolute;left:0;right:0;bottom:28px;text-align:center;font-size:10px;color:var(--en-muted);pointer-events:none}
+
+/* Give the weekly bars the available height alongside the compact monthly charts. */
+.english .en-weekly-panel{display:flex;flex-direction:column}
+.english #enWeeklyChart{flex:1;min-height:160px;align-items:stretch}
+.english #enWeeklyChart .en-chart-column{display:grid;grid-template-rows:auto minmax(0,1fr) auto;justify-items:center}
+.english #enWeeklyChart .en-chart-track{height:100%;min-height:120px;max-width:28px}
+@media(max-width:1000px){.english #enWeeklyChart{flex:initial;min-height:150px}}
